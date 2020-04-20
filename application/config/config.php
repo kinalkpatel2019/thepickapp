@@ -115,7 +115,15 @@ $config['enable_hooks'] = FALSE;
 |
 */
 $config['subclass_prefix'] = 'MY_';
-
+//The code below is added to include base controllers other than MY_Controller
+function load_base_controllers($class)
+{
+	if (strpos($class, 'CI_') !== 0)
+	{
+		@include_once APPPATH.'core/'.$class.'.php';
+	}
+}
+spl_autoload_register('load_base_controllers');
 /*
 |--------------------------------------------------------------------------
 | Composer auto-loading
