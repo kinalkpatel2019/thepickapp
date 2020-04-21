@@ -15,6 +15,12 @@ class Vendor_Controller extends My_Controller
 		$this->vendor=$this->session->userdata('vendor');
 		if(empty($this->vendor))
 			redirect('users/login');
+		$this->data['vendor']=$this->vendor;
+		$this->template_data=array();
+		
+	}
+	public function generateTemplateData(){
+		return array_merge($this->data,$this->template_data);
 	}
 
 }

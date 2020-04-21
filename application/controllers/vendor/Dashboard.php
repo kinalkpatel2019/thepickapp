@@ -8,9 +8,9 @@ class Dashboard extends Vendor_Controller {
     }
 	public function index(){
 
-        $template_data=array(
-            'main_content'=>'vendor/dashboard/index'
+        $this->template_data=array(
+            'main_content'=>'vendor/dashboard/index',
         );
-        $this->load->view('template/vendor/index',$template_data);
+        $this->load->view('template/vendor/index',$this->generateTemplateData());
     }
 }
