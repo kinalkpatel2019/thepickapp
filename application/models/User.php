@@ -40,4 +40,19 @@ class User extends CI_Model {
         $this->db->where('user_id',$user_id);
         $this->db->update('profiles',$data);
     }
+    public function getDefaultMarketID($user_id){
+        $this->db->select('defaultmarket');
+        $this->db->where('user_id',$user_id);
+        $query=$this->db->get('profiles');
+        $result=$query->row_array();
+        return $result['defaultmarket'];
+    }
+    public function getDefaultVendorID($user_id){
+        $this->db->select('defaultvendor');
+        $this->db->where('user_id',$user_id);
+        $query=$this->db->get('profiles');
+        $result=$query->row_array();
+        return $result['defaultvendor'];
+    }
+   
 }

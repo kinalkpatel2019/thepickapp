@@ -1,38 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Profile extends Vendor_Controller {
+class Profile extends Consumer_Controller {
 
     public function __construct(){
         parent::__construct();
-        $this->load->model('Businesstype');
         $this->load->model('User');
-        $this->load->model('Market');
     }
 	public function index(){
-        $businesstypes=$this->Businesstype->getAllRedords();
-        $user=$this->User->getUserWithProfile(array('users.id'=>$this->vendor['id']));
+        $user=$this->User->getUserWithProfile(array('users.id'=>$this->consumer['id']));
         $this->template_data=array(
-            'main_content'=>'vendor/profile/index',
-            'businesstypes'=>$businesstypes,
+            'main_content'=>'consumer/profile/index',
             'user'=>$user
         );
-        $this->load->view('template/vendor/index',$this->generateTemplateData());
+        $this->load->view('template/consumer/index',$this->generateTemplateData());
     }
     public function updateProfile(){
-        $businesstype_id=$this->input->post('businesstype_id');
-        $businessname=$this->input->post('businessname');
         $address1=$this->input->post('address1');
         $address2=$this->input->post('address2');
         $phonenumber=$this->input->post('phonenumber');
-        $user_id=$this->vendor['id'];
+        $user_id=$this->consumer['id'];
         //get the user profile
         $profile=$this->User->getProfile($user_id);
         if(empty($profile)){
             //insert profile
             $insertData=array(
-                'businesstype_id'=>$businesstype_id,
-                'businessname'=>$businessname,
                 'address1'=>$address1,
                 'address2'=>$address2,
                 'phonenumber'=>$phonenumber,
@@ -44,9 +36,7 @@ class Profile extends Vendor_Controller {
         }
         else{
             //update profile
-            $updateData=array(
-                'businesstype_id'=>$businesstype_id,
-                'businessname'=>$businessname,
+            $updateData=array(              
                 'address1'=>$address1,
                 'address2'=>$address2,
                 'phonenumber'=>$phonenumber,
@@ -54,9 +44,9 @@ class Profile extends Vendor_Controller {
             );
             $this->User->updateProfile($updateData,$user_id);
         }
-        redirect('vendor/profile');
+        redirect('consumer/profile');
     }
-    public function settings(){
+    /*public function settings(){
         $markets=$this->Market->getAllRedords();
         $vendormarkets=$this->Market->getVendorMarkets($this->vendor['id']);
         $vendormarkets_ids=array();
@@ -83,5 +73,5 @@ class Profile extends Vendor_Controller {
             $this->Market->insertMarket($insertData);
         }
         redirect('vendor/profile/settings');
-    }
+    }*/
 }

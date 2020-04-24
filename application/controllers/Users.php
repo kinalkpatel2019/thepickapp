@@ -63,6 +63,11 @@ class Users extends CI_Controller {
 				$this->session->set_userdata('vendor',$user);
 				redirect('vendor/dashboard');
 			}
+			else if($user['accounttype']==2){
+				//vendor
+				$this->session->set_userdata('consumer',$user);
+				redirect('consumer/markets');
+			}
 		}
 		else{
 			redirect('users/login');
