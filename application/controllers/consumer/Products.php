@@ -30,7 +30,7 @@ class Products extends Consumer_Controller {
     }
     public function view($id){
         $product=$this->Product->getAllRedordsWithCategory(array('products.id'=>$id));
-        $inventories=$this->Inventory->getAllRedords(array('product_id'=>$id));
+        $inventories=$this->Inventory->getAllRedords(array('product_id'=>$id,'availableqty >'=>0));
         $this->template_data=array(
 			'main_content'=>'consumer/products/view',
             'product'=>$product[0],

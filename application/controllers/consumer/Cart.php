@@ -6,6 +6,8 @@ class Cart extends Consumer_Controller {
 	public function __construct(){
         parent::__construct();
         $this->load->model('Inventory');
+        $this->load->model('User');
+        $this->load->model('Market');
 	}
 	
 	public function addtocart()
@@ -25,6 +27,7 @@ class Cart extends Consumer_Controller {
                         'price'   => $inventory['price'],
                         'unit'   => $inventory['unit'],
                         'name'    => $inventory['product'],
+                        'product_id'=>$inventory['product_id']
                     );
                 }
             }
@@ -34,8 +37,30 @@ class Cart extends Consumer_Controller {
         redirect('consumer/products');
     }
     public function index(){
+        /*$cart_items=$this->cart->contents();
+        foreach($cart_items as $key=>$item){
+            echo $key;
+            print_r($item);
+        }*/
         $this->template_data=array(
 			'main_content'=>'consumer/cart/index',
+        );
+        $this->load->view('template/consumer/index',$this->generateTemplateData());
+    }
+    public function updateCart(){
+        $data=$this->input->post();
+        $this->cart->update($data);
+        redirect('consumer/cart');
+    }
+    public function checkout(){
+        $vendorId=$this->User->getDefaultVendorID($this->consumer['id']);
+        $marketId=$this->User->getDefaultMarketID($this->consumer['id']);
+        $vendor=$this->User->getUserWithProfile(array('users.id'=>$vendorId));
+        $market=$this->Market->getMarketById($marketId);
+        $this->template_data=array(
+            'main_content'=>'consumer/cart/checkout',
+            'vendor'=>$vendor,
+            'market'=>$market
         );
         $this->load->view('template/consumer/index',$this->generateTemplateData());
     }

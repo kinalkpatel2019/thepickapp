@@ -50,7 +50,7 @@ class Product extends CI_Model {
         $sql="select * from products where id in (select distinct(inventories.product_id) as ids 
             from inventories 
             join products on products.id=inventories.product_id
-            where inventories.status=1 and products.vendor_id=$vendor_id)";
+            where inventories.status=1 and products.vendor_id=$vendor_id and inventories.availableqty > 0)";
         $query=$this->db->query($sql);
         $result=$query->result_array();
         return $result;

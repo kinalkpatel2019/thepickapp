@@ -39,4 +39,8 @@ class Inventory extends CI_Model {
         $this->db->where('id',$id);
         $this->db->delete('inventories');
     }
+    public function deductQty($id,$qty){
+        $sql="update inventories set `availableqty`=(`availableqty`-$qty) where id=$id";
+        $this->db->query($sql);
+    }
 }
