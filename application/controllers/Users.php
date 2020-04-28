@@ -97,4 +97,68 @@ class Users extends CI_Controller {
 	 
 		return $imageFilePath;
 	}
+	public function forgotpassword(){
+		$template_data=array(
+			'main_content'=>'users/forgotpassword'
+		);
+		$this->load->view('template/beforelogin/index',$template_data);
+	}
+	public function otp(){
+		$email=$this->input->post('email');
+		$user=$this->User->getUser(array('email'=>$email));
+		if(empty($user))
+			redirect('users/forgotpassword');
+		$otp=rand(1000,9999);
+		$data=array(
+			'otp'=>$otp
+		);
+		$this->User->update($data,$user['id']);
+		//email to this user 
+		$this->email->from('your@example.com', 'Your Name');
+		$this->email->to('keyur@yopmail.com');
+		$this->email->subject('Reset Password');
+		$this->email->message('OTP='.$otp);
+		$this->email->send();
+		$template_data=array(
+			'main_content'=>'users/otp',
+			'email'=>$email
+		);
+		$this->load->view('template/beforelogin/index',$template_data);
+	}
+	public function verifyotp(){
+		$email=$this->input->post('email');
+		$otp=$this->input->post('otp');
+		$user=$this->User->getUser(array('email'=>$email,'otp'=>$otp));
+		if(empty($user))
+			redirect('users/otp');
+		$data=array(
+			'otp'=>null
+		);
+		$this->User->update($data,$user['id']);
+		//email to this user 
+		$this->session->set_userdata('resetuserid',$user['id']);
+		redirect('users/resetpassword');
+	}
+	function resetpassword(){
+		$template_data=array(
+			'main_content'=>'users/resetpassword',
+		);
+		$this->load->view('template/beforelogin/index',$template_data);
+	}
+	function updatepassword(){
+		$password=$this->input->post('password');
+		if(empty($password))
+		{
+			redirect('users/resetpassword');
+		}
+		$data=array(
+			'password'=>md5($password)
+		);
+		$id=$this->session->userdata('resetuserid');
+		if(empty($id))
+			redirect('users/login');
+		$this->User->update($data,$id);
+		$this->session->sess_destroy();
+		redirect('users/login');
+	}
 }

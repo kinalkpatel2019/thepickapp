@@ -20,8 +20,9 @@
                                                         </tr>
                                                 </thead>
                                                 <tbody>
+                                                        
                                                         <?php $i = 1; ?>
-                                                        <?php foreach ($this->cart->contents() as $items){  ?>
+                                                        <?php foreach ($this->my_cart->contents() as $items){  ?>
                                                                 <?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
                                                                 <tr>
                                                                         <td><a href="<?php echo site_url('consumer/products/view/'.$items['product_id']); ?>">
@@ -33,8 +34,8 @@
                                                                                 <?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5','class'=>'form-control')); ?>
                                                                                         
                                                                         </td>
-                                                                        <td><?php echo $this->cart->format_number($items['price']); ?></td>
-                                                                        <td>$<?php echo $this->cart->format_number($items['subtotal']); ?></td>
+                                                                        <td><?php echo $this->my_cart->format_number($items['price']); ?></td>
+                                                                        <td>$<?php echo $this->my_cart->format_number($items['subtotal']); ?></td>
                                                                 </tr>
                                                                 <?php $i++; ?>
                                                         <?php } ?>
@@ -43,7 +44,7 @@
                                                         <tr>
                                                                 <th colspan="2"><button type="submit" class="btn btn-primary">Update Cart</button></th>
                                                                 <th><strong>Total</strong></th>
-                                                                <th>$<?php echo $this->cart->format_number($this->cart->total()); ?></th>
+                                                                <th>$<?php echo $this->my_cart->format_number($this->cart->total()); ?></th>
                                                         </tr>
                                                 </tfoot>
                                         </table>

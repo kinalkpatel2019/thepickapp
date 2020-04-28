@@ -22,6 +22,7 @@ class Products extends Consumer_Controller {
         $this->load->view('template/consumer/index',$this->generateTemplateData());
 	}
 	public function setVendor($id){
+        $this->my_cart->destroy();
 		$updateData=array(
 			'defaultvendor'=>$id
 		);

@@ -29,11 +29,9 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <img class="img-responsive" src="<?php echo base_url(); ?>uploads/products/sampleimage.png" width="100%"/>
-                        <br/>
-                        <?php echo $product['description']; ?>
                     </div>
                     <div class="col-lg-6">
-                        <h5>Inventories</h5>
+                        <?php echo $product['description']; ?>
                     </div>
                 </div>
                 

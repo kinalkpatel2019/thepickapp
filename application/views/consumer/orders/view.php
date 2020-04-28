@@ -92,6 +92,21 @@
                                                                 <th><strong>Total</strong></th>
                                                                 <th>$<?php echo $this->cart->format_number($order['totalamount']); ?></th>
                                                         </tr>
+                                                        <tr>
+                                                                <th colspan="2">&nbsp;</th>
+                                                                <th><strong>Coupon</strong></th>
+                                                                <th><?php echo $order['couponcode']; ?></th>
+                                                        </tr>
+                                                        <tr>
+                                                                <th colspan="2">&nbsp;</th>
+                                                                <th><strong>Discount</strong></th>
+                                                                <th>$<?php echo $this->cart->format_number($order['discount']); ?></th>
+                                                        </tr>
+                                                        <tr>
+                                                                <th colspan="2">&nbsp;</th>
+                                                                <th><strong>Grand Total</strong></th>
+                                                                <th>$<?php echo $this->cart->format_number($order['grandtotal']); ?></th>
+                                                        </tr>
                                                 </tfoot>
                                         </table>
                                 </div>  

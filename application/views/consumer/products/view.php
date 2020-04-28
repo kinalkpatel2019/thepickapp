@@ -20,7 +20,7 @@
                         <?php foreach($inventories as $inventory) { ?>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <?php echo $inventory['unit']; ?>
+                                    <?php echo $inventory['unit']; ?>&nbsp;$<?php echo $inventory['price']; ?>
                                 </div>
                                 <div class="cols-sm-6">
                                     <input type="number" class="form-control" name="qty[inventory][<?php echo $inventory['id']; ?>]" id="qty">

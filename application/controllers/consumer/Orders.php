@@ -22,7 +22,7 @@ class Orders extends Consumer_Controller {
 	public function placeOrder()
 	{
         //
-        $cart_items=$this->cart->contents();
+        $cart_items=$this->my_cart->contents();
         $canproceed=true;
         foreach($cart_items as $key=>$value){
             //check the each options qty if it is available or not
@@ -41,6 +41,9 @@ class Orders extends Consumer_Controller {
         //now we need to insert into the order 
         $vendorId=$this->User->getDefaultVendorID($this->consumer['id']);
         $marketId=$this->User->getDefaultMarketID($this->consumer['id']);
+
+        //$coupons
+        $coupon=$this->my_cart->coupon();
         $orderData=array(
             'user_id'=>$this->consumer['id'],
             'vendor_id'=>$vendorId,
@@ -48,6 +51,9 @@ class Orders extends Consumer_Controller {
             'total_items'=>$this->cart->total_items(),
             'status'=>'pending',
             'totalamount'=>$this->cart->format_number($this->cart->total()),
+            'couponcode'=>$coupon['code'],
+            'discount'=>$this->cart->format_number($coupon['discount']),
+            'grandtotal'=>$this->cart->format_number($this->cart->final_total()),
             'created_at'=>date('Y-m-d h:i:s'),
             'updated_at'=>date('Y-m-d h:i:s')
         );
@@ -70,9 +76,9 @@ class Orders extends Consumer_Controller {
             $this->Inventory->deductQty($value['id'],$value['qty']);
         }
         // cart clear 
-        $this->cart->destroy();
+        $this->my_cart->destroy();
         //place order here 
-        redirect('consumer/orders/order/'.$order_id.'/?status=new');
+        redirect('consumer/orders/view/'.$order_id.'/?status=new');
     }
     public function view($id){
         $order=$this->Order->getOrderById($id);

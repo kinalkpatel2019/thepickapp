@@ -55,4 +55,29 @@ class Product extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
+    public function insertImage($data){
+        $this->db->insert('productimages',$data);
+    }
+    public function getImages($id){
+        $this->db->where('product_id',$id);
+        $this->db->order_by('sortorder',"asc");
+        $query=$this->db->get('productimages');
+        $result=$query->result_array();
+        return $result;
+    }
+    public function removeImage($id){
+        $this->db->where('id',$id);
+        $this->db->delete('productimages');
+    }
+    public function updateImage($condition,$data){
+        $this->db->where($condition);
+        $this->db->update('productimages',$data);
+    }
+    /*public function getImages($id){
+        $this->db->where('product_id',$id);
+        $this->db->order_by('sortorder',"asc");
+        $query=$this->db->get('productimages');
+        $result=$query->result_array();
+        return $result;
+    }*/
 }

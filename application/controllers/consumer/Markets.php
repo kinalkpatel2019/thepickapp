@@ -19,6 +19,7 @@ class Markets extends Consumer_Controller {
         $this->load->view('template/consumer/index',$this->generateTemplateData());
 	}
 	public function setMarket($id){
+		$this->my_cart->destroy();
 		$updateData=array(
 			'defaultmarket'=>$id,
 			'defaultvendor'=>0

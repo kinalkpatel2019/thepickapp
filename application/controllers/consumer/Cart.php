@@ -8,6 +8,7 @@ class Cart extends Consumer_Controller {
         $this->load->model('Inventory');
         $this->load->model('User');
         $this->load->model('Market');
+        $this->load->model('Coupon');
 	}
 	
 	public function addtocart()
@@ -33,7 +34,7 @@ class Cart extends Consumer_Controller {
             }
 
         }
-        $this->cart->insert($cart_items);
+        $this->my_cart->insert($cart_items);
         redirect('consumer/products');
     }
     public function index(){
@@ -49,7 +50,7 @@ class Cart extends Consumer_Controller {
     }
     public function updateCart(){
         $data=$this->input->post();
-        $this->cart->update($data);
+        $this->my_cart->update($data);
         redirect('consumer/cart');
     }
     public function checkout(){
@@ -64,4 +65,44 @@ class Cart extends Consumer_Controller {
         );
         $this->load->view('template/consumer/index',$this->generateTemplateData());
     }
+    public function applyCoupon(){
+        $code=$this->input->post('code');
+        if(empty($code))
+            redirect('consumer/cart/checkout');
+        $vendorId=$this->User->getDefaultVendorID($this->consumer['id']);
+        $coupon=$this->Coupon->getCouponByCode($code,$vendorId);
+        if(empty($coupon))
+            redirect('consumer/cart/checkout');
+        
+        //get the cart total 
+        $cart_total=$this->my_cart->total();
+        $code="";
+        $discount=0;
+        if($coupon['discount_type']==1){
+            //fixed
+            $discount=$coupon['amount'];
+            $code=$coupon['code'];
+        }
+        else{
+            //percentage
+            $discount=($cart_total*$coupon['amount'])/100;
+            $code=$coupon['code'];
+        }
+        if($code!="" && $discount!=0)
+        {
+            $final=$cart_total-$discount;
+            if($final > 0 )
+            {
+                //apply coupon
+                $this->my_cart->addCoupon(array('code'=>$code,'discount'=>$discount));
+            }
+        }
+        redirect('consumer/cart/checkout');
+    }
+    public function removeCoupon(){
+        $this->my_cart->removeCoupon();
+        redirect('consumer/cart/checkout');
+        //$this->my_cart->addCoupon(array('code'=>'TEST','discount'=>5));
+    }
+
 }
