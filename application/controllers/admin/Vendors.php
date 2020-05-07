@@ -8,6 +8,7 @@ class Vendors extends Admin_Controller {
         $this->load->model('User');
     }
 	public function index(){
+        $vendors=$this->User->getUserWithProfile(array('users.accounttype'=>1));
         $this->template_data=array(
             'main_content'=>'admin/vendors/index',
         );
