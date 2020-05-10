@@ -15,16 +15,17 @@ class Vendors extends Consumer_Controller {
         $market_id=$this->User->getDefaultMarketID($this->consumer['id']);
         $vendors=$this->Market->getAllVendorsByMarketID($market_id);
 		$this->template_data=array(
-			'main_content'=>'consumer/vendors/index',
-			'vendors'=>$vendors
+			'main_content'=>'studio/consumer/vendors/index',
+			'vendors'=>$vendors,
+			'JSs'=>array('js/vendors.js')
         );
-        $this->load->view('template/consumer/index',$this->generateTemplateData());
+        $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
 	}
-	public function setVendor($id){
+	/*public function setVendor($id){
 		$updateData=array(
 			'defaultvendor'=>$id
 		);
 		$this->User->updateProfile($updateData,$this->consumer['id']);
 		redirect('consumer/products');
-	}
+	}*/
 }

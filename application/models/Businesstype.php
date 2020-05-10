@@ -11,6 +11,11 @@ class Businesstype extends CI_Model {
         $insert_id = $this->db->insert_id();
         return $insert_id;
     }
+    public function update($data,$id){
+        $this->db->where('id',$id);
+        $this->db->update('businesstypes',$data);
+        return $insert_id;
+    }
     public function getAllRedords($where=array(),$status=1,$orderby="title",$order="asc"){
         if($status!="all")
         {
@@ -22,5 +27,10 @@ class Businesstype extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
-
+    public function getRecordById($id){
+        $this->db->where('id',$id);
+        $query=$this->db->get('businesstypes');
+        $result=$query->row_array();
+        return $result;
+    }
 }

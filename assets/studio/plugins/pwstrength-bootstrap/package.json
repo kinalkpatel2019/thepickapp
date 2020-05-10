@@ -1,0 +1,67 @@
+{
+  "_from": "pwstrength-bootstrap@^3.0.6",
+  "_id": "pwstrength-bootstrap@3.0.7",
+  "_inBundle": false,
+  "_integrity": "sha1-LNxbejb71ectbAMbCg0tU+sh36Y=",
+  "_location": "/pwstrength-bootstrap",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "pwstrength-bootstrap@^3.0.6",
+    "name": "pwstrength-bootstrap",
+    "escapedName": "pwstrength-bootstrap",
+    "rawSpec": "^3.0.6",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.6"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/pwstrength-bootstrap/download/pwstrength-bootstrap-3.0.7.tgz",
+  "_shasum": "2cdc5b7a36fbd5e72d6c031b0a0d2d53eb21dfa6",
+  "_spec": "pwstrength-bootstrap@^3.0.6",
+  "_where": "D:\\wamp64\\www\\clients\\asafgali\\admin-template\\studio_v1.0\\template",
+  "author": {
+    "name": "Alejandro Blanco",
+    "email": "alejandro.b.e@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/ablanco/jquery.pwstrength.bootstrap/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "bootstrap": ">=2.0.0",
+    "jquery": ">=1.7.0"
+  },
+  "deprecated": false,
+  "description": "jQuery plugin for Twitter Bootstrap that provides rulesets for visualy displaying the quality of a users typed in password.",
+  "devDependencies": {
+    "grunt": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-eslint": "^22.0.0",
+    "grunt-jasmine-node": "^0.3.1",
+    "grunt-shell": "^3.0.1",
+    "jsdom": "^9.12.0"
+  },
+  "homepage": "https://github.com/ablanco/jquery.pwstrength.bootstrap",
+  "keywords": [
+    "bootstrap",
+    "password",
+    "strength",
+    "meter",
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "license": "(GPL-3.0 OR MIT)",
+  "name": "pwstrength-bootstrap",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ablanco/jquery.pwstrength.bootstrap.git"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "version": "3.0.7"
+}

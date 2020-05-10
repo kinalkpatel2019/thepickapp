@@ -17,6 +17,8 @@ class Admin_Controller extends My_Controller
 		if(empty($this->admin) && !in_array($method,array('login','authenticate')))
 			redirect('admin/users/login');
 		$this->data['admin']=$this->admin;
+		$this->data['CSSs']=array();
+		$this->data['JSs']=array();
 		$this->template_data=array();
 		
 	}

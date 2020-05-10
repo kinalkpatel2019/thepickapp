@@ -9,6 +9,7 @@ class Cart extends Consumer_Controller {
         $this->load->model('User');
         $this->load->model('Market');
         $this->load->model('Coupon');
+        $this->load->model('Product');
 	}
 	
 	public function addtocart()
@@ -16,10 +17,13 @@ class Cart extends Consumer_Controller {
         //
         $qty=$this->input->post('qty');
         $cart_items=array();
+        $vendor_id=0;
         foreach($qty['inventory'] as $key=>$value){
             //check the each options qty if it is available or not
             if($value!=0){
                 $inventory=$this->Inventory->getInventoryById($key);
+                $product=$this->Product->getRedordById($inventory['product_id']);
+                $vendor_id=$product['vendor_id'];
                 if($inventory['availableqty'] >= $value){
                     //if available qty
                     $cart_items[]=array(
@@ -28,25 +32,31 @@ class Cart extends Consumer_Controller {
                         'price'   => $inventory['price'],
                         'unit'   => $inventory['unit'],
                         'name'    => $inventory['product'],
-                        'product_id'=>$inventory['product_id']
+                        'product_id'=>$inventory['product_id'],
+                        'vendor_id'=>$vendor_id,
+                        'tax'      => $product['tax']
                     );
                 }
             }
 
         }
         $this->my_cart->insert($cart_items);
-        redirect('consumer/products');
+        redirect('consumer/products/index/'.$vendor_id);
     }
     public function index(){
-        /*$cart_items=$this->cart->contents();
-        foreach($cart_items as $key=>$item){
-            echo $key;
-            print_r($item);
-        }*/
+        //set fee
+        $this->my_cart->removefee();
+        $consumer_fee=$this->Settings->getConsumerCommission();
+
+        $cart_total=$this->my_cart->final_total();
+
+        $fee=($cart_total*$consumer_fee)/100;
+
+        $this->my_cart->setFee($fee);
         $this->template_data=array(
-			'main_content'=>'consumer/cart/index',
+			'main_content'=>'studio/consumer/cart/index',
         );
-        $this->load->view('template/consumer/index',$this->generateTemplateData());
+        $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
     }
     public function updateCart(){
         $data=$this->input->post();
@@ -59,11 +69,11 @@ class Cart extends Consumer_Controller {
         $vendor=$this->User->getUserWithProfile(array('users.id'=>$vendorId));
         $market=$this->Market->getMarketById($marketId);
         $this->template_data=array(
-            'main_content'=>'consumer/cart/checkout',
+            'main_content'=>'studio/consumer/cart/checkout',
             'vendor'=>$vendor,
             'market'=>$market
         );
-        $this->load->view('template/consumer/index',$this->generateTemplateData());
+        $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
     }
     public function applyCoupon(){
         $code=$this->input->post('code');

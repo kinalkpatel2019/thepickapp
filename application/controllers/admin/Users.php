@@ -7,27 +7,43 @@ class Users extends Admin_controller {
 		parent::__construct();
 		$this->load->model('Adminuser');
 	}
-	
+	public function index(){
+		$adminusers=$this->Adminuser->getAllRecords(array('accounttype'=>1));
+		$this->template_data=array(
+			'main_content'=>'studio/admin/users/index',
+			'adminusers'=>$adminusers
+        );
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
+	}
 	public function login()
 	{
 		$template_data=array(
-			'main_content'=>'admin/users/login'
+			'main_content'=>'studio/admin/users/login'
 		);
-		$this->load->view('template/beforelogin/index',$template_data);
+		$this->load->view('studio/template/beforelogin/index',$template_data);
     }
     public function add()
 	{
-		$template_data=array(
-			'main_content'=>'users/register'
-		);
-		$this->load->view('template/beforelogin/index',$template_data);
+		$this->template_data=array(
+			'main_content'=>'studio/admin/users/add',
+        );
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
+	}
+	public function edit($id)
+	{
+		$user=$this->Adminuser->getUser(array('id'=>$id));
+		$this->template_data=array(
+			'main_content'=>'studio/admin/users/edit',
+			'user'=>$user
+        );
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
 	}
 	public function insertuser(){
 		$firstname=$this->input->post('firstname');
 		$lastname=$this->input->post('lastname');
 		$email=$this->input->post('email');
 		$password=$this->input->post('password');
-		$accounttype=$this->input->post('accounttype');
+		$accounttype=1;
 		$status=1;		//need to update accordigly...current active
 		$initial=strtoupper(substr($firstname, 0, 1).substr($lastname, 0, 1));
 		$insertData=array(
@@ -41,9 +57,20 @@ class Users extends Admin_controller {
 			'created_at'=>date('Y-m-d h:i:s'),
 			'updated_at'=>date('Y-m-d h:i:s')
 		);
-		$user_id=$this->User->insert($insertData);
+		$user_id=$this->Adminuser->insert($insertData);
 		//create initial image here  
-		redirect('users/login');
+		redirect('admin/users');
+	}
+	public function updateuser(){
+		$id=$this->input->post('id');
+		$firstname=$this->input->post('firstname');
+		$lastname=$this->input->post('lastname');
+		$updateData=array(
+			'firstname'=>$firstname,
+			'lastname'=>$lastname
+		);
+		$this->Adminuser->update($updateData,$id);
+		redirect('admin/users');
 	}
 	public function authenticate(){
 		$email=$this->input->post('email');

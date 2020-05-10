@@ -9,8 +9,8 @@ class Dashboard extends Admin_Controller {
 	public function index(){
 
         $this->template_data=array(
-            'main_content'=>'admin/dashboard/index',
+            'main_content'=>'studio/admin/dashboard/index',
         );
-        $this->load->view('template/admin/index',$this->generateTemplateData());
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
     }
 }

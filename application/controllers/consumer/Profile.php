@@ -10,10 +10,10 @@ class Profile extends Consumer_Controller {
 	public function index(){
         $user=$this->User->getUserWithProfile(array('users.id'=>$this->consumer['id']));
         $this->template_data=array(
-            'main_content'=>'consumer/profile/index',
+            'main_content'=>'studio/consumer/profile/index',
             'user'=>$user
         );
-        $this->load->view('template/consumer/index',$this->generateTemplateData());
+        $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
     }
     public function updateProfile(){
         $address1=$this->input->post('address1');

@@ -57,4 +57,10 @@ class Market extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
+    public function getMarketFee($market_id){
+        $this->db->where('id',$market_id);
+        $query=$this->db->get('markets');
+        $result=$query->row_array();
+        return $result['fee'];
+    }
 }

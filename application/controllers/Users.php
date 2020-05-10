@@ -11,16 +11,16 @@ class Users extends CI_Controller {
 	public function login()
 	{
 		$template_data=array(
-			'main_content'=>'users/login'
+			'main_content'=>'studio/users/login'
 		);
-		$this->load->view('template/beforelogin/index',$template_data);
+		$this->load->view('studio/template/beforelogin/index',$template_data);
     }
     public function register()
 	{
 		$template_data=array(
-			'main_content'=>'users/register'
+			'main_content'=>'studio/users/register'
 		);
-		$this->load->view('template/beforelogin/index',$template_data);
+		$this->load->view('studio/template/beforelogin/index',$template_data);
 	}
 	public function doRegister(){
 		$firstname=$this->input->post('firstname');
@@ -44,7 +44,7 @@ class Users extends CI_Controller {
 		$user_id=$this->User->insert($insertData);
 		//create initial image here  
 		$accounttype=($accounttype==1) ? 'vendors' : 'consumers';
-		$this->createAvatarImage($initial,$user_id,$accounttype);
+		//$this->createAvatarImage($initial,$user_id,$accounttype);
 		redirect('users/login');
 	}
 	public function authenticate(){
@@ -99,15 +99,15 @@ class Users extends CI_Controller {
 	}
 	public function forgotpassword(){
 		$template_data=array(
-			'main_content'=>'users/forgotpassword'
+			'main_content'=>'studio/users/forgotpassword'
 		);
-		$this->load->view('template/beforelogin/index',$template_data);
+		$this->load->view('studio/template/beforelogin/index',$template_data);
 	}
 	public function otp(){
 		$email=$this->input->post('email');
 		$user=$this->User->getUser(array('email'=>$email));
 		if(empty($user))
-			redirect('users/forgotpassword');
+			redirect('studio/users/forgotpassword');
 		$otp=rand(1000,9999);
 		$data=array(
 			'otp'=>$otp
@@ -120,10 +120,10 @@ class Users extends CI_Controller {
 		$this->email->message('OTP='.$otp);
 		$this->email->send();
 		$template_data=array(
-			'main_content'=>'users/otp',
+			'main_content'=>'studio/users/otp',
 			'email'=>$email
 		);
-		$this->load->view('template/beforelogin/index',$template_data);
+		$this->load->view('studio/template/beforelogin/index',$template_data);
 	}
 	public function verifyotp(){
 		$email=$this->input->post('email');
@@ -141,9 +141,9 @@ class Users extends CI_Controller {
 	}
 	function resetpassword(){
 		$template_data=array(
-			'main_content'=>'users/resetpassword',
+			'main_content'=>'studio/users/resetpassword',
 		);
-		$this->load->view('template/beforelogin/index',$template_data);
+		$this->load->view('studio/template/beforelogin/index',$template_data);
 	}
 	function updatepassword(){
 		$password=$this->input->post('password');

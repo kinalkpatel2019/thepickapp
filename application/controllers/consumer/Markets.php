@@ -13,10 +13,11 @@ class Markets extends Consumer_Controller {
 	{
 		$markets=$this->Market->getAllRedords();
 		$this->template_data=array(
-			'main_content'=>'consumer/markets/index',
-			'markets'=>$markets
+			'main_content'=>'studio/consumer/markets/index',
+			'markets'=>$markets,
+			'JSs'=>array('js/markets.js')
         );
-        $this->load->view('template/consumer/index',$this->generateTemplateData());
+        $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
 	}
 	public function setMarket($id){
 		$this->my_cart->destroy();

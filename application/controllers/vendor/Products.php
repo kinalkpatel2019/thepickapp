@@ -13,35 +13,41 @@ class Products extends Vendor_Controller {
 	public function index(){
         $products=$this->Product->getAllRedordsWithCategory(array('products.vendor_id'=>$this->vendor['id']),'all');
         $this->template_data=array(
-            'main_content'=>'vendor/products/index',
+            'main_content'=>'studio/vendor/products/index',
             'products'=>$products
         );
-        $this->load->view('template/vendor/index',$this->generateTemplateData());
+        $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function add(){
         $categories=$this->Category->getAllRedords();
         $this->template_data=array(
-            'main_content'=>'vendor/products/add',
-            'categories'=>$categories
+            'main_content'=>'studio/vendor/products/add',
+            'categories'=>$categories,
+            'CSSs'=>array('plugins/bootstrap-select/dist/css/bootstrap-select.min.css'),
+            'JSs'=>array('plugins/bootstrap-select/dist/js/bootstrap-select.min.js','js/repeatable-fields.js','js/product.js')
         );
-        $this->load->view('template/vendor/index',$this->generateTemplateData());
+        $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function edit($id){
         $categories=$this->Category->getAllRedords();
         $product=$this->Product->getRedordById($id);
         $images=$this->Product->getImages($id);
         $this->template_data=array(
-            'main_content'=>'vendor/products/edit',
+            'main_content'=>'studio/vendor/products/edit',
             'categories'=>$categories,
             'product'=>$product,
-            'images'=>$images
+            'images'=>$images,
+            'CSSs'=>array('plugins/bootstrap-select/dist/css/bootstrap-select.min.css'),
+            'JSs'=>array('plugins/bootstrap-select/dist/js/bootstrap-select.min.js','js/repeatable-fields.js','js/product.js')
         );
-        $this->load->view('template/vendor/index',$this->generateTemplateData());
+        $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function insertproduct(){
         $title=$this->input->post('title');
         $category_id=$this->input->post('category_id');
         $description=$this->input->post('description');
+        $is_taxable=$this->input->post('is_taxable');
+        $tax=$this->input->post('tax');
 
         //upload logo
         $mainimage="";
@@ -87,6 +93,9 @@ class Products extends Vendor_Controller {
             }
         }
 
+        if($is_taxable==0)
+            $tax=0;
+
         $insertData=array(
 			'title'=>$title,
 			'category_id'=>$category_id,
@@ -94,6 +103,8 @@ class Products extends Vendor_Controller {
 			'vendor_id'=>$this->vendor['id'],
             'status'=>1,
             'image'=>$mainimage,
+            'is_taxable'=>$is_taxable,
+            'tax'=>$tax,
 			'created_at'=>date('Y-m-d h:i:s'),
 			'updated_at'=>date('Y-m-d h:i:s')
 		);
@@ -118,14 +129,21 @@ class Products extends Vendor_Controller {
         $title=$this->input->post('title');
         $category_id=$this->input->post('category_id');
         $description=$this->input->post('description');
+        $is_taxable=$this->input->post('is_taxable');
+        $tax=$this->input->post('tax');
 
         $product=$this->Product->getRedordById($id);
         $images_data=$this->Product->getImages($id);
+    
+        if($is_taxable==0)
+            $tax=0;
 
         $updateData=array(
 			'title'=>$title,
 			'category_id'=>$category_id,
-			'description'=>$description,
+            'description'=>$description,
+            'is_taxable'=>$is_taxable,
+            'tax'=>$tax,
 			'updated_at'=>date('Y-m-d h:i:s')
         );
         
@@ -223,14 +241,32 @@ class Products extends Vendor_Controller {
         $units=$this->Unit->getAllRedords(array('iscontainer'=>0));
         $inventories=$this->Inventory->getAllRedords(array('product_id'=>$product_id));
         $this->template_data=array(
-            'main_content'=>'vendor/products/inventories',
+            'main_content'=>'studio/vendor/products/inventories',
             'product'=>$product,
             'packsizes'=>$packsizes,
             'units'=>$units,
             'inventories'=>$inventories,
-            'product_id'=>$product_id
+            'product_id'=>$product_id,
+            'CSSs'=>array(
+                'plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css',
+                'plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css',
+                'plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'
+                ),
+            'JSs'=>array(
+                'plugins/datatables.net/js/jquery.dataTables.min.js',
+                'plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js',
+                'plugins/datatables.net-buttons/js/dataTables.buttons.min.js',
+                'plugins/datatables.net-buttons/js/buttons.colVis.min.js',
+                'plugins/datatables.net-buttons/js/buttons.flash.min.js',
+                'plugins/datatables.net-buttons/js/buttons.html5.min.js',
+                'plugins/datatables.net-buttons/js/buttons.print.min.js',
+                'plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
+                'plugins/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js',
+                'js/inventories.js'
+                )
         );
-        $this->load->view('template/vendor/index',$this->generateTemplateData());
+        $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function addInventory(){
         $product_id=$this->input->post('product_id');

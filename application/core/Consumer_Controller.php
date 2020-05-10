@@ -16,6 +16,8 @@ class Consumer_Controller extends My_Controller
 		if(empty($this->consumer))
 			redirect('users/login');
 		$this->data['consumer']=$this->consumer;
+		$this->data['CSSs']=array();
+		$this->data['JSs']=array();
 		$this->template_data=array();
 		
 	}

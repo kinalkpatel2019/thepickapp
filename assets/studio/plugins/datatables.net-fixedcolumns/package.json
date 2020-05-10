@@ -1,0 +1,59 @@
+{
+  "_from": "datatables.net-fixedcolumns@^3.3.0",
+  "_id": "datatables.net-fixedcolumns@3.3.0",
+  "_inBundle": false,
+  "_integrity": "sha1-iFs1t/FV/14I4VMuIzY/FAULsa8=",
+  "_location": "/datatables.net-fixedcolumns",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "datatables.net-fixedcolumns@^3.3.0",
+    "name": "datatables.net-fixedcolumns",
+    "escapedName": "datatables.net-fixedcolumns",
+    "rawSpec": "^3.3.0",
+    "saveSpec": null,
+    "fetchSpec": "^3.3.0"
+  },
+  "_requiredBy": [
+    "/",
+    "/datatables.net-fixedcolumns-bs4"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/datatables.net-fixedcolumns/download/datatables.net-fixedcolumns-3.3.0.tgz",
+  "_shasum": "885b35b7f155ff5e08e1532e23363f14050bb1af",
+  "_spec": "datatables.net-fixedcolumns@^3.3.0",
+  "_where": "D:\\wamp64\\www\\clients\\asafgali\\admin-template\\studio_v1.0\\template",
+  "author": {
+    "name": "SpryMedia Ltd",
+    "url": "http://datatables.net"
+  },
+  "bugs": {
+    "url": "https://datatables.net/forums"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "datatables.net": "^1.10.15",
+    "jquery": ">=1.7"
+  },
+  "deprecated": false,
+  "description": "FixedColumns for DataTables ",
+  "files": [
+    "js/**/*.js"
+  ],
+  "homepage": "https://datatables.net",
+  "keywords": [
+    "fixed columns",
+    "DataTables",
+    "jQuery",
+    "table",
+    "DataTables"
+  ],
+  "license": "MIT",
+  "main": "js/dataTables.fixedColumns.js",
+  "name": "datatables.net-fixedcolumns",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DataTables/Dist-DataTables-FixedColumns.git"
+  },
+  "version": "3.3.0"
+}

@@ -17,6 +17,12 @@ class Adminuser extends CI_Model {
         $result=$query->row_array();
         return $result;
     }
+    public function getAllRecords($where){
+        $this->db->where($where);
+        $query=$this->db->get('adminusers');
+        $result=$query->result_array();
+        return $result;
+    }
     public function getUserWithProfile($where){
         $this->db->select('adminusers.*,profiles.businesstype_id,profiles.businessname,profiles.address1,profiles.address2,profiles.phonenumber');
         $this->db->join('profiles','profiles.user_id=adminusers.id','left');

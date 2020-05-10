@@ -13,11 +13,11 @@ class Profile extends Vendor_Controller {
         $businesstypes=$this->Businesstype->getAllRedords();
         $user=$this->User->getUserWithProfile(array('users.id'=>$this->vendor['id']));
         $this->template_data=array(
-            'main_content'=>'vendor/profile/index',
+            'main_content'=>'studio/vendor/profile/index',
             'businesstypes'=>$businesstypes,
             'user'=>$user
         );
-        $this->load->view('template/vendor/index',$this->generateTemplateData());
+        $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function updateProfile(){
         $businesstype_id=$this->input->post('businesstype_id');
@@ -62,11 +62,17 @@ class Profile extends Vendor_Controller {
         $vendormarkets_ids=array();
         $vendormarkets_ids = array_column($vendormarkets, 'market_id');
         $this->template_data=array(
-            'main_content'=>'vendor/profile/settings',
+            'main_content'=>'studio/vendor/profile/settings',
             'markets'=>$markets,
             'vendormarkets'=>$vendormarkets_ids,
+            'CSSs'=>array(
+                'plugins/bootstrap-select/dist/css/bootstrap-select.min.css',
+            ),
+            'JSs'=>array(
+                'plugins/bootstrap-select/dist/js/bootstrap-select.min.js'
+            ),
         );
-        $this->load->view('template/vendor/index',$this->generateTemplateData());
+        $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function updateSettings(){
         $markets=$this->input->post('markets');
