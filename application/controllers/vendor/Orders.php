@@ -60,4 +60,30 @@ class Orders extends Vendor_Controller {
         $this->Order->update($data,$id);
         redirect('vendor/orders/view/'.$id);
     }
+    public function approveOrderItem($id){
+        $order_details=$this->Order->getOrderDetailsByID($id);
+        if(empty($order_details))
+            redirect('vendor/orders');
+        $order_id=$order_details['order_id'];
+        $order=$this->Order->getOrderById($order_id);
+        
+        //update the order item staus to approved
+        $this->Order->changeItemStatus($id,"approved");
+
+        //now get the all item status if all are approved make order status approved
+
+        //$this->Order->changeOrderStatus($order_details['order_id'],"approved");
+        $totalItems=$this->Order->getTotalStatus($order_id);
+        $totalApproved=$this->Order->getTotalStatus($order_id,'approved');
+
+        if($totalApproved==$totalItems){
+            ///update the order status 
+            $this->Order->changeOrderStatus($order_details['order_id'],"approved");
+            //payment things can be done here
+
+        }
+        
+        redirect('vendor/orders/view/'.$order_id);
+        
+    }
 }

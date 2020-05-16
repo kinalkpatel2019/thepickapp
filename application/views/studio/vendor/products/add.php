@@ -64,7 +64,15 @@
                                                     </div>
                                                 </div>
 
-                                                
+                                                <div class="form-group">
+                                                    <div class="col-sm-6">
+                                                        <label>Allow Comment?</label>
+                                                        <select name="is_comment" id="is_comment" class="selectpicker form-control" data-style="btn-default">
+                                                                <option value="0">No</option>
+                                                                <option value="1">Yes</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
 
                                                 <div class="form-group">

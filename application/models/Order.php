@@ -68,7 +68,7 @@ class Order extends CI_Model {
         $result=$query->row_array();
         return $result;
     }
-    public function getOrderDetails($id,$vendor_id){
+    public function getOrderDetails($id,$vendor_id=null){
         $this->db->where('order_id',$id);
         if(!empty($vendor_id))
             $this->db->where('vendor_id',$vendor_id);
@@ -79,5 +79,29 @@ class Order extends CI_Model {
     public function update($data,$id){
         $this->db->where('id',$id);
         $this->db->update('orders',$data);
+    }
+    public function getOrderDetailsByID($id){
+        $this->db->where('id',$id);
+        $query=$this->db->get('orderdetails');
+        $result=$query->row_array();
+        return $result;
+    }
+    public function changeItemStatus($id,$status){
+        $this->db->where('id',$id);
+        $this->db->update('orderdetails',array('status'=>$status));
+    }
+    public function changeOrderStatus($id,$status){
+        $this->db->where('id',$id);
+        $this->db->update('orders',array('status'=>$status));
+    }
+    public function getTotalStatus($id,$status=""){
+        $this->db->select('count(*) total');
+        $this->db->where('order_id',$id);
+        if(!empty($status))
+            $this->db->where('status',$status);
+        $query=$this->db->get('orderdetails');
+        $result=$query->row_array();
+        return $result['total'];
+
     }
 }

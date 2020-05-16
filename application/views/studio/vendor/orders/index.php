@@ -5,9 +5,11 @@
             <div class="col-xl-12">
                 <div class="row">
                     <div class="col-xl-12">
+                    <div class="card mb-3">
+                                        <div class="card-body">
                         <h1 class="page-header">My Orders</h1>
                         <hr class="mb-4">
-                        <table id="datatableDefault" class="table text-nowrap">
+                        <table id="datatableDefault" class="table text-nowrap" data-order='[0, "desc"]'>
                           <thead>
                           <tr>
                             <th>Order Id</th> 
@@ -18,7 +20,6 @@
                             <th>Total Tax</th>
                             <th>Site Fee</th>
                             <th>Vendor Amount</th>
-                            <th>View</th>
                           </tr>
                         </thead>
                         <tfoot>
@@ -31,25 +32,25 @@
                               <th>Total Tax</th>
                               <th>Site Fee</th>
                               <th>Vendor Amount</th>
-                              <th>View</th>
                             </tr>
                         </tfoot>
                         <tbody>
                         <?php foreach($orders as $order) { ?>
                           <tr>
-                            <th><?php echo $order['id']; ?></th>
-                            <th><?php echo $order['created_at']; ?></th>
-                            <th><?php echo $order['title']; ?></th>
-                            <th><?php echo $order['items']; ?></th>
-                            <th><?php echo $order['total']; ?></th>
-                            <th><?php echo $order['tax']; ?></th>
-                            <th><?php echo $order['sitefee']; ?></th>
-                            <th><?php echo $order['vendoramount']; ?></th>
-                            <th><a href="<?php echo site_url('vendor/orders/view/'.$order['id']); ?>">View</a></th>
+                            <td><a href="<?php echo site_url('vendor/orders/view/'.$order['id']); ?>"><?php echo $order['id']; ?></a></td>
+                            <td><?php echo $order['created_at']; ?></td>
+                            <td><?php echo $order['title']; ?></td>
+                            <td><?php echo $order['items']; ?></td>
+                            <td><?php echo $order['total']; ?></td>
+                            <td><?php echo $order['tax']; ?></td>
+                            <td><?php echo $order['sitefee']; ?></td>
+                            <td><?php echo $order['vendoramount']; ?></td>
                           </tr>
                         <?php } ?>
                       </tbody>
                           </table>                                                               
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,8 @@
             <div class="col-xl-12">
                 <div class="row">
                     <div class="col-xl-12">
+                    <div class="card mb-3">
+                                        <div class="card-body">
                         <h1 class="page-header">Checkout</h1>
                         <hr class="mb-4">
                                 <div class="table-responsive">
@@ -22,10 +24,12 @@
                                                                 
                                                                         <?php foreach ($this->my_cart->contents() as $items){  ?>
                                                                                 <tr>
-                                                                                        <td><a href="<?php echo site_url('consumer/products/view/'.$items['product_id']); ?>">
-                                                                                                <?php echo $items['name']; ?><br/>
-                                                                                                <?php echo $items['unit']; ?>
-                                                                                                </a>
+                                                                                        <td><?php echo $items['name']; ?><br/>
+                                                                                        <?php echo $items['unit']; ?>
+                                                                                        From : <?php echo $items['vendor'];?><br/>
+                                                                                        <?php if($items['is_comment']==1 && !empty($items['comment'])) { ?>
+                                                                                        Your Comment: <b><?php echo $items['comment']; ?></b><br/>
+                                                                                        <?php } ?>
                                                                                         </td>
                                                                                         <td><?php echo $items['qty'] ?></td>
                                                                                         <td><?php echo $this->my_cart->format_number($items['price']); ?></td>
@@ -51,7 +55,7 @@
                                                                         <th>$<?php echo $this->my_cart->format_number($this->my_cart->final_total()); ?></th>
                                                                 </tr>
                                                         <tr>
-                                                                <th colspan="3">&nbsp;</th>
+                                                                <th colspan="4">&nbsp;</th>
                                                                 <th>
                                                                 <form name="order" id="order" action="<?php echo site_url('consumer/orders/placeOrder'); ?>" method="post">
                                                                         <input type="submit" name="remove" id="remove" value="Place Order" class="btn btn-primary">
@@ -60,7 +64,9 @@
                                                         </tr>
                                                 </tfoot>                                               
                                         </table>
-                                        </div>                                                                
+                                        </div>         
+                                        </div>
+                                        </div>                                                       
                     </div>
                 </div>
             </div>

@@ -50,7 +50,7 @@
 							</div>
 							<div class="dropdown-notification-info">
 								<div class="title"><?php echo $item['qty']; ?>&nbsp;&nbsp;$<?php echo $item['price']; ?></div>
-								<div class="time"><?php echo $item['name']; ?>&nbsp;&nbsp;<?php echo $item['unit']; ?>/div>
+								<div class="time"><?php echo $item['name']; ?>&nbsp;&nbsp;<?php echo $item['unit']; ?></div>
 							</div>
 							<div class="dropdown-notification-arrow">
 								<i class="fa fa-chevron-right"></i>

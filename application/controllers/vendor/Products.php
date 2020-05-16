@@ -48,7 +48,8 @@ class Products extends Vendor_Controller {
         $description=$this->input->post('description');
         $is_taxable=$this->input->post('is_taxable');
         $tax=$this->input->post('tax');
-
+        $is_comment=$this->input->post('is_comment');
+        
         //upload logo
         $mainimage="";
         $filename="";
@@ -105,6 +106,7 @@ class Products extends Vendor_Controller {
             'image'=>$mainimage,
             'is_taxable'=>$is_taxable,
             'tax'=>$tax,
+            'is_comment'=>$is_comment,
 			'created_at'=>date('Y-m-d h:i:s'),
 			'updated_at'=>date('Y-m-d h:i:s')
 		);
@@ -131,6 +133,7 @@ class Products extends Vendor_Controller {
         $description=$this->input->post('description');
         $is_taxable=$this->input->post('is_taxable');
         $tax=$this->input->post('tax');
+        $is_comment=$this->input->post('is_comment');
 
         $product=$this->Product->getRedordById($id);
         $images_data=$this->Product->getImages($id);
@@ -144,7 +147,8 @@ class Products extends Vendor_Controller {
             'description'=>$description,
             'is_taxable'=>$is_taxable,
             'tax'=>$tax,
-			'updated_at'=>date('Y-m-d h:i:s')
+            'updated_at'=>date('Y-m-d h:i:s'),
+            'is_comment'=>$is_comment
         );
         
         if(isset($_FILES['mainimage']['name'])){

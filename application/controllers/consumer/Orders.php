@@ -89,6 +89,7 @@ class Orders extends Consumer_Controller {
                 'order_id'=>$order_id,
                 'vendor_id'=>$value['vendor_id'],
                 'itemname'=>$value['name'],
+                'comment'=>$value['comment'],
                 'unit'=>$value['unit'],
                 'qty'=>$value['qty'],
                 'price'=>$this->my_cart->format_number($value['price']),

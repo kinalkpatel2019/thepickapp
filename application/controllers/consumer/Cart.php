@@ -24,6 +24,7 @@ class Cart extends Consumer_Controller {
                 $inventory=$this->Inventory->getInventoryById($key);
                 $product=$this->Product->getRedordById($inventory['product_id']);
                 $vendor_id=$product['vendor_id'];
+                $vendor_profile=$this->User->getProfile($vendor_id);
                 if($inventory['availableqty'] >= $value){
                     //if available qty
                     $cart_items[]=array(
@@ -34,7 +35,10 @@ class Cart extends Consumer_Controller {
                         'name'    => $inventory['product'],
                         'product_id'=>$inventory['product_id'],
                         'vendor_id'=>$vendor_id,
-                        'tax'      => $product['tax']
+                        'tax'      => $product['tax'],
+                        'is_comment'  => $product['is_comment'],
+                        'comment'   => "",
+                        'vendor'    => $vendor_profile['businessname']
                     );
                 }
             }

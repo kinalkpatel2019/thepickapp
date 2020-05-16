@@ -21,6 +21,7 @@
                                                                         <th>Total Price</th>
                                                                         <th>Site Fee</th>
                                                                         <th>Vendor Amount</th>
+                                                                        <th>Status</th>
                                                                 </tr>
                                                         </thead>
                                                         <tbody>
@@ -29,7 +30,11 @@
                                                         <?php $sitefee=0; $vendoramount=0; ?>
                                                         <?php foreach ($order_details as $items){  ?>
                                                                 <tr>
-                                                                        <td><?php echo $items['itemname']; ?><br/><?php echo $items['unit']; ?></td>
+                                                                        <td><?php echo $items['itemname']; ?><br/><?php echo $items['unit']; ?>
+                                                                                <?php if(!empty($items['comment'])) { ?>
+                                                                                <br/>Customer Comment : <b><?php echo $items['comment']; ?></b>
+                                                                                <?php } ?>
+                                                                        </td>
                                                                         <td><?php echo $items['qty'] ?></td>
                                                                         <td><?php echo $this->my_cart->format_number($items['price']); ?></td>
                                                                         <td><?php echo $this->my_cart->format_number($items['tax']); ?></td>
@@ -38,6 +43,12 @@
                                                                         <td>$<?php echo $this->my_cart->format_number($items['sitefee']); ?></td>
                                                                         <?php $vendoramount+=$items['vendoramount']; ?>
                                                                         <td>$<?php echo $this->my_cart->format_number($items['vendoramount']); ?></td>
+                                                                        <td>
+                                                                        <?php echo ucfirst($items['status']); ?>
+                                                                        <?php if($items['status']=='pending') { ?>
+                                                                                <br/><a href="<?php echo site_url('vendor/orders/approveOrderItem/'.$items['id']); ?>">Approve</a>
+                                                                        <?php } ?>
+                                                                        </td>
                                                                 </tr>
                                                         <?php } ?>
                                                         </tbody>
@@ -47,6 +58,7 @@
                                                                         <th><strong>Total</strong></th>
                                                                         <th>$<?php echo $this->my_cart->format_number($sitefee); ?></th>
                                                                         <th>$<?php echo $this->my_cart->format_number($vendoramount); ?></th>
+                                                                        <th>Status</th>
                                                                 </tr>
                                                         </tfoot>                                               
                                         </table>

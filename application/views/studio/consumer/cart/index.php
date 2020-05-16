@@ -5,6 +5,9 @@
             <div class="col-xl-12">
                 <div class="row">
                     <div class="col-xl-12">
+
+                    <div class="card mb-3">
+                                        <div class="card-body">
                         <h1 class="page-header">Cart</h1>
                         <hr class="mb-4">
                         <form name="updatecart" id="updatecart" action="<?php echo site_url('consumer/cart/updateCart'); ?>" method="post">
@@ -26,9 +29,12 @@
                                                                         <?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
                                                                         <tr>
                                                                                 <td><a href="<?php echo site_url('consumer/products/view/'.$items['product_id']); ?>">
-                                                                                        <?php echo $items['name']; ?><br/>
-                                                                                        <?php echo $items['unit']; ?>
-                                                                                        </a>
+                                                                                <?php echo $items['name']; ?></a><br/>
+                                                                                <?php echo $items['unit']; ?><br/>
+                                                                                From : <?php echo $items['vendor'];?><br/>
+                                                                                <?php if($items['is_comment']==1) { ?>
+                                                                                        <input class="form-control" type="text" name="<?php echo $i; ?>[comment]" placeholder="Add Your Comment Here" maxlength="100" value="<?php echo $items['comment']; ?>"/>
+                                                                                <?php } ?>
                                                                                 </td>
                                                                                 <td>
                                                                                         <?php echo form_input(array('name' => $i.'[qty]', 'value' => $items['qty'], 'maxlength' => '3', 'size' => '5','class'=>'form-control')); ?>
@@ -66,6 +72,12 @@
                                         </div>
                                                                 </form>
                                                                 
+                   
+                   
+                   
+                   
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>
