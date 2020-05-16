@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Categories extends Admin_controller {
+class Categories extends Admin_Controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -10,7 +10,7 @@ class Categories extends Admin_controller {
 	public function index(){
 		$categories=$this->Category->getAllRedords(array('1'=>1),'all');
 		$this->template_data=array(
-			'main_content'=>'studio/admin/businesstypes/index',
+			'main_content'=>'studio/admin/categories/index',
 			'categories'=>$categories,
 			'CSSs'=>array(
                 'plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css',
