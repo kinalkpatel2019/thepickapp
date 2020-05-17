@@ -8,7 +8,19 @@
                     <div class="card mb-3">
                                         <div class="card-body">
                         <h1 class="page-header">My Orders</h1>
-                        <hr class="mb-4">
+                        <ht class="mb-4">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label>Select Market</label>
+                                <select name="market" id="market" class="form-control" onchange="window.location.href='?market='+this.value;">
+                                    <option value="">All</option>
+                                    <?php foreach($vendor_markets as $market) { ?>
+                                      <option value="<?php echo $market['id']; ?>" <?php echo ($market['id']==$selected_market) ? "selected=''" : ''; ?>><?php echo $market['title']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        
                         <table id="datatableDefault" class="table text-nowrap" data-order='[0, "desc"]'>
                           <thead>
                           <tr>

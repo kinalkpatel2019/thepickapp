@@ -75,7 +75,8 @@ class Cart extends Consumer_Controller {
         $this->template_data=array(
             'main_content'=>'studio/consumer/cart/checkout',
             'vendor'=>$vendor,
-            'market'=>$market
+            'market'=>$market,
+            'JSs'=>array('js/checkout.js')
         );
         $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
     }

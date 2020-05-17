@@ -6,10 +6,37 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <h1 class="page-header">Order #<?php echo $order['id']; ?></h1>
-                        <?php if(!empty($mode)) { ?>
-                        <h3>Thank You for your order! Below are your order details.</h3>
-                        <?php } ?>
-                        <hr class="mb-4">
+                        <p><a href="javascript::void(0);" class="printThis" data-target="printOrderDiv" data-pageTitle="Order #<?php echo $order['id']; ?>"><i class="fas fa-print">&nbsp;</i></a></p>
+                        <div class="card mb-3">
+                                        <div class="card-body" id="printOrderDiv">
+                                <div class="table-responsive">
+                                        <table class="table">
+                                                <tbody>
+                                                        <tr>
+                                                                <td>Order Id</td>
+                                                                <td><b><?php echo $order['id']; ?></b></td>
+                                                                <td>Order Date & Time</td>
+                                                                <td colspan="4"><b><?php echo $order['created_at']; ?></b></td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Customer Name</td>
+                                                                <td><b><?php echo $order['firstname']." ".$order['lastname']; ?></b></td>
+                                                                <td>Customer Email</td>
+                                                                <td><b><?php echo $order['email']; ?></b></td>
+                                                                <td>Customer Phone</td>
+                                                                <td><b><?php echo $order['phonenumber']; ?></b></td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Address1</td>
+                                                                <td><b><?php echo $order['address1']; ?></b></td>
+                                                                <td>Address2</td>
+                                                                <td><b><?php echo $order['address2']; ?></b></td>
+                                                                <td>Zip</td>
+                                                                <td><b><?php echo $order['zipcode']; ?></b></td>
+                                                        </tr>
+                                                </tbody>
+                                        </table>
+                                </div>
                                 <div class="table-responsive">
                                         <table class="table">
                                                 <thead>
@@ -62,7 +89,9 @@
                                                                 </tr>
                                                         </tfoot>                                               
                                         </table>
-                                        </div>                                                                
+                                        </div>  
+                                </div>
+                        </div>                                                              
                     </div>
                 </div>
             </div>

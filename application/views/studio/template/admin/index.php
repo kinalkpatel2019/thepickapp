@@ -2,9 +2,17 @@
 <?php $this->load->view('studio/template/admin/partials/_head'); ?>
 <!-- BEGIN #app -->
 <div id="app" class="app">
-    <?php $this->load->view('studio/template/admin/partials/_header'); ?>
-            
-    <?php $this->load->view('studio/template/admin/partials/_sidebar'); ?>
+    <?php if($admin['accounttype']==1) { ?>
+        <?php $this->load->view('studio/template/admin/partials/_header'); ?>
+    <?php } else { ?>
+        <?php $this->load->view('studio/template/admin/partials/_managerheader'); ?>
+    <?php } ?>
+    
+    <?php if($admin['accounttype']==1) { ?>
+        <?php $this->load->view('studio/template/admin/partials/_sidebar'); ?>
+    <?php } else { ?>
+        <?php $this->load->view('studio/template/admin/partials/_managersidebar'); ?>
+    <?php } ?>
     <?php $this->load->view($main_content); ?>
             
     <!-- BEGIN btn-scroll-top -->

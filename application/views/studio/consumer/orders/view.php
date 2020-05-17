@@ -47,25 +47,46 @@
                                                         </tbody>
                                                         <tfoot>
                                                         <tr>
-                                                                <th colspan="3">&nbsp;</th>
+                                                                <th colspan="4">&nbsp;</th>
                                                                 <th><strong>Total</strong></th>
                                                                 <th>$<?php echo $this->my_cart->format_number($order['totalamount']); ?></th>
                                                         </tr>
                                                         <tr>
-                                                                <th colspan="3">&nbsp;</th>
+                                                                <th colspan="4">&nbsp;</th>
                                                                 <th><strong>Fee</strong></th>
                                                                 <th>$<?php echo $this->my_cart->format_number($order['fee']); ?></th>
                                                         </tr>
                                                         <tr>
-                                                                <th colspan="3">&nbsp;</th>
+                                                                <th colspan="4">&nbsp;</th>
                                                                 <th><strong>Grand Total</strong></th>
                                                                 <th>$<?php echo $this->my_cart->format_number($order['grandtotal']); ?></th>
                                                         </tr>
                                                         <tr>
-                                                                <th colspan="3">&nbsp;</th>
+                                                                <th colspan="4">&nbsp;</th>
                                                                 <th><strong>Order Status</strong></th>
                                                                 <th><?php echo ucfirst($order['status']); ?></th>
                                                         </tr>
+                                                        <tr>
+                                                                <th colspan="4">&nbsp;</th>
+                                                                <th><strong>Payment Method</strong></th>
+                                                                <th>XXXX XXXX XXXX <?php echo $order['last4']; ?> 
+                                                                <?php if($order['paymentstatus']=='unpaid') { ?>
+                                                                        <br/><a href="#" data-toggle="modal" data-target="#paymentmethod">Change Card</a>
+                                                                <?php } ?>
+                                                                </th>
+                                                        </tr>
+                                                        <tr>
+                                                                <th colspan="4">&nbsp;</th>
+                                                                <th><strong>Payment Status</strong></th>
+                                                                <th><?php echo ucfirst($order['paymentstatus']); ?></th>
+                                                        </tr>
+                                                        <?php if($order['paymentstatus']=="paid") { ?>
+                                                        <tr>
+                                                                <th colspan="4">&nbsp;</th>
+                                                                <th><strong>Receipt</strong></th>
+                                                                <th><a href="<?php echo $order['receipt_url']; ?>" target="_blank">View</a></th>
+                                                        </tr>   
+                                                        <?php } ?>
                                                 </tfoot>                                               
                                         </table>
                                         </div>   
@@ -77,3 +98,62 @@
         </div>
     </div>
 </diiv>
+<?php if($order['paymentstatus']=="unpaid") { ?>
+<style>
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+</style>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+var stripe = Stripe('<?php echo STRIPE_PUBLISH; ?>');
+</script>
+<div class="modal fade" id="paymentmethod" tabindex="-1" role="dialog" aria-labelledby="addInventoryModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Change PaymentMethod</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" name="frmorder" id="frmorder" action="<?php echo site_url('consumer/orders/changePaymentMethod'); ?>">
+      <input type="hidden" name="id" value="<?php echo $order['id']; ?>"/>
+        <div class="modal-body">
+            <div class="form-group">
+                <div id="card-element"></div>
+                <div id="card-errors" role="alert"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Update Card</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<?php } ?>

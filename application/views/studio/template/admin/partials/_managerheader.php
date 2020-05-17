@@ -40,8 +40,6 @@
 						<div class="menu-text"><?php echo $admin['firstname'];?>&nbsp;<?php echo $admin['lastname']; ?></div>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right mr-lg-3">
-						<a class="dropdown-item d-flex align-items-center" href="<?php echo site_url('admin/settings'); ?>">Setting <i class="fa fa-wrench fa-fw ml-auto text-gray-400 f-s-16"></i></a>
-						<div class="dropdown-divider"></div>
 						<a class="dropdown-item d-flex align-items-center" href="<?php echo site_url('admin/users/logout'); ?>">Log Out <i class="fa fa-toggle-off fa-fw ml-auto text-gray-400 f-s-16"></i></a>
 					</div>
 				</div>

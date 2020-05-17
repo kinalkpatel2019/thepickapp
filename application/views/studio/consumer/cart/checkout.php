@@ -1,4 +1,37 @@
 <!-- BEGIN #content -->
+<style>
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+</style>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+var stripe = Stripe('<?php echo STRIPE_PUBLISH; ?>');
+</script>
 <div id="content" class="app-content">
     <div class="container">
         <div class="row justify-content-center">
@@ -10,6 +43,7 @@
                         <h1 class="page-header">Checkout</h1>
                         <hr class="mb-4">
                                 <div class="table-responsive">
+                                <form name="frmorder" id="frmorder" action="<?php echo site_url('consumer/orders/placeOrder'); ?>" method="post">
                                         <table class="table">
                                                 <thead>
                                                                 <tr>
@@ -40,7 +74,7 @@
                                                         </tbody>
                                                         <tfoot>
                                                         <tr>
-                                                        <th colspan="3">&nbsp;</th>
+                                                                <th colspan="3">&nbsp;</th>
                                                                         <th><strong>Total</strong></th>
                                                                         <th>$<?php echo $this->my_cart->format_number($this->my_cart->total()); ?></th>
                                                                 </tr>
@@ -55,15 +89,26 @@
                                                                         <th>$<?php echo $this->my_cart->format_number($this->my_cart->final_total()); ?></th>
                                                                 </tr>
                                                         <tr>
+                                                                <td colspan="3">&nbsp;</td>
+                                                                <td><strong>Credit or debit card</strong></td>
+                                                                <td>Your Card Will be charged once <br/>all items are approved from vendors.</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td colspan="3">&nbsp;</td>
+                                                                <td colspan="2">
+                                                                        <div id="card-element"></div>
+                                                                        <div id="card-errors" role="alert"></div>
+                                                                </td>
+                                                        </tr>
+                                                        <tr>
                                                                 <th colspan="4">&nbsp;</th>
                                                                 <th>
-                                                                <form name="order" id="order" action="<?php echo site_url('consumer/orders/placeOrder'); ?>" method="post">
-                                                                        <input type="submit" name="remove" id="remove" value="Place Order" class="btn btn-primary">
-                                                                </form>
+                                                                        <input type="submit" name="placeorder" id="placeorder" value="Place Order" class="btn btn-primary">
                                                                 </th>
                                                         </tr>
                                                 </tfoot>                                               
                                         </table>
+                                        </form>
                                         </div>         
                                         </div>
                                         </div>                                                       
@@ -72,4 +117,4 @@
             </div>
         </div>
     </div>
-</diiv>
+</div>

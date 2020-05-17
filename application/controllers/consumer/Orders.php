@@ -9,13 +9,25 @@ class Orders extends Consumer_Controller {
         $this->load->model('User');
         $this->load->model('Market');
         $this->load->model('Order');
+        $this->load->model('StripeModel');
 	}
 	public function index(){
-        $orders=$this->Order->getAllRedords(array('orders.user_id'=>$this->consumer['id']));
+        $selected_market=$this->input->get('market');
+        $conditions=array(
+                'orders.user_id'=>$this->consumer['id']
+            );
+        if(!empty($selected_market))
+            $conditions['orders.market_id']=$selected_market;
+        
+        $orders=$this->Order->getAllRedords($conditions);
+        $consumer_markets=$this->Market->getConsumerMarket($this->consumer['id']);
+
         
         $this->template_data=array(
             'main_content'=>'studio/consumer/orders/index',
             'orders'=>$orders,
+            'consumer_markets'=>$consumer_markets,
+            'selected_market'=>$selected_market,
             'CSSs'=>array(
                 'plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css',
                 'plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css',
@@ -32,14 +44,15 @@ class Orders extends Consumer_Controller {
                 'plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
                 'plugins/datatables.net-responsive/js/dataTables.responsive.min.js',
                 'plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js',
-                'js/inventories.js'
+                'js/inventories.js',
                 )
         );
         $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
     }
 	public function placeOrder()
 	{
-        //
+        
+
         $cart_items=$this->my_cart->contents();
         $canproceed=true;
         foreach($cart_items as $key=>$value){
@@ -56,6 +69,20 @@ class Orders extends Consumer_Controller {
         }
         if(!$canproceed)
             redirect('consumer/cart');
+
+        //first get the customer id of stripe
+        $stripeToken=$this->input->post('stripeToken');
+        if(empty($stripeToken))
+            redirect('consumer/cart/checkout');
+        
+        $customer_id=$this->StripeModel->getStripeCustomer($this->consumer['id']);
+        if(empty($customer_id))
+            redirect('consumer/cart/checkout');
+
+        $payment_method=$this->StripeModel->setPaymentMethod($customer_id,$stripeToken);
+        if(empty($payment_method))
+            redirect('consumer/cart/checkout');
+
         //now we need to insert into the order 
         //$vendorId=$this->User->getDefaultVendorID($this->consumer['id']);
         $marketId=$this->User->getDefaultMarketID($this->consumer['id']);
@@ -72,6 +99,9 @@ class Orders extends Consumer_Controller {
             'discount'=>$this->my_cart->format_number($coupon['discount']),
             'fee'=>$this->my_cart->format_number($this->my_cart->fee()),
             'grandtotal'=>$this->my_cart->format_number($this->my_cart->final_total()),
+            'customer_id'=>$customer_id,
+            'payment_method'=>$payment_method['id'],
+            'last4'=>$payment_method['last4'],
             'created_at'=>date('Y-m-d h:i:s'),
             'updated_at'=>date('Y-m-d h:i:s')
         );
@@ -120,7 +150,34 @@ class Orders extends Consumer_Controller {
             'order'=>$order,
             'mode'=>$mode
         );
+        if($order['paymentstatus']=="unpaid")
+            $this->template_data['JSs']=array('js/checkout.js');
         $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
 
+    }
+    public function changePaymentMethod(){
+        $stripeToken=$this->input->post('stripeToken');
+        $id=$this->input->post('id');
+
+        if(empty($id))
+            redirect('consumer/orders');
+
+        if(empty($stripeToken))
+            redirect('consumer/orders/view/'.$id);
+
+        $customer_id=$this->StripeModel->getStripeCustomer($this->consumer['id']);
+        if(empty($customer_id))
+            redirect('consumer/orders/view/'.$id);
+
+        $payment_method=$this->StripeModel->setPaymentMethod($customer_id,$stripeToken);
+        if(empty($payment_method))
+            redirect('consumer/orders/view/'.$id);
+        
+        $updatedata=array(
+            'payment_method'=>$payment_method['id'],
+            'last4'=>$payment_method['last4']
+        );
+        $this->Order->update($updatedata,$id);
+        redirect('consumer/orders/view/'.$id);
     }
 }

@@ -134,7 +134,8 @@ class Profile extends Vendor_Controller {
         $this->template_data=array(
             'main_content'=>'studio/vendor/profile/settings',
             'markets'=>$markets,
-            'vendormarkets'=>$vendormarkets_ids,
+            'vendormarkets_ids'=>$vendormarkets_ids,
+            'vendormarkets'=>$vendormarkets,
             'CSSs'=>array(
                 'plugins/bootstrap-select/dist/css/bootstrap-select.min.css',
             ),
@@ -147,16 +148,39 @@ class Profile extends Vendor_Controller {
     public function updateSettings(){
         $markets=$this->input->post('markets');
 
-        $this->Market->removeMarkets($this->vendor['id']);
-        foreach($markets as $market){
-            $insertData=array(
-                'vendor_id'=>$this->vendor['id'],
-                'market_id'=>$market,
-                'status'=>1,
-                'created_at'=>date('Y-m-d h:i:s'),
-                'updated_at'=>date('Y-m-d h:i:s'),
-            );
-            $this->Market->insertMarket($insertData);
+        $existing_markets=$this->Market->getVendorMarkets($this->vendor['id']);
+        $saved_markets=array_column($existing_markets, 'market_id');
+        $new_market=array();
+        foreach($saved_markets as $item){
+            if(!in_array($item,$markets)){
+                //this need to be deleted
+                $this->Market->removeMarkets($this->vendor['id'],$item);
+            }
+        }
+        foreach($markets as $item){
+            if(!in_array($item,$saved_markets)){
+                //this need to be added
+                $insertData=array(
+                    'vendor_id'=>$this->vendor['id'],
+                    'market_id'=>$item,
+                    'status'=>1,
+                    'created_at'=>date('Y-m-d h:i:s'),
+                    'updated_at'=>date('Y-m-d h:i:s'),
+                );
+                $this->Market->insertMarket($insertData);
+            }
+        }
+        redirect('vendor/profile/settings');
+    }
+    public function updateMarketStatus(){
+        $markets=$this->input->post('market');
+        foreach($markets as $key=>$item){
+            if(empty($item['status']))
+                $status=0;
+            else
+                $status=1;       
+            
+            $this->Market->updateVendorMarketStatus($key,$status);
         }
         redirect('vendor/profile/settings');
     }

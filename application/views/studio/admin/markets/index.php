@@ -6,7 +6,9 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <h1 class="page-header">Markets</h1>
-                        <a href="<?php echo site_url('admin/markets/add'); ?>" class="btn btn-info"><i class="fas fa-plus-square"></i>&nbsp;Add Market</a>
+                        <?php if($this->admin['accounttype']==1) { ?>
+                          <a href="<?php echo site_url('admin/markets/add'); ?>" class="btn btn-info"><i class="fas fa-plus-square"></i>&nbsp;Add Market</a>
+                        <?php } ?>
                         <hr class="mb-4">
                         <div class="card">
                                   <div class="card-body">

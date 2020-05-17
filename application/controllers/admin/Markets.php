@@ -28,14 +28,17 @@ class Markets extends Admin_Controller {
                 'plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
                 'plugins/datatables.net-responsive/js/dataTables.responsive.min.js',
                 'plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js',
-                'js/inventories.js'
-                )
+                'js/inventories.js',
+            )
         );
         $this->load->view('studio/template/admin/index',$this->generateTemplateData());
     }
     public function add(){
         $this->template_data=array(
             'main_content'=>'studio/admin/markets/add',
+            'EX'=>array(
+                'https://maps.googleapis.com/maps/api/js?key='.GOOGLE_MAP_API_KEY.'&&libraries=places&callback=initMap'
+            ),
         );
         $this->load->view('studio/template/admin/index',$this->generateTemplateData());
     }
@@ -45,6 +48,8 @@ class Markets extends Admin_Controller {
         $description=$this->input->post('description');
         $fee=$this->input->post('fee');
 
+        $lat=$this->input->post('lat');
+        $lng=$this->input->post('lng');
         //upload logo
         $image="";
         $filename="";
@@ -67,6 +72,8 @@ class Markets extends Admin_Controller {
 			'description'=>$description,
 			'fee'=>$fee,
             'status'=>1,
+            'lat'=>$lat,
+            'lng'=>$lng,
             'image'=>$image,
 			'created_at'=>date('Y-m-d h:i:s'),
 			'updated_at'=>date('Y-m-d h:i:s')
@@ -80,6 +87,9 @@ class Markets extends Admin_Controller {
         $this->template_data=array(
             'market'=>$market,
             'main_content'=>'studio/admin/markets/edit',
+            'EX'=>array(
+                'https://maps.googleapis.com/maps/api/js?key='.GOOGLE_MAP_API_KEY.'&&libraries=places&callback=initMap'
+            ),
         );
         $this->load->view('studio/template/admin/index',$this->generateTemplateData());
     }
@@ -90,6 +100,9 @@ class Markets extends Admin_Controller {
         $description=$this->input->post('description');
         $fee=$this->input->post('fee');
 
+        $lat=$this->input->post('lat');
+        $lng=$this->input->post('lng');
+
         $market=$this->Market->getMarketById($id);
 
         $updateData=array(
@@ -98,6 +111,8 @@ class Markets extends Admin_Controller {
 			'description'=>$description,
 			'fee'=>$fee,
             'status'=>1,
+            'lat'=>$lat,
+            'lng'=>$lng,
 			'created_at'=>date('Y-m-d h:i:s'),
 			'updated_at'=>date('Y-m-d h:i:s')
         );

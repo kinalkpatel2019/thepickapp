@@ -9,12 +9,23 @@ class Orders extends Vendor_Controller {
         $this->load->model('User');
         $this->load->model('Market');
         $this->load->model('Order');
+        $this->load->model('StripeModel');
 	}
 	public function index(){
-        $orders=$this->Order->getAllVendorRedords($this->vendor['id']);
+        $selected_market=$this->input->get('market');
+        $conditions=array(
+                'orders.vendor_id'=>$this->vendor['id']
+            );
+        if(!empty($selected_market))
+            $conditions['orders.market_id']=$selected_market;
         
+
+        $orders=$this->Order->getAllVendorRedords($this->vendor['id'],"orders.id","desc",$selected_market);
+        $vendor_markets=$this->Market->getVendorMarket($this->vendor['id']);
         $this->template_data=array(
             'main_content'=>'studio/vendor/orders/index',
+            'vendor_markets'=>$vendor_markets,
+            'selected_market'=>$selected_market,
             'orders'=>$orders,
             'CSSs'=>array(
                 'plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css',
@@ -39,13 +50,15 @@ class Orders extends Vendor_Controller {
     }
     public function view($id){
         $order=$this->Order->getOrderById($id);
+        
         $order_details=$this->Order->getOrderDetails($id,$this->vendor['id']);
         $mode=$this->input->get('status');
         $this->template_data=array(
             'main_content'=>'studio/vendor/orders/view',
             'order_details'=>$order_details,
             'order'=>$order,
-            'mode'=>$mode
+            'mode'=>$mode,
+            'JSs'=>array('js/printThis.js','js/print.js')
         );
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
 
@@ -61,12 +74,14 @@ class Orders extends Vendor_Controller {
         redirect('vendor/orders/view/'.$id);
     }
     public function approveOrderItem($id){
+        
         $order_details=$this->Order->getOrderDetailsByID($id);
         if(empty($order_details))
             redirect('vendor/orders');
         $order_id=$order_details['order_id'];
         $order=$this->Order->getOrderById($order_id);
         
+       
         //update the order item staus to approved
         $this->Order->changeItemStatus($id,"approved");
 
@@ -80,6 +95,24 @@ class Orders extends Vendor_Controller {
             ///update the order status 
             $this->Order->changeOrderStatus($order_details['order_id'],"approved");
             //payment things can be done here
+            //prepare trasfer data 
+
+            //1. make charge first 
+            $charge_id=$this->StripeModel->doCharge($order);
+
+            if($charge_id){
+                $this->Order->changePaymentStatus($order_details['order_id'],"paid");
+
+                //2. make trasfer to the acount
+                /*$vendors=$this->Order->getVendorDetailsByOrder($order_id);
+
+                foreach($vendors as $vendor){
+                    $this->StripeModel->doTransfer($vendor,$order_id,$charge_id);
+                }*/
+            }
+            
+            //prepare transfer data to 
+            //from here you need to make stripe payment and update the payment stus
 
         }
         
