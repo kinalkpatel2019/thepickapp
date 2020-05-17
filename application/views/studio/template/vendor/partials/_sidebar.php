@@ -79,6 +79,12 @@
 						</a>
 					</div>
 					<div class="menu-item">
+						<a href="<?php echo site_url('vendor/profile/stripe'); ?>" class="menu-link">
+							<span class="menu-icon"><i class="fa fa-cog"></i></span>
+							<span class="menu-text">Get Paid</span>
+						</a>
+					</div>
+					<div class="menu-item">
 						<a href="<?php echo site_url('users/logout'); ?>" class="menu-link">
 							<span class="menu-icon"><i class="fa fa-toggle-off"></i></span>
 							<span class="menu-text">Logout</span>

@@ -8,6 +8,7 @@ class Profile extends Vendor_Controller {
         $this->load->model('Businesstype');
         $this->load->model('User');
         $this->load->model('Market');
+        $this->load->model('StripeModel');
     }
 	public function index(){
         $businesstypes=$this->Businesstype->getAllRedords();
@@ -16,6 +17,24 @@ class Profile extends Vendor_Controller {
             'main_content'=>'studio/vendor/profile/index',
             'businesstypes'=>$businesstypes,
             'user'=>$user
+        );
+        $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
+    }
+    public function stripe(){
+        $state_value=uniqid();
+        $this->session->set_userdata('stripe_state',$state_value);
+        $stripeaccount=$this->StripeModel->getStripeAccount($this->vendor['id']);
+        $stripe_button_url=STRIPE_AUTHORISED_URL."?redirect_uri=".site_url('stripe/connect_call_back')."&client_id=".STRIPE_CLIENT_ID."&state=".$state_value;
+
+        $login_link=array();
+        if(!empty($stripeaccount))
+            $login_link=$this->StripeModel->getStripeLoginLink($stripeaccount['stripe_user_id']);
+
+        $this->template_data=array(
+            'main_content'=>'studio/vendor/profile/stripe',
+            'stripe_button_url'=>$stripe_button_url,
+            'stripeaccount'=>$stripeaccount,
+            'login_link'=>$login_link
         );
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
