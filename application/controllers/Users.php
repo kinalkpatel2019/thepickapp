@@ -54,7 +54,7 @@ class Users extends CI_Controller {
 			'email'=>$email,
 			'password'=>md5($password)
 		);
-		$user=$this->User->getUser($where);		
+		$user=$this->User->getUserWithProfile($where);	
 		if(!empty($user)){
 			//check user type and redirect user accordigly. 
 			///

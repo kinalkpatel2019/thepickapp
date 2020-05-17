@@ -18,7 +18,7 @@ class User extends CI_Model {
         return $result;
     }
     public function getUserWithProfile($where){
-        $this->db->select('users.*,profiles.businesstype_id,profiles.businessname,profiles.address1,profiles.address2,profiles.phonenumber');
+        $this->db->select('users.*,profiles.businesstype_id,profiles.businessname,profiles.address1,profiles.address2,profiles.phonenumber,profiles.zipcode,profiles.image');
         $this->db->join('profiles','profiles.user_id=users.id','left');
         $this->db->where($where);
         $query=$this->db->get('users');

@@ -62,7 +62,13 @@
 				<div class="menu-item dropdown">
 					<a href="#" data-toggle="dropdown" data-display="static" class="menu-link">
 						<div class="menu-img online">
-							<img src="<?php echo base_url(); ?>assets/studio/img/user/user.jpg" alt="" class="mw-100 mh-100 rounded-circle" />
+						<?php
+								if(!empty($consumer['image']) && file_exists('./uploads/users/'.$consumer['image']))
+									$profile_image_link=base_url()."uploads/users/".$consumer['image'];
+								else
+									$profile_image_link=base_url()."uploads/users/consumer.jpg";
+							?>
+							<img src="<?php echo $profile_image_link; ?>" alt="" class="mw-100 mh-100 rounded-circle" />
 						</div>
 						<div class="menu-text"><?php echo $consumer['firstname'];?>&nbsp;<?php echo $consumer['lastname']; ?></div>
 					</a>

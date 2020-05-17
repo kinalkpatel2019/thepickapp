@@ -14,12 +14,14 @@
                                     <div class="card mb-3">
                                         <div class="card-body">
                                             <form name="frmupdateprofile" action="<?php echo site_url('vendor/profile/updateProfile'); ?>" id="frmupdateprofile" method="post" enctype="multipart/form-data">
+                                                <div class="row">
+                                                    <div class="col-sm-9">
 
                                                 <div class="form-group">
-                                                    <div class="col-sm-6">
-                                                        <label>First Name</label>
-                                                        <input type="text" class="form-control-plaintext" name="firstname" id="firstname" value="<?php echo $user['firstname'] ;?>" readonly>
-                                                    </div>
+                                                        <div class="col-sm-6">
+                                                            <label>First Name</label>
+                                                            <input type="text" class="form-control-plaintext" name="firstname" id="firstname" value="<?php echo $user['firstname'] ;?>" readonly>
+                                                        </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-6">
@@ -81,6 +83,14 @@
                                                         <input type="text" class="form-control" name="phonenumber" id="phonenumber" value="<?php echo $user['phonenumber'] ;?>">
                                                     </div>
                                                 </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-6">
+                                                        <label>Zipcode</label>
+                                                        <input type="text" class="form-control" name="zipcode" id="zipcode" value="<?php echo $user['zipcode'] ;?>">
+                                                    </div>
+                                                </div>
+
                                                 <div class="form-group">
                                                     <div class="col-sm-6">
                                                         <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -88,6 +98,19 @@
                                                         </button>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>Profile Picure</label>
+                                                    <input type="file" class="form-control" name="image" id="image"/>
+                                                    <?php if(file_exists('./uploads/users/'.$user['image']) && !empty($user['image'])) { ?>
+                                                        <img src="<?php echo base_url(); ?>uploads/users/<?php echo $user['image']; ?>" class="img-responsive" width="100%"/>
+                                                    <?php } else { ?>
+                                                        <img src="<?php echo base_url(); ?>uploads/users/vendor.png" class="img-responsive" width="100%"/>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
                                             </form>
                                         </div>                                       
                                     </div>

@@ -14,7 +14,8 @@
                                     <div class="card mb-3">
                                         <div class="card-body">
                                             <form name="frmupdateprofile" action="<?php echo site_url('consumer/profile/updateProfile'); ?>" id="frmupdateprofile" method="post" enctype="multipart/form-data">
-
+                                            <div class="row">
+                                                    <div class="col-sm-9">
                                                 <div class="form-group">
                                                     <div class="col-sm-6">
                                                         <label>First Name</label>
@@ -58,6 +59,13 @@
 
                                                 <div class="form-group">
                                                     <div class="col-sm-6">
+                                                        <label>Zipcode</label>
+                                                        <input type="text" class="form-control" name="zipcode" id="zipcode" value="<?php echo $user['zipcode'] ;?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-6">
                                                         <label>Phone Number</label>
                                                         <input type="text" class="form-control" name="phonenumber" id="phonenumber" value="<?php echo $user['phonenumber'] ;?>">
                                                     </div>
@@ -68,6 +76,20 @@
                                                             Update Details
                                                         </button>
                                                     </div>
+                                                </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>Profile Picure</label>
+                                                        <input type="file" class="form-control" name="image" id="image"/>
+                                                        <?php if(file_exists('./uploads/users/'.$user['image']) && !empty($user['image'])) { ?>
+                                                            <img src="<?php echo base_url(); ?>uploads/users/<?php echo $user['image']; ?>" class="img-responsive" width="100%"/>
+                                                        <?php } else { ?>
+                                                            <img src="<?php echo base_url(); ?>uploads/users/consumer.jpg" class="img-responsive" width="100%"/>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+
                                                 </div>
                                             </form>
                                         </div>                                       
