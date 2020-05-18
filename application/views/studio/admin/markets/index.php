@@ -41,7 +41,12 @@
                             <td><?php echo $market['location']; ?></td>
                             <td><?php echo $market['fee']; ?></td>
                             <td><?php echo $market['created_at']; ?></td>
-                            <td><a href="<?php echo site_url('admin/markets/edit/'.$market['id']); ?>">Edit</td>
+                            <td><a href="<?php echo site_url('admin/markets/edit/'.$market['id']); ?>">Edit
+                            <?php if($this->admin['accounttype']==2) { ?>
+                              | <a href="<?php echo site_url('admin/markets/vendors/'.$market['id']); ?>"> Vendor List</a>
+                              | <a href="<?php echo site_url('admin/markets/arrange/'.$market['id']); ?>"> Arrage Vendors</a>
+                            <?php } ?>
+                            </td>
                           </tr>
                         <?php } ?>
                       </tbody>

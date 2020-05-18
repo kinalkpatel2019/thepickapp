@@ -16,5 +16,9 @@
     <?php } ?>
 	<!-- ================== END page-css ================== -->
 
+	<?php foreach($EXC as $css){ ?>
+    	<link href="<?php echo $css; ?>" rel="stylesheet" />
+    <?php } ?>
+
 </head>
 <body>

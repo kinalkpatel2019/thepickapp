@@ -29,6 +29,7 @@ class Admin_Controller extends My_Controller
 		$this->data['CSSs']=array();
 		$this->data['JSs']=array();
 		$this->data['EX']=array();
+		$this->data['EXC']=array();
 		$this->template_data=array();
 		
 	}

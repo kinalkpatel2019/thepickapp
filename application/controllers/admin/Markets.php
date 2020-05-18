@@ -145,4 +145,59 @@ class Markets extends Admin_Controller {
         $market_id=$this->Market->update($updateData,$id);
         redirect('admin/markets/');
     }
+    public function vendors($id){
+        if(empty($id))
+            redirect('admin/markets');
+        $market=$this->Market->getMarketById($id);
+        $vendors=$this->Market->getAllVendorsByMarketID($id);
+        $this->template_data=array(
+            'market'=>$market,
+            'vendors'=>$vendors,
+            'main_content'=>'studio/admin/markets/vendors',            
+        );
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
+
+    }
+    public function setStatus(){
+        $market_id=$this->input->get('market_id');
+        $vendor_id=$this->input->get('vendor_id');
+        $status=$this->input->get('status');
+        if(empty($market_id) || empty($vendor_id))
+            redirect('admin/markets');
+        
+        $this->Market->updateManagerMarketStatus($market_id,$vendor_id,$status);
+
+        redirect('admin/markets/vendors/'.$market_id);
+    }
+
+    public function arrange($id){
+        if(empty($id))
+            redirect('admin/markets');
+        $market=$this->Market->getMarketById($id);
+        $vendors=$this->Market->getAllVendorsByMarketID($id);
+        $this->template_data=array(
+            'market'=>$market,
+            'vendors'=>$vendors,
+            'main_content'=>'studio/admin/markets/arrange',
+            'EXC'=>array(
+                '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'
+            ),
+            'EX'=>array(
+                'https://code.jquery.com/ui/1.12.1/jquery-ui.js'
+            ),
+            'JSs'=>array(
+                'js/vendorsort.js'
+            ),
+
+        );
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
+    }
+    public function updateSort(){
+        $id=$this->input->post('id');
+        $vendor=$this->input->post('vendor');
+        foreach($vendor as $vendor_id=>$order){
+            $this->Market->updateMarketSortOrder($id,$vendor_id,$order);
+        }
+        redirect('admin/markets/arrange/'.$id);
+    }
 }

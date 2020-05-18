@@ -60,8 +60,26 @@ class Market extends CI_Model {
         return $insert_id;
     }
     public function getAllVendorsByMarketID($market_id){
-        $query="select * from users where status=1 and id in (select vendor_id from vendormarkets where status=1 and market_id=$market_id)";
-        $query=$this->db->query($query);
+        $sql="select 
+            users.*,vendormarkets.vendor_id,vendormarkets.market_id,profiles.businessname,vendormarkets.isapprove,profiles.image
+            from
+                vendormarkets
+            left join
+                users on users.id=vendormarkets.vendor_id
+            left join
+                profiles on users.id=profiles.user_id
+            where
+                vendormarkets.market_id=$market_id
+            order by
+                -vendormarkets.sortorder desc
+            ";
+        $query=$this->db->query($sql);    
+        /*$this->db->select('users.*,vendormarkets.vendor_id,vendormarkets.market_id,profiles.businessname,vendormarkets.isapprove,profiles.image');
+        $this->db->join('users','users.id=vendormarkets.vendor_id','left');
+        $this->db->join('profiles','users.id=profiles.user_id','left');
+        $this->db->where('vendormarkets.market_id',$market_id);
+        $this->db->order_by('-vendormarkets.sortorder desc');
+        $query=$this->db->get('vendormarkets');*/
         $result=$query->result_array();
         return $result;
     }
@@ -91,5 +109,16 @@ class Market extends CI_Model {
     public function updateVendorMarketStatus($id,$status){
         $this->db->where('id',$id);
         $this->db->update('vendormarkets',array('status'=>$status));
+    }
+    public function updateManagerMarketStatus($market_id,$vendor_id,$status){
+        $this->db->where('market_id',$market_id);
+        $this->db->where('vendor_id',$vendor_id);
+        $this->db->update('vendormarkets',array('isapprove'=>$status));
+    }
+    public function updateMarketSortOrder($market_id,$vendor_id,$order){
+        $this->db->where('market_id',$market_id);
+        $this->db->where('vendor_id',$vendor_id);
+        $this->db->update('vendormarkets',array('sortorder'=>$order));
+
     }
 }
