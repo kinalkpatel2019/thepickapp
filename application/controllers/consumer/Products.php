@@ -13,8 +13,8 @@ class Products extends Consumer_Controller {
 	public function index($vendor_id)
 	{
         //
-        //$vendor_id=$this->User->getDefaultVendorID($this->consumer['id']);
-        $products=$this->Product->getAllProductsByVendorID($vendor_id);
+        $market_id=$this->User->getDefaultMarketID($this->consumer['id']);
+        $products=$this->Product->getAllVendorMarketProducts($vendor_id,$market_id);
 		$this->template_data=array(
 			'main_content'=>'studio/consumer/products/index',
             'products'=>$products,
@@ -33,10 +33,21 @@ class Products extends Consumer_Controller {
     public function view($id){
         $product=$this->Product->getAllRedordsWithCategory(array('products.id'=>$id));
         $inventories=$this->Inventory->getAllRedords(array('product_id'=>$id,'availableqty >'=>0));
+        $images=$this->Product->getImages($id);
         $this->template_data=array(
 			'main_content'=>'studio/consumer/products/view',
             'product'=>$product[0],
-            'inventories'=>$inventories
+            'inventories'=>$inventories,
+            'images'=>$images,
+            'CSs'=>array(
+                'plugins/photoswipe/dist/photoswipe.css',
+                'plugins/photoswipe/dist/default-skin/default-skin.css'
+            ),
+            'JSs'=>array(
+                'plugins/photoswipe/dist/photoswipe-ui-default.min.js',
+                'plugins/photoswipe/dist/photoswipe.min.js',
+                'js/demo/page-gallery.demo.js'
+            ),
         );
         $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
     }

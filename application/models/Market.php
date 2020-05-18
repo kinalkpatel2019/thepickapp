@@ -5,6 +5,7 @@ class Market extends CI_Model {
 
     public function __construct(){
         parent::__construct();
+        $this->load->Model('Zipcode');
     }
     public function getAllRedords($where=array(),$status=1,$orderby="id",$order="desc"){
         if($status!="all")
@@ -74,12 +75,26 @@ class Market extends CI_Model {
                 -vendormarkets.sortorder desc
             ";
         $query=$this->db->query($sql);    
-        /*$this->db->select('users.*,vendormarkets.vendor_id,vendormarkets.market_id,profiles.businessname,vendormarkets.isapprove,profiles.image');
-        $this->db->join('users','users.id=vendormarkets.vendor_id','left');
-        $this->db->join('profiles','users.id=profiles.user_id','left');
-        $this->db->where('vendormarkets.market_id',$market_id);
-        $this->db->order_by('-vendormarkets.sortorder desc');
-        $query=$this->db->get('vendormarkets');*/
+        $result=$query->result_array();
+        return $result;
+    }
+    public function getAllApprovedVendorsByMarketID($market_id){
+        $sql="select 
+            users.*,vendormarkets.vendor_id,vendormarkets.market_id,profiles.businessname,vendormarkets.isapprove,vendormarkets.status,profiles.image
+            from
+                vendormarkets
+            left join
+                users on users.id=vendormarkets.vendor_id
+            left join
+                profiles on users.id=profiles.user_id
+            where
+                vendormarkets.market_id=$market_id
+                and
+                vendormarkets.isapprove=1
+            order by
+                -vendormarkets.sortorder desc
+            ";
+        $query=$this->db->query($sql);    
         $result=$query->result_array();
         return $result;
     }
@@ -120,5 +135,33 @@ class Market extends CI_Model {
         $this->db->where('vendor_id',$vendor_id);
         $this->db->update('vendormarkets',array('sortorder'=>$order));
 
+    }
+    public function getNearbyMarkets($zipcode){
+        $result=array();
+        $zip=$this->Zipcode->getZipcode($zipcode);
+        
+        if(empty($zip))
+            return $this->getAllRedords();
+
+        $lat=$zip['lat'];
+        $lng=$zip['lng'];
+
+        $sql="select
+        markets.*,
+        111.111 *
+        DEGREES(ACOS(LEAST(1.0, COS(RADIANS(markets.lat))
+             * COS(RADIANS($lat))
+             * COS(RADIANS(markets.lng - $lng))
+             + SIN(RADIANS(markets.lat))
+             * SIN(RADIANS($lat))))) AS distance
+        from
+             markets
+        order by
+            -distance desc";
+        $query=$this->db->query($sql);
+        $result=$query->result_array();
+        if(empty($result))
+            return $this->getAllRedords();
+        return $result;
     }
 }

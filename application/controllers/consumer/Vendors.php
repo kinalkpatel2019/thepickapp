@@ -13,7 +13,7 @@ class Vendors extends Consumer_Controller {
 	{
         //
         $market_id=$this->User->getDefaultMarketID($this->consumer['id']);
-        $vendors=$this->Market->getAllVendorsByMarketID($market_id);
+        $vendors=$this->Market->getAllApprovedVendorsByMarketID($market_id);
 		$this->template_data=array(
 			'main_content'=>'studio/consumer/vendors/index',
 			'vendors'=>$vendors,
@@ -21,11 +21,4 @@ class Vendors extends Consumer_Controller {
         );
         $this->load->view('studio/template/consumer/index',$this->generateTemplateData());
 	}
-	/*public function setVendor($id){
-		$updateData=array(
-			'defaultvendor'=>$id
-		);
-		$this->User->updateProfile($updateData,$this->consumer['id']);
-		redirect('consumer/products');
-	}*/
 }

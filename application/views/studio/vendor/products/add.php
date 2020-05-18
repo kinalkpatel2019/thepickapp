@@ -39,6 +39,19 @@
                                                         <textarea name="description" class="form-control" id="description"></textarea>
                                                     </div>
                                                 </div>
+                                                
+                                                <div class="form-group">
+                                                    <div class="col-sm-6">
+                                                        <label>Select Market To Sell</label>
+                                                        <select name="markets[]" id="markets" class="form-control selectpicker" multiple="multiple" data-style="btn-default">
+                                                            
+                                                            <?php foreach($markets as $market){ ?>
+                                                                    <option value="<?php echo $market['id']; ?>"><?php echo $market['title']; ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
 
                                                 <div class="form-group">
                                                     <div class="col-sm-6">

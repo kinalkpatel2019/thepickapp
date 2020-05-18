@@ -27,9 +27,12 @@
                                         <div class="card-body">
                                             <h5 class="card-title"><?php echo $product['title']; ?></h5>
                                             <p><?php echo $product['category']; ?></p>
+                                            <?php if(!empty($product['image']) && file_exists('./uploads/products/'.$product['image'])) { ?>
+                                                <img src="<?php echo base_url(); ?>uploads/products/<?php echo $product['image']; ?>" class="card-img-top" alt="" />
+                                            <?php } else { ?>
+                                                <img src="https://via.placeholder.com/600x400/c9d2e3/212837" class="card-img-top" alt="" />
+                                            <?php } ?>
                                         </div>
-                                        <img src="https://via.placeholder.com/600x400/c9d2e3/212837" class="card-img-top" alt="" />
-                                       
                                     </div>
                                 </div>
 

@@ -9,6 +9,7 @@ class Products extends Vendor_Controller {
         $this->load->model('Category');
         $this->load->model('Unit');
         $this->load->model('Inventory');
+        $this->load->model('Market');
     }
 	public function index(){
         $products=$this->Product->getAllRedordsWithCategory(array('products.vendor_id'=>$this->vendor['id']),'all');
@@ -20,9 +21,11 @@ class Products extends Vendor_Controller {
     }
     public function add(){
         $categories=$this->Category->getAllRedords();
+        $markets=$this->Market->getVendorMarket($this->vendor['id']);
         $this->template_data=array(
             'main_content'=>'studio/vendor/products/add',
             'categories'=>$categories,
+            'markets'=>$markets,
             'CSSs'=>array('plugins/bootstrap-select/dist/css/bootstrap-select.min.css'),
             'JSs'=>array('plugins/bootstrap-select/dist/js/bootstrap-select.min.js','js/repeatable-fields.js','js/product.js')
         );
@@ -32,11 +35,13 @@ class Products extends Vendor_Controller {
         $categories=$this->Category->getAllRedords();
         $product=$this->Product->getRedordById($id);
         $images=$this->Product->getImages($id);
+        $markets=$this->Market->getVendorMarket($this->vendor['id']);
         $this->template_data=array(
             'main_content'=>'studio/vendor/products/edit',
             'categories'=>$categories,
             'product'=>$product,
             'images'=>$images,
+            'markets'=>$markets,
             'CSSs'=>array('plugins/bootstrap-select/dist/css/bootstrap-select.min.css'),
             'JSs'=>array('plugins/bootstrap-select/dist/js/bootstrap-select.min.js','js/repeatable-fields.js','js/product.js')
         );
@@ -49,6 +54,8 @@ class Products extends Vendor_Controller {
         $is_taxable=$this->input->post('is_taxable');
         $tax=$this->input->post('tax');
         $is_comment=$this->input->post('is_comment');
+        $markets=$this->input->post('markets');
+        $market_str=implode(',',$markets);
         
         //upload logo
         $mainimage="";
@@ -107,6 +114,7 @@ class Products extends Vendor_Controller {
             'is_taxable'=>$is_taxable,
             'tax'=>$tax,
             'is_comment'=>$is_comment,
+            'markets'=>$market_str,
 			'created_at'=>date('Y-m-d h:i:s'),
 			'updated_at'=>date('Y-m-d h:i:s')
 		);
@@ -135,6 +143,9 @@ class Products extends Vendor_Controller {
         $tax=$this->input->post('tax');
         $is_comment=$this->input->post('is_comment');
 
+        $markets=$this->input->post('markets');
+        $market_str=implode(',',$markets);
+        
         $product=$this->Product->getRedordById($id);
         $images_data=$this->Product->getImages($id);
     
@@ -148,7 +159,8 @@ class Products extends Vendor_Controller {
             'is_taxable'=>$is_taxable,
             'tax'=>$tax,
             'updated_at'=>date('Y-m-d h:i:s'),
-            'is_comment'=>$is_comment
+            'is_comment'=>$is_comment,
+            'markets'=>$market_str,
         );
         
         if(isset($_FILES['mainimage']['name'])){

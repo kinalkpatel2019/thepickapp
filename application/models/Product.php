@@ -47,11 +47,16 @@ class Product extends CI_Model {
         $this->db->update('products',$data);
     }
     public function getAllProductsByVendorID($vendor_id){
-        $sql="select * from products where id in (select distinct(inventories.product_id) as ids 
-            from inventories 
-            join products on products.id=inventories.product_id
-            where inventories.status=1 and products.vendor_id=$vendor_id and inventories.availableqty > 0)";
-        $query=$this->db->query($sql);
+        $this->db->where('vendor_id',$vendor_id);
+        $query=$this->db->get('products');
+        $result=$query->result_array();
+        return $result;
+    }
+    public function getAllVendorMarketProducts($vendor_id,$market_id){
+        $this->db->where('vendor_id',$vendor_id);
+        $where = "FIND_IN_SET('".$market_id."', markets)"; 
+        $this->db->where($where);
+        $query=$this->db->get('products');
         $result=$query->result_array();
         return $result;
     }

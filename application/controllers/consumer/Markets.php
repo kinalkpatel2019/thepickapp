@@ -11,7 +11,8 @@ class Markets extends Consumer_Controller {
 	
 	public function index()
 	{
-		$markets=$this->Market->getAllRedords();
+		//$markets=$this->Market->getAllRedords();
+		$markets=$this->Market->getNearbyMarkets($this->consumer['zipcode']);
 		$this->template_data=array(
 			'main_content'=>'studio/consumer/markets/index',
 			'markets'=>$markets,

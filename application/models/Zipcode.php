@@ -11,9 +11,7 @@ class Zipcode extends CI_Model {
             return $zipcode;
         
         //check if this zipcode is in db or not 
-        $this->db->where('zipcode',$zipcode);
-        $query=$this->db->get('zipcodes');
-        $result=$query->row_array();
+        $result=$this->getZipcode($zipcode);
         if(!empty($result))
             return $zipcode;
         
@@ -36,5 +34,11 @@ class Zipcode extends CI_Model {
         }   
         else
             return "";
+    }
+    public function getZipcode($zipcode){
+        $this->db->where('zipcode',$zipcode);
+        $query=$this->db->get('zipcodes');
+        $result=$query->row_array();
+        return $result;
     }
 }
