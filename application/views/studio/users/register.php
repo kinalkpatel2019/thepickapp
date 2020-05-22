@@ -5,6 +5,21 @@
             <form class="user" name="frmregister" id="frmregister" action="<?php echo site_url('users/doRegister'); ?>" method="post">
 					<h1 class="text-center">Sign Up</h1>
 					<p class="text-muted text-center"></p>
+					<?php if(!empty($error)) { ?>
+						<div class="alert alert-danger">
+							<?php echo $error; ?>
+						</div>
+					<?php } ?>
+					<?php if(!empty($success)) { ?>
+						<div class="alert alert-success">
+							<?php echo $error; ?>
+						</div>
+					<?php } ?>
+					<?php if(!empty(validation_errors())) { ?>
+						<div class="alert alert-danger">
+							<?php echo validation_errors(); ?>
+						</div>
+					<?php } ?>
 					<div class="form-group">
 						<label>First name <span class="text-danger">*</span></label>
 						<input type="text" name="firstname" id="firstname" class="form-control form-control-lg fs-15px" placeholder="e.g John Smith" value="" />
@@ -17,9 +32,14 @@
 						<label>Email Address <span class="text-danger">*</span></label>
 						<input type="text" name="email" id="email" class="form-control form-control-lg fs-15px" placeholder="username@address.com" value="" />
 					</div>
-					<div class="form-group">
-						<label>Password <span class="text-danger">*</span></label>
+					<div class="form-group" id="pwdstrength-container">
+						<label class="d-flex align-items-center">Password <span class="text-danger">*</span>
+						<div class="pwstrength_viewport_progress ml-auto width-200"></div>
+						</label>
 						<input type="password" name="password" id="password" class="form-control form-control-lg fs-15px" value="" />
+						<small id="passwordHelpBlock" class="form-text text-muted">
+							Your password must be 6-15 characters long.
+						</small>
 					</div>
 					<div class="form-group">
 						<label>Account Type <span class="text-danger">*</span></label>

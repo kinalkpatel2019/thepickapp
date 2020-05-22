@@ -8,5 +8,9 @@
 	<!-- ================== BEGIN core-js ================== -->
 	<script src="<?php echo base_url(); ?>assets/studio/js/app.min.js"></script>
 	<!-- ================== END core-js ================== -->
+	<script src="<?php echo base_url(); ?>assets/studio/js/jquery.validate.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/studio/plugins/pwstrength-bootstrap/dist/pwstrength-bootstrap.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/studio/js/login-registration.js"></script>
+
 	</body>
 </html>
