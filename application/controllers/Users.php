@@ -10,15 +10,6 @@ class Users extends CI_Controller {
 	
 	public function login()
 	{
-		//test email here
-		$where=array(
-			'users.id'=>9,
-		);
-		$user=$this->User->getUserWithProfile($where);
-		$this->Email->sendRegisterEmailtoUser($user);
-		$this->Email->sendRegisterEmailtoAdmin($user);
-		die;
-
 		$template_data=array(
 			'main_content'=>'studio/users/login',
 			'error'=>$this->session->flashdata('error'),
@@ -71,13 +62,16 @@ class Users extends CI_Controller {
 			$user_id=$this->User->insert($insertData);
 			//create initial image here  
 			$accounttype=($accounttype==1) ? 'vendors' : 'consumers';
-			//$this->createAvatarImage($initial,$user_id,$accounttype);
 			//send an email to user and admin 
 			$this->session->set_flashdata('success','Your account has been created successfully!');
 			$where=array(
 				'email'=>$email,
 			);
 			$user=$this->User->getUserWithProfile($where);	
+			//send email
+			$this->Email->sendRegisterEmailtoUser($user);
+			$this->Email->sendRegisterEmailtoAdmin($user);
+			//check account type
 			if($user['accounttype']==1){
 				//vendor
 				$this->session->set_userdata('vendor',$user);
@@ -142,67 +136,70 @@ class Users extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect('users/login');
 	}
-	private function createAvatarImage($string,$user_id,$type)
-	{
-		if (!file_exists(FCPATH."/uploads/".$type."/".$user_id."/")) {
-			mkdir(FCPATH."/uploads/".$type."/".$user_id."/", 0777, true);
-		}
-		$imageFilePath = FCPATH."/uploads/".$type."/".$user_id."/".$string . ".png";
-	
-		//base avatar image that we use to center our text string on top of it.
-		$avatar = imagecreatetruecolor(60,60);
-		$bg_color = imagecolorallocate($avatar, 211, 211, 211);
-		imagefill($avatar,0,0,$bg_color);
-		$avatar_text_color = imagecolorallocate($avatar, 0, 0, 0);
-		// Load the gd font and write 
-		$font = imageloadfont('gd-files/gd-font.gdf');
-		imagestring($avatar, $font, 10, 10, $string, $avatar_text_color);
-		imagepng($avatar, $imageFilePath);
-		imagedestroy($avatar);
-	 
-		return $imageFilePath;
-	}
 	public function forgotpassword(){
 		$template_data=array(
-			'main_content'=>'studio/users/forgotpassword'
+			'main_content'=>'studio/users/forgotpassword',
+			'error'=>$this->session->flashdata('error'),
+			'success'=>$this->session->flashdata('success'),
 		);
 		$this->load->view('studio/template/beforelogin/index',$template_data);
 	}
 	public function otp(){
-		$email=$this->input->post('email');
-		$user=$this->User->getUser(array('email'=>$email));
-		if(empty($user))
-			redirect('studio/users/forgotpassword');
-		$otp=rand(1000,9999);
-		$data=array(
-			'otp'=>$otp
-		);
-		$this->User->update($data,$user['id']);
-		//email to this user 
-		$this->email->from('your@example.com', 'Your Name');
-		$this->email->to('keyur@yopmail.com');
-		$this->email->subject('Reset Password');
-		$this->email->message('OTP='.$otp);
-		$this->email->send();
-		$template_data=array(
-			'main_content'=>'studio/users/otp',
-			'email'=>$email
-		);
-		$this->load->view('studio/template/beforelogin/index',$template_data);
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+		if ($this->form_validation->run() == FALSE) {
+            //Field validation failed.  User redirected to register page
+            $this->forgotpassword();
+		}
+		else{
+			$email=$this->input->post('email');
+			$user=$this->User->getUser(array('email'=>$email));
+			if(empty($user)){
+				$this->session->set_flashdata('error',"This email is not registered with the site!");
+				redirect('studio/users/forgotpassword');
+			}
+				
+			$otp=rand(1000,9999);
+			$data=array(
+				'otp'=>$otp
+			);
+			$this->User->update($data,$user['id']);
+			//email to this user 
+			$user=$this->User->getUser(array('email'=>$email));	
+				//send email
+			$this->Email->sendOTPtoUser($user);
+			$template_data=array(
+				'main_content'=>'studio/users/otp',
+				'email'=>$email
+			);
+			$this->load->view('studio/template/beforelogin/index',$template_data);
+		}
 	}
 	public function verifyotp(){
-		$email=$this->input->post('email');
-		$otp=$this->input->post('otp');
-		$user=$this->User->getUser(array('email'=>$email,'otp'=>$otp));
-		if(empty($user))
-			redirect('users/otp');
-		$data=array(
-			'otp'=>null
-		);
-		$this->User->update($data,$user['id']);
-		//email to this user 
-		$this->session->set_userdata('resetuserid',$user['id']);
-		redirect('users/resetpassword');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+		$this->form_validation->set_rules('otp', 'OTP', 'trim|required');
+		if ($this->form_validation->run() == FALSE) {
+            //Field validation failed.  User redirected to register page
+			//$this->otp();
+			$this->session->set_flashdata('error',"Invalid Email or OTP. Please try Again!");
+			redirect('users/forgotpassword');
+		}
+		else{
+			$email=$this->input->post('email');
+			$otp=$this->input->post('otp');
+			$user=$this->User->getUser(array('email'=>$email,'otp'=>$otp));
+			if(empty($user))
+			{
+				$this->session->set_flashdata('error',"Invalid Email or OTP. Please try Again!");
+				redirect('users/forgotpassword');
+			}
+			$data=array(
+				'otp'=>null
+			);
+			$this->User->update($data,$user['id']);
+			
+			$this->session->set_userdata('resetuserid',$user['id']);
+			redirect('users/resetpassword');	
+		}
 	}
 	function resetpassword(){
 		$template_data=array(
@@ -211,30 +208,50 @@ class Users extends CI_Controller {
 		$this->load->view('studio/template/beforelogin/index',$template_data);
 	}
 	function updatepassword(){
-		$password=$this->input->post('password');
-		if(empty($password))
-		{
-			redirect('users/resetpassword');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[15]');
+		if ($this->form_validation->run() == FALSE) {
+            $this->resetpassword();
 		}
-		$data=array(
-			'password'=>md5($password)
-		);
-		$id=$this->session->userdata('resetuserid');
-		if(empty($id))
+		else{
+			$password=$this->input->post('password');
+			$data=array(
+				'password'=>md5($password)
+			);
+			$id=$this->session->userdata('resetuserid');
+			if(empty($id))
+				redirect('users/login');
+			$this->User->update($data,$id);
+
+			$where=array(
+				'users.id'=>$id,
+			);
+			$user=$this->User->getUserWithProfile($where);	
+
+			//send email
+			$this->Email->sendResetPassword($user);
+
+			$this->session->sess_destroy();
+			$this->session->set_flashdata('success','Your Password has been reset successfully!');
 			redirect('users/login');
-		$this->User->update($data,$id);
-		$this->session->sess_destroy();
-		redirect('users/login');
+		}
 	}
-	public function checkemail(){
+	public function checkemail($mode){
 		$email=$this->input->post('email');
 		$where=array(
 			'email'=>$email,
 		);
 		$user=$this->User->getUserWithProfile($where);	
-		if(!empty($user))
-			echo 'false';
-		else
-			echo 'true';
+		if(!empty($user)){
+			if(!empty($mode))
+				echo "true";
+			else
+				echo "false";
+		}
+		else{
+			if(!empty($mode))
+				echo "false";
+			else
+				echo "true";
+		}
 	}
 }

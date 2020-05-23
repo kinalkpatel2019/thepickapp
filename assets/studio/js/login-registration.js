@@ -89,4 +89,48 @@ $(document).ready(function(){
         },
         
     });
+
+    //forgot password
+    $("#frmforgotpassword").validate({
+        rules:{
+            email:{
+                required:true,
+                email:true,
+                remote: {
+                    url: site_url+"users/checkemail/available",
+                    type: "post",
+                 }
+            },
+        },
+        errorClass:"is-invalid",
+        messages:{
+            email:{
+                required:"Please enter email address",
+                email:"Please enter valid email address",
+                remote: "Email is not register!"
+            },
+            
+        },
+        
+    });
+
+    //frmresetpassword
+    $("#frmresetpassword").validate({
+        rules:{
+            password:{
+                required:true,
+                minlength: 6,
+                maxlength: 15,
+            },
+        },
+        errorClass:"is-invalid",
+        messages:{
+            password:{
+                required:"Please enter password"
+            },
+            
+        },
+        
+    });
+
 });

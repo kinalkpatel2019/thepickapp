@@ -23,6 +23,15 @@ class Email extends CI_Model {
         $actype=($userdata['accounttype']==1) ? "Vendor" : "Customer";
         $this->send($this->from_address,$this->from_name,ADMIN_EMAIL,"New ".$actype." has been registered!",$email_content);
     }
+    public function sendOTPtoUser($userdata){
+        $email_content=$this->load->view('template/email/users/otp',$userdata,true);
+        $actype=($userdata['accounttype']==1) ? "Vendor" : "Customer";
+        $this->send($this->from_address,$this->from_name,$userdata['email'],"Password Reset! - OTP",$email_content);
+    }
+    public function sendResetPassword($userdata){
+        $email_content=$this->load->view('template/email/users/resetpassword',$userdata,true);
+        $this->send($this->from_address,$this->from_name,$userdata['email'],"Reset Password",$email_content);
+    }
     public function send($fromaddress,$fromname,$to,$subject,$email_content){
         $this->email->initialize($this->config);            
         $this->email->from($fromaddress, $fromname);
