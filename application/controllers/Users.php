@@ -10,6 +10,15 @@ class Users extends CI_Controller {
 	
 	public function login()
 	{
+		//test email here
+		$where=array(
+			'users.id'=>9,
+		);
+		$user=$this->User->getUserWithProfile($where);
+		$this->Email->sendRegisterEmailtoUser($user);
+		$this->Email->sendRegisterEmailtoAdmin($user);
+		die;
+
 		$template_data=array(
 			'main_content'=>'studio/users/login',
 			'error'=>$this->session->flashdata('error'),
