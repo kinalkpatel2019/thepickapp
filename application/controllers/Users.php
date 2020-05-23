@@ -230,7 +230,7 @@ class Users extends CI_Controller {
 			//send email
 			$this->Email->sendResetPassword($user);
 
-			$this->session->sess_destroy();
+			$this->session->unset_userdata('resetuserid');
 			$this->session->set_flashdata('success','Your Password has been reset successfully!');
 			redirect('users/login');
 		}
