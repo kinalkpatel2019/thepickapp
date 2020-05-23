@@ -17,7 +17,11 @@ class Profile extends Vendor_Controller {
         $this->template_data=array(
             'main_content'=>'studio/vendor/profile/index',
             'businesstypes'=>$businesstypes,
-            'user'=>$user
+            'user'=>$user,
+            'JSs'=>array(
+                'js/jquery.validate.min.js',
+                'js/vendor-validation.js'
+            ),
         );
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
@@ -40,69 +44,38 @@ class Profile extends Vendor_Controller {
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function updateProfile(){
-        $businesstype_id=$this->input->post('businesstype_id');
-        $businessname=$this->input->post('businessname');
-        $address1=$this->input->post('address1');
-        $address2=$this->input->post('address2');
-        $phonenumber=$this->input->post('phonenumber');
-        $user_id=$this->vendor['id'];
-        $zipcode=$this->input->post('zipcode');
 
-        $zipcode=$this->Zipcode->validate($zipcode);
-        //get the user profile
-        $profile=$this->User->getProfile($user_id);
-        if(empty($profile)){
+        $this->form_validation->set_rules('businesstype_id', 'Business Type', 'trim|required');
+        $this->form_validation->set_rules('businessname', 'Business Name', 'trim|required');
+        $this->form_validation->set_rules('address1', 'Address1', 'trim|required');
+        $this->form_validation->set_rules('address2', 'Address2', 'trim|required');
+        $this->form_validation->set_rules('phonenumber', 'Phonenumber', 'trim|required');
+        $this->form_validation->set_rules('zipcode', 'Zipcode', 'trim|required|min_length[5]|max_length[5]');
+		
+		if ($this->form_validation->run() == FALSE) {
+            //Field validation failed.  User redirected to register page
+            $this->index();
+		}
+		else{
+                
+            $businesstype_id=$this->input->post('businesstype_id');
+            $businessname=$this->input->post('businessname');
+            $address1=$this->input->post('address1');
+            $address2=$this->input->post('address2');
+            $phonenumber=$this->input->post('phonenumber');
+            $user_id=$this->vendor['id'];
+            $zipcode=$this->input->post('zipcode');
 
-            //upload logo
-            $image="";
-            $filename="";
-            $oldImageFilename=$_FILES['image']['name'];
-            $ext_array=explode('.',$oldImageFilename);
-            $ext=end($ext_array);
-            $filename=uniqid().'.'.$ext;
-            $config['upload_path'] = 'uploads/users/'; 
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['max_size'] = '5000';
-            $config['file_name'] = $filename;
-            $this->load->library('upload',$config); 
-            if($this->upload->do_upload('image')){
-                $image=$filename;
-            }
+            $zipcode=$this->Zipcode->validate($zipcode);
+            //get the user profile
+            $profile=$this->User->getProfile($user_id);
+            if(empty($profile)){
 
-            //insert profile
-            $insertData=array(
-                'businesstype_id'=>$businesstype_id,
-                'businessname'=>$businessname,
-                'address1'=>$address1,
-                'address2'=>$address2,
-                'phonenumber'=>$phonenumber,
-                'zipcode'=>$zipcode,
-                'user_id'=>$user_id,
-                'image'=>$image,
-                'created_at'=>date('Y-m-d h:i:s'),
-                'updated_at'=>date('Y-m-d h:i:s'),
-            );
-            $this->User->insertProfile($insertData);
-        }
-        else{
-
-            //update profile
-            $updateData=array(
-                'businesstype_id'=>$businesstype_id,
-                'businessname'=>$businessname,
-                'address1'=>$address1,
-                'address2'=>$address2,
-                'phonenumber'=>$phonenumber,
-                'zipcode'=>$zipcode,
-                'updated_at'=>date('Y-m-d h:i:s'),
-            );
-
-            if(isset($_FILES['image']['name'])){
-                //upload processing image
+                //upload logo
                 $image="";
                 $filename="";
-                $oldFilename=$_FILES['image']['name'];
-                $ext_array=explode('.',$oldFilename);
+                $oldImageFilename=$_FILES['image']['name'];
+                $ext_array=explode('.',$oldImageFilename);
                 $ext=end($ext_array);
                 $filename=uniqid().'.'.$ext;
                 $config['upload_path'] = 'uploads/users/'; 
@@ -110,21 +83,68 @@ class Profile extends Vendor_Controller {
                 $config['max_size'] = '5000';
                 $config['file_name'] = $filename;
                 $this->load->library('upload',$config); 
-                $this->upload->initialize($config);
                 if($this->upload->do_upload('image')){
                     $image=$filename;
-                     //unlink existing logo from logo folder
-                    if(file_exists('uploads/users/'.$profile['image'])){
-                        unlink('uploads/users/'.$profile['image']);
-                    }
                 }
-                if(!empty($image))
-                    $updateData['image']=$image;
-            }
 
-            $this->User->updateProfile($updateData,$user_id);
+                //insert profile
+                $insertData=array(
+                    'businesstype_id'=>$businesstype_id,
+                    'businessname'=>$businessname,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'phonenumber'=>$phonenumber,
+                    'zipcode'=>$zipcode,
+                    'user_id'=>$user_id,
+                    'image'=>$image,
+                    'created_at'=>date('Y-m-d h:i:s'),
+                    'updated_at'=>date('Y-m-d h:i:s'),
+                );
+                $this->User->insertProfile($insertData);
+            }
+            else{
+
+                //update profile
+                $updateData=array(
+                    'businesstype_id'=>$businesstype_id,
+                    'businessname'=>$businessname,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'phonenumber'=>$phonenumber,
+                    'zipcode'=>$zipcode,
+                    'updated_at'=>date('Y-m-d h:i:s'),
+                );
+
+                if(isset($_FILES['image']['name'])){
+                    //upload processing image
+                    $image="";
+                    $filename="";
+                    $oldFilename=$_FILES['image']['name'];
+                    $ext_array=explode('.',$oldFilename);
+                    $ext=end($ext_array);
+                    $filename=uniqid().'.'.$ext;
+                    $config['upload_path'] = 'uploads/users/'; 
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                    $config['max_size'] = '5000';
+                    $config['file_name'] = $filename;
+                    $this->load->library('upload',$config); 
+                    $this->upload->initialize($config);
+                    if($this->upload->do_upload('image')){
+                        $image=$filename;
+                        //unlink existing logo from logo folder
+                        if(file_exists('uploads/users/'.$profile['image'])){
+                            unlink('uploads/users/'.$profile['image']);
+                        }
+                    }
+                    if(!empty($image))
+                        $updateData['image']=$image;
+                }
+
+                $this->User->updateProfile($updateData,$user_id);
+            }
+            $this->session->set_flashdata('success',"Your Profile has been updated!");
+            redirect('vendor/profile');
         }
-        redirect('vendor/profile');
     }
     public function settings(){
         $markets=$this->Market->getAllRedords();

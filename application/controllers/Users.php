@@ -75,12 +75,12 @@ class Users extends CI_Controller {
 			if($user['accounttype']==1){
 				//vendor
 				$this->session->set_userdata('vendor',$user);
-				redirect('vendor/dashboard');
+				redirect('vendor/profile');
 			}
 			else if($user['accounttype']==2){
 				//vendor
 				$this->session->set_userdata('consumer',$user);
-				redirect('consumer/markets');
+				redirect('consumer/profile');
 			}
 		}
 	}

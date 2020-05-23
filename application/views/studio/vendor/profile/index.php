@@ -13,6 +13,21 @@
                                 <div class="col-xl-9">
                                     <div class="card mb-3">
                                         <div class="card-body">
+                                        <?php if(!empty($error)) { ?>
+                                        <div class="alert alert-danger">
+                                            <?php echo $error; ?>
+                                        </div>
+                                        <?php } ?>
+                                        <?php if(!empty($success)) { ?>
+                                            <div class="alert alert-success">
+                                                <?php echo $success; ?>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if(!empty(validation_errors())) { ?>
+                                            <div class="alert alert-danger">
+                                                <?php echo validation_errors(); ?>
+                                            </div>
+                                        <?php } ?>
                                             <form name="frmupdateprofile" action="<?php echo site_url('vendor/profile/updateProfile'); ?>" id="frmupdateprofile" method="post" enctype="multipart/form-data">
                                                 <div class="row">
                                                     <div class="col-sm-9">
