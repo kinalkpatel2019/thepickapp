@@ -20,7 +20,8 @@ class Profile extends Vendor_Controller {
             'user'=>$user,
             'JSs'=>array(
                 'js/jquery.validate.min.js',
-                'js/vendor-validation.js'
+                'js/vendor-validation.js',
+
             ),
         );
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
@@ -78,13 +79,15 @@ class Profile extends Vendor_Controller {
                 $ext_array=explode('.',$oldImageFilename);
                 $ext=end($ext_array);
                 $filename=uniqid().'.'.$ext;
-                $config['upload_path'] = 'uploads/users/'; 
+                $config['upload_path'] = './uploads/users/'; 
                 $config['allowed_types'] = 'jpg|jpeg|png|gif';
                 $config['max_size'] = '5000';
                 $config['file_name'] = $filename;
                 $this->load->library('upload',$config); 
                 if($this->upload->do_upload('image')){
                     $image=$filename;
+                    //create thumbail here 600 * 400
+                    $this->Common->createThumbnail('./uploads/users/'.$filename,'./uploads/users/thumb/'.$filename,225,225);
                 }
 
                 //insert profile
@@ -123,7 +126,7 @@ class Profile extends Vendor_Controller {
                     $ext_array=explode('.',$oldFilename);
                     $ext=end($ext_array);
                     $filename=uniqid().'.'.$ext;
-                    $config['upload_path'] = 'uploads/users/'; 
+                    $config['upload_path'] = './uploads/users/'; 
                     $config['allowed_types'] = 'jpg|jpeg|png|gif';
                     $config['max_size'] = '5000';
                     $config['file_name'] = $filename;
@@ -132,9 +135,14 @@ class Profile extends Vendor_Controller {
                     if($this->upload->do_upload('image')){
                         $image=$filename;
                         //unlink existing logo from logo folder
-                        if(file_exists('uploads/users/'.$profile['image'])){
-                            unlink('uploads/users/'.$profile['image']);
+                        if(file_exists('./uploads/users/'.$profile['image'])){
+                            unlink('./uploads/users/'.$profile['image']);
                         }
+                        if(file_exists('./uploads/users/thumb/'.$profile['image'])){
+                            unlink('./uploads/users/thumb/'.$profile['image']);
+                        }
+                        //create thumbail here 600 * 400
+                        $this->Common->createThumbnail('./uploads/users/'.$filename,'./uploads/users/thumb/'.$filename,225,225);
                     }
                     if(!empty($image))
                         $updateData['image']=$image;

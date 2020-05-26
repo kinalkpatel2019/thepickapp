@@ -98,8 +98,8 @@
 					<a href="#" data-toggle="dropdown" data-display="static" class="menu-link">
 						<div class="menu-img online">
 							<?php
-								if(!empty($vendor['image']) && file_exists('./uploads/users/'.$vendor['image']))
-									$profile_image_link=base_url()."uploads/users/".$vendor['image'];
+								if(!empty($vendor['image']) && file_exists('./uploads/users/thumb/'.$vendor['image']))
+									$profile_image_link=base_url()."uploads/users/thumb/".$vendor['image'];
 								else
 									$profile_image_link=base_url()."uploads/users/vendor.png";
 							?>

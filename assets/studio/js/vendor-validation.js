@@ -21,6 +21,12 @@ $(document).ready(function(){
             zipcode:{
                 required:true,
                 zipcodeUS:true,
+            },
+            image: {
+                required: function(element) {
+                    return $("#filename").val() == "";
+                  },
+                extension: "jpg|jpeg|png|gif"
             }
         },
         errorClass:"is-invalid",
@@ -42,6 +48,10 @@ $(document).ready(function(){
             },
             zipcode:{
                 required:"Please select Business Zipcode"
+            },
+            image: {
+                required: "Please uplaod image",
+                extension: "Invalid File Type"
             }
         }
     });
