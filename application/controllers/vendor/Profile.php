@@ -21,7 +21,6 @@ class Profile extends Vendor_Controller {
             'JSs'=>array(
                 'js/jquery.validate.min.js',
                 'js/vendor-validation.js',
-
             ),
         );
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
@@ -159,46 +158,60 @@ class Profile extends Vendor_Controller {
         $vendormarkets=$this->Market->getVendorMarkets($this->vendor['id']);
         $vendormarkets_ids=array();
         $vendormarkets_ids = array_column($vendormarkets, 'market_id');
+        $stripeaccount=$this->StripeModel->getStripeAccount($this->vendor['id']);
         $this->template_data=array(
             'main_content'=>'studio/vendor/profile/settings',
             'markets'=>$markets,
             'vendormarkets_ids'=>$vendormarkets_ids,
             'vendormarkets'=>$vendormarkets,
+            'stripeaccount'=>$stripeaccount,
             'CSSs'=>array(
                 'plugins/bootstrap-select/dist/css/bootstrap-select.min.css',
             ),
             'JSs'=>array(
-                'plugins/bootstrap-select/dist/js/bootstrap-select.min.js'
+                'plugins/bootstrap-select/dist/js/bootstrap-select.min.js',
+                'js/jquery.validate.min.js',
+                'js/vendor-validation.js',
             ),
         );
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
     }
     public function updateSettings(){
-        $markets=$this->input->post('markets');
+        
+        $this->form_validation->set_rules('markets[]', 'Market', 'trim|required');
+		
+		if ($this->form_validation->run() == FALSE) {
+            //Field validation failed.  User redirected to register page
+            $this->settings();
+		}
+		else{
+            $markets=$this->input->post('markets');
 
-        $existing_markets=$this->Market->getVendorMarkets($this->vendor['id']);
-        $saved_markets=array_column($existing_markets, 'market_id');
-        $new_market=array();
-        foreach($saved_markets as $item){
-            if(!in_array($item,$markets)){
-                //this need to be deleted
-                $this->Market->removeMarkets($this->vendor['id'],$item);
+            $existing_markets=$this->Market->getVendorMarkets($this->vendor['id']);
+            $saved_markets=array_column($existing_markets, 'market_id');
+            $new_market=array();
+            foreach($saved_markets as $item){
+                if(!in_array($item,$markets)){
+                    //this need to be deleted
+                    $this->Market->removeMarkets($this->vendor['id'],$item);
+                }
             }
-        }
-        foreach($markets as $item){
-            if(!in_array($item,$saved_markets)){
-                //this need to be added
-                $insertData=array(
-                    'vendor_id'=>$this->vendor['id'],
-                    'market_id'=>$item,
-                    'status'=>1,
-                    'created_at'=>date('Y-m-d h:i:s'),
-                    'updated_at'=>date('Y-m-d h:i:s'),
-                );
-                $this->Market->insertMarket($insertData);
+            foreach($markets as $item){
+                if(!in_array($item,$saved_markets)){
+                    //this need to be added
+                    $insertData=array(
+                        'vendor_id'=>$this->vendor['id'],
+                        'market_id'=>$item,
+                        'status'=>1,
+                        'created_at'=>date('Y-m-d h:i:s'),
+                        'updated_at'=>date('Y-m-d h:i:s'),
+                    );
+                    $this->Market->insertMarket($insertData);
+                }
             }
+            $this->session->set_flashdata('success',"Settings has been updated");
+            redirect('vendor/profile/settings');
         }
-        redirect('vendor/profile/settings');
     }
     public function updateMarketStatus(){
         $markets=$this->input->post('market');
@@ -210,6 +223,7 @@ class Profile extends Vendor_Controller {
             
             $this->Market->updateVendorMarketStatus($key,$status);
         }
+        $this->session->set_flashdata('success',"Market Status has been changed");
         redirect('vendor/profile/settings');
     }
 }

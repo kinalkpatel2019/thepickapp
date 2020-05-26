@@ -13,7 +13,25 @@
                                 <div class="col-xl-9">
                                     <div class="card mb-3">
                                         <div class="card-body">
-                                            <form name="frmupdateprofile" action="<?php echo site_url('vendor/profile/updateSettings'); ?>" id="frmupdateprofile" method="post" enctype="multipart/form-data">
+
+                                            <?php if(!empty($stripeaccount)) { ?>
+                                            <form name="frmsettings" action="<?php echo site_url('vendor/profile/updateSettings'); ?>" id="frmsettings" method="post" enctype="multipart/form-data">
+                                                
+                                                <?php if(!empty($error)) { ?>
+                                                <div class="alert alert-danger">
+                                                    <?php echo $error; ?>
+                                                </div>
+                                                <?php } ?>
+                                                <?php if(!empty($success)) { ?>
+                                                    <div class="alert alert-success">
+                                                        <?php echo $success; ?>
+                                                    </div>
+                                                <?php } ?>
+                                                <?php if(!empty(validation_errors())) { ?>
+                                                    <div class="alert alert-danger">
+                                                        <?php echo validation_errors(); ?>
+                                                    </div>
+                                                <?php } ?>
 
                                                 <div class="form-group">
                                                     <div class="col-sm-6">
@@ -67,6 +85,10 @@
                                                 </div>
 
                                             </form>
+                                            <?php } else { ?>
+                                                <p>In Order to enroll in markets You must setup your stripe Account.</p>
+                                                <a href="<?php echo site_url('vendor/profile/stripe'); ?>" class="btn btn-primary">Setup Payment Account</a>
+                                            <?php } ?>
                                         </div>                                       
                                     </div>
                                 </div>

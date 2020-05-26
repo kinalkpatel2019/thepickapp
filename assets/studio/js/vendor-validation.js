@@ -65,4 +65,20 @@ $(document).ready(function(){
     $.validator.addMethod( "zipcodeUS", function( value, element ) {
         return this.optional( element ) || /^\d{5}(-\d{4})?$/.test( value );
     }, "The specified US ZIP Code is invalid" );
+
+
+    //frmsettings
+    /*$("#frmsettings").validate({
+        rules:{
+            "markets[]":{
+                required:true
+            },
+        },
+        errorClass:"is-invalid",
+        messages:{
+            "markets[]":{
+                required:"Please select Market(s)"
+            },
+        }
+    });*/
 });

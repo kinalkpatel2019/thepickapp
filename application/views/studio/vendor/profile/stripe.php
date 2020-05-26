@@ -13,6 +13,23 @@
                                 <div class="col-xl-9">
                                     <div class="card mb-3">
                                         <div class="card-body">
+
+                                             <?php if(!empty($error)) { ?>
+                                                <div class="alert alert-danger">
+                                                    <?php echo $error; ?>
+                                                </div>
+                                                <?php } ?>
+                                                <?php if(!empty($success)) { ?>
+                                                    <div class="alert alert-success">
+                                                        <?php echo $success; ?>
+                                                    </div>
+                                                <?php } ?>
+                                                <?php if(!empty(validation_errors())) { ?>
+                                                    <div class="alert alert-danger">
+                                                        <?php echo validation_errors(); ?>
+                                                    </div>
+                                                <?php } ?>
+
                                             <?php if(empty($stripeaccount)) { ?>
                                                 <p>In Order To receive Funds into your account. You must connect to stipe.</p>
                                                 <a href="<?php echo $stripe_button_url; ?>" class="btn btn-primary">Connect With Stripe</a>
