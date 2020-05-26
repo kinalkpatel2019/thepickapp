@@ -164,4 +164,11 @@ class Market extends CI_Model {
             return $this->getAllRedords();
         return $result;
     }
+    function getMarketManagers($market_id){
+        $this->db->where("FIND_IN_SET(".$market_id.",markets) >",0);
+        $this->db->where('accounttype',2);
+        $query=$this->db->get('adminusers');
+        $result=$query->result_array();
+        return $result;
+    }
 }

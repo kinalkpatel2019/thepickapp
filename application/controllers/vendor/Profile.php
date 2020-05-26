@@ -154,6 +154,7 @@ class Profile extends Vendor_Controller {
         }
     }
     public function settings(){
+       
         $markets=$this->Market->getAllRedords();
         $vendormarkets=$this->Market->getVendorMarkets($this->vendor['id']);
         $vendormarkets_ids=array();
@@ -207,6 +208,8 @@ class Profile extends Vendor_Controller {
                         'updated_at'=>date('Y-m-d h:i:s'),
                     );
                     $this->Market->insertMarket($insertData);
+                    //send email to market manager
+                    $this->Email->sendVendorEnrollmentToMarketmanager($this->vendor['id'],$item);
                 }
             }
             $this->session->set_flashdata('success',"Settings has been updated");
