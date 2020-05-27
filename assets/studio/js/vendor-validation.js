@@ -68,7 +68,7 @@ $(document).ready(function(){
 
 
     //frmsettings
-    /*$("#frmsettings").validate({
+    $("#frmsettings").validate({
         rules:{
             "markets[]":{
                 required:true
@@ -80,5 +80,112 @@ $(document).ready(function(){
                 required:"Please select Market(s)"
             },
         }
-    });*/
+    });
+
+    //frmproduct
+    $("#frmproduct").validate({
+        rules:{
+            category_id:{
+                required:true,
+            },
+            title:{
+                required:true,
+            },
+            description:{
+                required:true,
+            },
+            "markets[]":{
+                required:true,
+            },
+            tax:{
+                required: function(element) {
+                    return $("#is_taxable").val() == 1;
+                  },
+                  number: true
+            },
+            mainimage: {
+                required: function(element) {
+                    return $("#mainimagefile").val() == "";
+                  },
+            }
+
+        },
+        errorClass:"is-invalid",
+        messages:{
+            category_id:{
+                required:"Please select a category",
+            },
+            title:{
+                required:"Please enter Title",
+            },
+            description:{
+                required:"Please enter description",
+            },
+            "markets[]":{
+                required:"Please select market(s)",
+            },
+            tax:{
+                required: "Please enter tax",
+                number: "Please enter valid tax"
+            },
+            mainimage: {
+                required: "Please upload product image",
+            }
+        }
+    });
+
+    //inventory 
+    $("#frminventory").validate({
+        rules:{
+            packsize:{
+                required:true,
+            },
+            availableqty:{
+                required:true,
+                number: true
+            },
+            price:{
+                required:true,
+                number: true
+            }
+
+        },
+        errorClass:"is-invalid",
+        messages:{
+            packsize:{
+                required:"Please select Pack Size",
+            },
+            availableqty:{
+                required:"Please enter available qty",
+            },
+            price:{
+                required:"Please enter price",
+            }
+        }
+    });
+
+    //frminventoryedit
+    $("#frminventoryedit").validate({
+        rules:{
+            availableqty:{
+                required:true,
+            },
+            price:{
+                required:true,
+                number: true
+            }
+
+        },
+        errorClass:"is-invalid",
+        messages:{
+            availableqty:{
+                required:"Please enter available qty",
+            },
+            price:{
+                required:"Please enter price",
+            }
+        }
+    });
+
+    
 });

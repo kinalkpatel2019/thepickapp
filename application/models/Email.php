@@ -7,6 +7,7 @@ class Email extends CI_Model {
         parent::__construct();
         $this->load->model('User');
         $this->load->model('Market');
+        $this->load->model('Product');
         $this->from_address="info@example.com";
         $this->from_name="The Pick App";
         $this->config=array(
@@ -56,6 +57,40 @@ class Email extends CI_Model {
                 );
                 $email_content=$this->load->view('template/email/vendor/profile/updateSettings',$data,true);
                 $this->send($this->from_address,$this->from_name,$manager['email'],"New Vendor Enrolled To the Market! - ".$market['title'],$email_content);
+            }
+        }
+    }
+    public function sendProductEnrollmentToMarketmanager($vendor_id,$product_id){
+         //get the vendor information
+        $where=array(
+            'users.id'=>$vendor_id,
+        );
+        $vendor=$this->User->getUserWithProfile($where);   
+
+        //get product information 
+        $product=$this->Product->getRedordById($product_id);
+
+        $markets=$product['markets'];
+        $market_array=explode(',',$markets);
+        foreach($market_array as $market_id){
+            //get market info 
+            $market=$this->Market->getMarketById($market_id);
+
+            if(!empty($vendor) && !empty($market))
+            {
+                //get the market managers
+                $managers=$this->Market->getMarketManagers($market_id);
+                
+                foreach($managers as $manager){
+                    $data=array(
+                        'market'=>$market,
+                        'manager'=>$manager,
+                        'vendor'=>$vendor,
+                        'product'=>$product,
+                    );
+                    $email_content=$this->load->view('template/email/vendor/products/add',$data,true);
+                    $this->send($this->from_address,$this->from_name,$manager['email'],"New Item Added To the Market! - ".$market['title'],$email_content);
+                }
             }
         }
     }

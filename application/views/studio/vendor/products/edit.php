@@ -13,6 +13,21 @@
                                 <div class="col-xl-9">
                                     <div class="card mb-3">
                                         <div class="card-body">
+                                        <?php if(!empty($error)) { ?>
+                                        <div class="alert alert-danger">
+                                            <?php echo $error; ?>
+                                        </div>
+                                        <?php } ?>
+                                        <?php if(!empty($success)) { ?>
+                                            <div class="alert alert-success">
+                                                <?php echo $success; ?>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if(!empty(validation_errors())) { ?>
+                                            <div class="alert alert-danger">
+                                                <?php echo validation_errors(); ?>
+                                            </div>
+                                        <?php } ?>
                                             <form name="frmproduct" action="<?php echo site_url('vendor/products/updateProduct'); ?>" id="frmproduct" method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="id" value="<?php echo $product['id']; ?>" />
                                                 <div class="form-group">
@@ -84,8 +99,9 @@
                                                     <div class="col-sm-6">
                                                         <label for="image">Main Image</label>
                                                         <input type="file" name="mainimage" class="form-control" id="mainimage" placeholder="image">
+                                                        <input type="hidden" name="mainimagefile" class="form-control" id="mainimagefile" value="<?php echo $product['image']; ?>" placeholder="image">
                                                         <?php if(!empty($product['image'])) { ?>
-                                                            <img class="img-responsive" width="150px" src="<?php echo base_url(); ?>uploads/products/<?php echo $product['image']; ?>"/>
+                                                            <img class="img-responsive" width="150px" src="<?php echo base_url(); ?>uploads/products/thumb230/<?php echo $product['image']; ?>"/>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -115,6 +131,7 @@
                                                                 <td width="10%">Image</td>
                                                                 
                                                                 <td width="70%">
+                                                                <input type="hidden" name="image_id[{{row-count-placeholder}}]" value="new"/>
                                                                 <input type="file" name="images[{{row-count-placeholder}}]" />
                                                                 </td>
                                                                 
@@ -134,7 +151,7 @@
                                                                   <td width="70%">
                                                                     <input type="hidden" name="image_id[<?php echo $key; ?>]" value="<?php echo $val['id']; ?>"/>
                                                                     <?php if(!empty($val['image'])) { ?>
-                                                                          <img class="img-responsive" width="150px" src="<?php echo base_url(); ?>uploads/products/images/<?php echo $val['image']; ?>"/>
+                                                                          <img class="img-responsive" width="150px" src="<?php echo base_url(); ?>uploads/products/images/thumb230/<?php echo $val['image']; ?>"/>
                                                                       <?php } ?>
                                                                   </td>
                                                                   

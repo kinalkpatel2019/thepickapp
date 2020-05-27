@@ -9,11 +9,27 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <h1 class="page-header"><?php echo $product['title'];?> Inventories</h1>
+                        
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addInventoryModal"><i class="fas fa-plus-square"></i>&nbsp;Add Inventory</button>
                         <hr class="mb-4">
                             <div id="datatable" class="mb-5">
                                 
                                 <div class="card">
+                                <?php if(!empty($error)) { ?>
+                                        <div class="alert alert-danger">
+                                            <?php echo $error; ?>
+                                        </div>
+                                        <?php } ?>
+                                        <?php if(!empty($success)) { ?>
+                                            <div class="alert alert-success">
+                                                <?php echo $success; ?>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if(!empty(validation_errors())) { ?>
+                                            <div class="alert alert-danger">
+                                                <?php echo validation_errors(); ?>
+                                            </div>
+                                        <?php } ?>
                                   <div class="card-body">
                                     <table id="datatableDefault" class="table text-nowrap">
                                     <thead>

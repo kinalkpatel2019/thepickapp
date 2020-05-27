@@ -22,13 +22,16 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="<?php echo site_url('vendor/products/inventories/'.$product['id']); ?>">Inventory</a>
                                                     </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="<?php echo site_url('vendor/products/delete/'.$product['id']); ?>">Delete</a>
+                                                    </li>
                                             </ul>
                                         </div>
                                         <div class="card-body">
                                             <h5 class="card-title"><?php echo $product['title']; ?></h5>
                                             <p><?php echo $product['category']; ?></p>
-                                            <?php if(!empty($product['image']) && file_exists('./uploads/products/'.$product['image'])) { ?>
-                                                <img src="<?php echo base_url(); ?>uploads/products/<?php echo $product['image']; ?>" class="card-img-top" alt="" />
+                                            <?php if(!empty($product['image']) && file_exists('./uploads/products/thumb230/'.$product['image'])) { ?>
+                                                <img src="<?php echo base_url(); ?>uploads/products/thumb230/<?php echo $product['image']; ?>" class="card-img-top" alt="" />
                                             <?php } else { ?>
                                                 <img src="https://via.placeholder.com/600x400/c9d2e3/212837" class="card-img-top" alt="" />
                                             <?php } ?>

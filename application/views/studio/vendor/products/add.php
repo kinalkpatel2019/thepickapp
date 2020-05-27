@@ -13,6 +13,21 @@
                                 <div class="col-xl-9">
                                     <div class="card mb-3">
                                         <div class="card-body">
+                                        <?php if(!empty($error)) { ?>
+                                        <div class="alert alert-danger">
+                                            <?php echo $error; ?>
+                                        </div>
+                                        <?php } ?>
+                                        <?php if(!empty($success)) { ?>
+                                            <div class="alert alert-success">
+                                                <?php echo $success; ?>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if(!empty(validation_errors())) { ?>
+                                            <div class="alert alert-danger">
+                                                <?php echo validation_errors(); ?>
+                                            </div>
+                                        <?php } ?>
                                             <form name="frmproduct" action="<?php echo site_url('vendor/products/insertproduct'); ?>" id="frmproduct" method="post" enctype="multipart/form-data">
                                                 <div class="form-group">
                                                         <div class="col-sm-6">
@@ -74,6 +89,7 @@
                                                     <div class="col-sm-6">
                                                         <label for="image">Main Image</label>
                                                         <input type="file" name="mainimage" class="form-control" id="mainimage" placeholder="image">
+                                                        <input type="hidden" name="mainimagefile" class="form-control" id="mainimagefile" placeholder="image">
                                                     </div>
                                                 </div>
 
