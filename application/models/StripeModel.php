@@ -31,6 +31,7 @@ class StripeModel extends CI_Model {
             return $result['customer_id'];
         
         //create new customer and add in stripecustomers
+
         $response=\Stripe\Customer::create([
             'email' => $this->consumer['email'],
             'name'=>$this->consumer['firstname']." ".$this->consumer['lastname']
@@ -56,13 +57,20 @@ class StripeModel extends CI_Model {
         return $result;
     }
     public function doCharge($order){
-        $response=\Stripe\Charge::create([
-            'amount' => ($order['grandtotal']*100),
-            'currency' => STRIPE_CURRENCY,
-            'customer'=>$order['customer_id'],
-            'source' => $order['payment_method'],
-            'transfer_group'=>'ORDER-'.$order['id']
-          ]);
+        try{
+            $response=\Stripe\Charge::create([
+                'amount' => ($order['grandtotal']*100),
+                'currency' => STRIPE_CURRENCY,
+                'customer'=>$order['customer_id'],
+                'source' => $order['payment_method'],
+                'transfer_group'=>'ORDER-'.$order['id']
+              ]);
+		}
+		catch(\Stripe\Exception\CardException $e )
+		{
+            return false;
+		}
+       
 
         if(!empty($response->id)){
             //id is there 
