@@ -171,4 +171,42 @@ class Market extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
+    function getMarketPopup($vendor_id,$market_id){
+        $this->db->select('vendormarkets.vendor_id,vendormarkets.market_id,marketpopups.message,marketpopups.status,markets.title');
+        $this->db->from('vendormarkets');
+        $this->db->join('marketpopups','marketpopups.vendor_id=vendormarkets.vendor_id and marketpopups.market_id=vendormarkets.market_id','left');
+        $this->db->join('markets','markets.id=vendormarkets.market_id','left');
+        $this->db->where("vendormarkets.vendor_id",$vendor_id);
+        $this->db->where("vendormarkets.market_id",$market_id);
+        $query=$this->db->get();
+        $result=$query->row_array();
+        return $result;
+    }
+    function updatePopMessage($vendor_id,$market_id,$status,$message){
+        //check if record is available or not
+        $this->db->where("vendor_id",$vendor_id);
+        $this->db->where("market_id",$market_id);
+        $query=$this->db->get('marketpopups');
+        $result=$query->row_array();
+        if(!empty($result)){
+            //update
+            $data=array(
+                'message'=>$message,
+                'status'=>$status
+            );
+            $this->db->where("vendor_id",$vendor_id);
+            $this->db->where("market_id",$market_id);
+            $this->db->update('marketpopups',$data);
+        }
+        else{
+            //insert
+            $data=array(
+                'vendor_id'=>$vendor_id,
+                'market_id'=>$market_id,
+                'message'=>$message,
+                'status'=>$status
+            );
+            $this->db->insert('marketpopups',$data);
+        }
+    }
 }

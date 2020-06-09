@@ -58,6 +58,12 @@
 							<span class="menu-text">Orders</span>
 						</a>
 					</div>
+					<div class="menu-item">
+						<a href="<?php echo site_url('vendor/marketpopups'); ?>" class="menu-link">
+							<span class="menu-icon"><i class="fa fa-clone"></i></span>
+							<span class="menu-text">Market Messages</span>
+						</a>
+					</div>
 					<!--div class="menu-item">
 						<a href="<?php //echo site_url('vendor/coupons'); ?>" class="menu-link">
 							<span class="menu-icon"><i class="fa fa-qrcode"></i></span>
