@@ -17,7 +17,6 @@
                                             <ul class="nav nav-pills card-header-pills">
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="<?php echo site_url('vendor/products/edit/'.$product['id']); ?>">Info</a>
-                                                        
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="<?php echo site_url('vendor/products/inventories/'.$product['id']); ?>">Inventory</a>

@@ -80,13 +80,15 @@ class Market extends CI_Model {
     }
     public function getAllApprovedVendorsByMarketID($market_id){
         $sql="select 
-            users.*,vendormarkets.vendor_id,vendormarkets.market_id,profiles.businessname,vendormarkets.isapprove,vendormarkets.status,profiles.image
+            users.*,vendormarkets.vendor_id,vendormarkets.market_id,profiles.businessname,vendormarkets.isapprove,vendormarkets.status,profiles.image,marketpopups.message as popup,marketpopups.status popupstatus
             from
                 vendormarkets
             left join
                 users on users.id=vendormarkets.vendor_id
             left join
                 profiles on users.id=profiles.user_id
+            left join
+                marketpopups on marketpopups.vendor_id=vendormarkets.vendor_id and marketpopups.market_id=vendormarkets.market_id
             where
                 vendormarkets.market_id=$market_id
                 and

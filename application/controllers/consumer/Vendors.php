@@ -13,7 +13,7 @@ class Vendors extends Consumer_Controller {
 	{
         //
         $market_id=$this->User->getDefaultMarketID($this->consumer['id']);
-        $vendors=$this->Market->getAllApprovedVendorsByMarketID($market_id);
+		$vendors=$this->Market->getAllApprovedVendorsByMarketID($market_id);
 		$this->template_data=array(
 			'main_content'=>'studio/consumer/vendors/index',
 			'vendors'=>$vendors,
