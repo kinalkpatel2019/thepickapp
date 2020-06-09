@@ -26,7 +26,6 @@ $(document).ready(function(){
                 required: function(element) {
                     return $("#filename").val() == "";
                   },
-                extension: "jpg|jpeg|png|gif"
             }
         },
         errorClass:"is-invalid",
@@ -51,7 +50,6 @@ $(document).ready(function(){
             },
             image: {
                 required: "Please uplaod image",
-                extension: "Invalid File Type"
             }
         }
     });

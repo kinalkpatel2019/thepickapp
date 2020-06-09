@@ -63,8 +63,8 @@
 					<a href="#" data-toggle="dropdown" data-display="static" class="menu-link">
 						<div class="menu-img online">
 						<?php
-								if(!empty($consumer['image']) && file_exists('./uploads/users/'.$consumer['image']))
-									$profile_image_link=base_url()."uploads/users/".$consumer['image'];
+								if(!empty($consumer['image']) && file_exists('./uploads/users/thumb/'.$consumer['image']))
+									$profile_image_link=base_url()."uploads/users/thumb/".$consumer['image'];
 								else
 									$profile_image_link=base_url()."uploads/users/consumer.jpg";
 							?>
@@ -74,9 +74,6 @@
 					</a>
 					<div class="dropdown-menu dropdown-menu-right mr-lg-3">
 						<a class="dropdown-item d-flex align-items-center" href="<?php echo site_url('consumer/profile'); ?>">Edit Profile <i class="fa fa-user-circle fa-fw ml-auto text-gray-400 f-s-16"></i></a>
-						<!--a class="dropdown-item d-flex align-items-center" href="#">Inbox <i class="fa fa-envelope fa-fw ml-auto text-gray-400 f-s-16"></i></a-->
-						<!--a class="dropdown-item d-flex align-items-center" href="#">Calendar <i class="fa fa-calendar-alt fa-fw ml-auto text-gray-400 f-s-16"></i></a>
-						<a class="dropdown-item d-flex align-items-center" href="#">Setting <i class="fa fa-wrench fa-fw ml-auto text-gray-400 f-s-16"></i></a-->
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item d-flex align-items-center" href="<?php echo site_url('users/logout'); ?>">Log Out <i class="fa fa-toggle-off fa-fw ml-auto text-gray-400 f-s-16"></i></a>
 					</div>

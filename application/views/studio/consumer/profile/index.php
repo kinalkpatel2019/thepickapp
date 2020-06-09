@@ -13,6 +13,21 @@
                                 <div class="col-xl-9">
                                     <div class="card mb-3">
                                         <div class="card-body">
+                                        <?php if(!empty($error)) { ?>
+                                        <div class="alert alert-danger">
+                                            <?php echo $error; ?>
+                                        </div>
+                                        <?php } ?>
+                                        <?php if(!empty($success)) { ?>
+                                            <div class="alert alert-success">
+                                                <?php echo $success; ?>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if(!empty(validation_errors())) { ?>
+                                            <div class="alert alert-danger">
+                                                <?php echo validation_errors(); ?>
+                                            </div>
+                                        <?php } ?>
                                             <form name="frmupdateprofile" action="<?php echo site_url('consumer/profile/updateProfile'); ?>" id="frmupdateprofile" method="post" enctype="multipart/form-data">
                                             <div class="row">
                                                     <div class="col-sm-9">
@@ -82,10 +97,11 @@
                                                     <div class="form-group">
                                                         <label>Profile Picure</label>
                                                         <input type="file" class="form-control" name="image" id="image"/>
+                                                        <input type="hidden" class="form-control" name="filename" id="filename" value="<?php echo $user['image']; ?>"/>
                                                         <?php if(file_exists('./uploads/users/'.$user['image']) && !empty($user['image'])) { ?>
-                                                            <img src="<?php echo base_url(); ?>uploads/users/<?php echo $user['image']; ?>" class="img-responsive" width="100%"/>
+                                                            <img src="<?php echo base_url(); ?>uploads/users/thumb/<?php echo $user['image']; ?>" class="img-responsive"/>
                                                         <?php } else { ?>
-                                                            <img src="<?php echo base_url(); ?>uploads/users/consumer.jpg" class="img-responsive" width="100%"/>
+                                                            <img src="<?php echo base_url(); ?>uploads/users/consumer.jpg" class="img-responsive" />
                                                         <?php } ?>
                                                     </div>
                                                 </div>

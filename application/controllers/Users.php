@@ -235,7 +235,7 @@ class Users extends CI_Controller {
 			redirect('users/login');
 		}
 	}
-	public function checkemail($mode){
+	public function checkemail($mode=""){
 		$email=$this->input->post('email');
 		$where=array(
 			'email'=>$email,

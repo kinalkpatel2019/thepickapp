@@ -18,6 +18,9 @@ class Consumer_Controller extends My_Controller
 		$this->data['consumer']=$this->consumer;
 		$this->data['CSSs']=array();
 		$this->data['JSs']=array();
+		/* flash messages */
+		$this->data['error']=$this->session->flashdata('error');
+		$this->data['success']=$this->session->flashdata('success');
 		$this->template_data=array();
 		
 	}

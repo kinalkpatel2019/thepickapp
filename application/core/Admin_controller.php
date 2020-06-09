@@ -30,6 +30,9 @@ class Admin_Controller extends My_Controller
 		$this->data['JSs']=array();
 		$this->data['EX']=array();
 		$this->data['EXC']=array();
+		/* flash messages */
+		$this->data['error']=$this->session->flashdata('error');
+		$this->data['success']=$this->session->flashdata('success');
 		$this->template_data=array();
 		
 	}
