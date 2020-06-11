@@ -211,4 +211,49 @@ class Market extends CI_Model {
             $this->db->insert('marketpopups',$data);
         }
     }
+    function updateTimimg($data,$market_id){
+        for($i=0;$i<=6;$i++){
+
+            //check if record is available or not
+            $this->db->where("day",($i+1));
+            $this->db->where("market_id",$market_id);
+            $query=$this->db->get('marketimings');
+            $result=$query->row_array();
+            if(!empty($result)){
+                //update
+                $udata=array(
+                    'openingtime'=>$data['openingtime'][$i],
+                    'closingtime'=>$data['closingtime'][$i],
+                    'slotinterval'=>$data['slotinterval'][$i],
+                    'slotlimit'=>$data['slotlimit'][$i],
+                    'status'=>$data['status'][$i]
+                );
+                $this->db->where("day",($i+1));
+                $this->db->where("market_id",$market_id);
+                $this->db->update('marketimings',$udata);
+            }
+            else{
+                //insert
+                $idata=array(
+                    'day'=>($i+1),
+                    'market_id'=>$market_id,
+                    'openingtime'=>$data['openingtime'][$i],
+                    'closingtime'=>$data['closingtime'][$i],
+                    'slotinterval'=>$data['slotinterval'][$i],
+                    'slotlimit'=>$data['slotlimit'][$i],
+                    'status'=>$data['status'][$i]
+                );
+                $this->db->insert('marketimings',$idata);
+            }
+            
+        }
+        
+    }
+    public function getMarketSettings($id){
+        $this->db->where('market_id',$id);
+        $this->db->order_by('day','asc');
+        $query=$this->db->get('marketimings');
+        $result=$query->result_array();
+        return $result;
+    }
 }

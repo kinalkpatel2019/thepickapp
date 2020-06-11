@@ -45,6 +45,7 @@
                             <?php if($this->admin['accounttype']==2) { ?>
                               | <a href="<?php echo site_url('admin/markets/vendors/'.$market['id']); ?>"> Vendor List</a>
                               | <a href="<?php echo site_url('admin/markets/arrange/'.$market['id']); ?>"> Arrage Vendors</a>
+                              | <a href="<?php echo site_url('admin/markets/settings/'.$market['id']); ?>"> Settings</a>
                             <?php } ?>
                             </td>
                           </tr>

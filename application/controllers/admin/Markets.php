@@ -200,4 +200,42 @@ class Markets extends Admin_Controller {
         }
         redirect('admin/markets/arrange/'.$id);
     }
+    public function settings($id){
+        if(empty($id))
+        redirect('admin/markets');
+        $market=$this->Market->getMarketById($id);
+        $settings=$this->Market->getMarketSettings($id);
+        if(empty($settings))
+        {
+            for($i=0;$i<7;$i++){
+                $settings[]=array(
+                    'day'=>($i+1),
+                    'openingtime'=>"09:00",
+                    'closingtime'=>"18:00",
+                    'slotinterval'=>"15",
+                    'slotlimit'=>"0",
+                    'status'=>1,
+                );
+            }
+        }
+        $this->template_data=array(
+            'market'=>$market,
+            'main_content'=>'studio/admin/markets/settings',
+            'settings'=>$settings
+        );
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
+    }
+    public function updateSettings(){
+        $id=$this->input->post('id');
+        $post=$this->input->post();
+        if(empty($id))
+        redirect('admin/markets');
+            $market=$this->Market->getMarketById($id);
+        
+        $this->Market->updateTimimg($post,$id);
+
+        $this->session->set_flashdata('success','Settings have been updated!');
+        redirect('admin/markets');
+        
+    }
 }
