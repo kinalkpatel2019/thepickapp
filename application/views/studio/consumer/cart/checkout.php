@@ -88,6 +88,17 @@ var stripe = Stripe('<?php echo STRIPE_PUBLISH; ?>');
                                                                         <th><strong>Grad Total</strong></th>
                                                                         <th>$<?php echo $this->my_cart->format_number($this->my_cart->final_total()); ?></th>
                                                                 </tr>
+                                                                <tr>
+                                                                        <th colspan="3">&nbsp;</th>
+                                                                        <th><strong>Pick Up Date & Time</strong></th>
+                                                                        <th>
+                                                                        <select name="pickup" class="form-control" id="pickup">
+                                                                                <?php foreach($datedropdown as $item){ ?>
+                                                                                        <option value="<?php echo $item; ?>"><?php echo $item; ?></option>
+                                                                                <?php } ?>
+                                                                        </select>
+                                                                        </th>
+                                                                </tr>
                                                         <tr>
                                                                 <td colspan="3">&nbsp;</td>
                                                                 <td><strong>Credit or debit card</strong></td>

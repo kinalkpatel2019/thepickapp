@@ -70,11 +70,38 @@ class Cart extends Consumer_Controller {
     public function checkout(){
         $vendorId=$this->User->getDefaultVendorID($this->consumer['id']);
         $marketId=$this->User->getDefaultMarketID($this->consumer['id']);
+        //get available timiming //get next two week timing 
+        $marketTimings=$this->Market->getMarketSettings($marketId);
+        $datedropdown=array();
+        $todayday=date('N');
+        for($i=$todayday;$i<=7;$i++){
+            if($marketTimings[$i-1]["status"]==1 && !empty($marketTimings[$i-1]["slotinterval"]))
+            {
+                $openingtime=$marketTimings[$i-1]["openingtime"];
+                $closingtime=$marketTimings[$i-1]["closingtime"];
+                $interval=$marketTimings[$i-1]["slotinterval"];
+                $endTime = strtotime($closingtime);
+                $start=$openingtime;
+                $next=null;
+                $datedropdown[]=date('Y-m-d',strtotime("+ ".($i-1)." days"))." ".$start;
+                
+
+                while($next<$endTime){
+                    $next = strtotime("+".$interval." minutes", strtotime($start));
+                    $start=date('H:i:s', $next);
+                    $datedropdown[]=date('Y-m-d',strtotime("+ ".($i-1)." days"))." ".$start;
+                } 
+              
+            }
+        }
+        $timingdropdown=array();
         $vendor=$this->User->getUserWithProfile(array('users.id'=>$vendorId));
         $market=$this->Market->getMarketById($marketId);
         $this->template_data=array(
             'main_content'=>'studio/consumer/cart/checkout',
             'vendor'=>$vendor,
+            'datedropdown'=>$datedropdown,
+            'marketTimings'=>$marketTimings,
             'market'=>$market,
             'JSs'=>array('js/checkout.js')
         );

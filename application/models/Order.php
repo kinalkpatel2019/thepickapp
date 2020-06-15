@@ -120,5 +120,10 @@ class Order extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
+    public function updatePickup($pickup,$id){
+        $this->db->where('id',$id);
+        $this->db->update('orders',array('pickup'=>$pickup));
+        return true;
+    }
 
 }

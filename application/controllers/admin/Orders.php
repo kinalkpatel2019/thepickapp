@@ -33,4 +33,22 @@ class Orders extends Admin_Controller {
         );
         $this->load->view('studio/template/admin/index',$this->generateTemplateData());
     }
+    public function view($id){
+        $order=$this->Order->getOrderById($id);
+        $order_details=$this->Order->getOrderDetails($id);
+        $mode=$this->input->get('status');
+        $this->template_data=array(
+            'main_content'=>'studio/admin/orders/view',
+            'order_details'=>$order_details,
+            'order'=>$order,
+            'mode'=>$mode
+        );
+        $this->load->view('studio/template/admin/index',$this->generateTemplateData());
+    }
+    public function updatepickup(){
+        $orderid=$this->input->post('orderid');
+        $pickup=$this->input->post('pickup');
+        $this->Order->updatePickup($pickup,$orderid);
+        redirect('admin/orders/view/'.$orderid);
+    }
 }

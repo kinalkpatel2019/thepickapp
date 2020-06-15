@@ -86,7 +86,7 @@ class Orders extends Consumer_Controller {
         //now we need to insert into the order 
         //$vendorId=$this->User->getDefaultVendorID($this->consumer['id']);
         $marketId=$this->User->getDefaultMarketID($this->consumer['id']);
-
+        $pickup=$this->input->post('pickup');
         //$coupons
         $coupon=$this->my_cart->coupon();
         $orderData=array(
@@ -103,7 +103,8 @@ class Orders extends Consumer_Controller {
             'payment_method'=>$payment_method['id'],
             'last4'=>$payment_method['last4'],
             'created_at'=>date('Y-m-d h:i:s'),
-            'updated_at'=>date('Y-m-d h:i:s')
+            'updated_at'=>date('Y-m-d h:i:s'),
+            'pickup'=>$pickup,
         );
         $order_id=$this->Order->insert($orderData);
         //add order details

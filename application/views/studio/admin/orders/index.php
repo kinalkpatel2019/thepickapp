@@ -9,7 +9,7 @@
                         <hr class="mb-4">
                         <div class="card">
                                   <div class="card-body">
-                        <table id="datatableDefault" class="table text-nowrap">
+                        <table id="datatableDefault" class="table">
                           <thead>
                           <tr>
                             <th>Id</th>
@@ -20,6 +20,7 @@
                             <th>Total Amount</th>
                             <th>Fee</th>
                             <th>Grand Total</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tfoot>
@@ -45,6 +46,7 @@
                             <th><?php echo $order['totalamount']; ?></th>
                             <th><?php echo $order['fee']; ?></th>
                             <th><?php echo $order['grandtotal']; ?></th>
+                            <th><a href="<?php echo site_url('admin/orders/view/'.$order['id']); ?>">View</a></th>
                           </tr>
                         <?php } ?>
                       </tbody>
