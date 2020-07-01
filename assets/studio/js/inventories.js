@@ -25,6 +25,13 @@ $(document).ready(function(){
       { extend: 'csv', className: 'btn btn-default' }
     ]
   });
+
+
+  $("#market,#item").change(function(){
+    var market_id=$("#market").val();
+    var itemname=$("#item").val();
+    window.location.href="?market_id="+market_id+"&itemname="+itemname;
+  });
 });
 
 

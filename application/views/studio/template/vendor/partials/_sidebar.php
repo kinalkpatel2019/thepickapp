@@ -5,18 +5,30 @@
 				<!-- BEGIN menu -->
 				<div class="menu">
 					<div class="menu-header">Navigation</div>
-					<div class="menu-item active">
+					<div class="menu-item active has-sub">
 						<a href="<?php echo site_url('vendor/dashboard'); ?>" class="menu-link">
 							<span class="menu-icon"><i class="fa fa-laptop"></i></span>
 							<span class="menu-text">Dashboard</span>
 						</a>
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="<?php echo site_url('vendor/dashboard/today'); ?>" class="menu-link">
+									<span class="menu-text">Today</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a href="<?php echo site_url('vendor/dashboard/thisweek'); ?>" class="menu-link">
+									<span class="menu-text">This week</span>
+								</a>
+							</div>
+						</div>
 					</div>
-					<div class="menu-item">
+					<!--div class="menu-item">
 						<a href="<?php echo site_url('vendor/analytics'); ?>" class="menu-link">
 							<span class="menu-icon"><i class="fa fa-chart-pie"></i></span>
 							<span class="menu-text">Analytics</span>
 						</a>
-					</div>
+					</div-->
 					<!--div class="menu-item has-sub">
 						<a href="#" class="menu-link">
 							<span class="menu-icon">

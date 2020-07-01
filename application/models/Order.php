@@ -36,17 +36,6 @@ class Order extends CI_Model {
         $query=$this->db->query($sql);
         $result=$query->result_array();
         return $result;
-        /*$this->db->select('orders.*,markets.title,orderdetails.status as itemstatus,users.firstname,users.lastname');
-        $this->db->from('orders');
-        $this->db->join('users','users.id=orders.user_id','left');
-        $this->db->join('markets','markets.id=orders.market_id','left');
-        $this->db->join('orderdetails','orderdetails.order_id=orders.id','left');
-        $this->db->where('orderdetails.vendor_id',$vendor_id);
-        $this->db->order_by($orderby,$order);
-        $this->db->order_by('orderdetails.id','desc');
-        $query=$this->db->get();
-        $result=$query->result_array();
-        return $result;*/
     }
     public function insert($data){
         $this->db->insert('orders',$data);
