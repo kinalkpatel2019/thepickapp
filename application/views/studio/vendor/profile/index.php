@@ -7,8 +7,6 @@
                     <div class="col-xl-12">
                         <h1 class="page-header">Profile</h1>
                         <hr class="mb-4">
-                        
-
                         <div class="row">
                                 <div class="col-xl-9">
                                     <div class="card mb-3">
@@ -105,7 +103,18 @@
                                                         <input type="text" class="form-control" name="zipcode" id="zipcode" value="<?php echo $user['zipcode'] ;?>">
                                                     </div>
                                                 </div>
-
+												<div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <label>Link</label>
+                                                        <input type="text" class="form-control" name="link" id="link" 
+														<?php if(!empty($user['link'])){ ?>  
+															value="<?php echo $user['link'];?>" 
+														<?php }else{ ?> 
+														value="<?php echo base_url().'users/generatelink/'.$link;?>" <?php } ?> readonly>
+														<input type="button" id="btnCopyToClipboard" value="copy"  class="btn btn-space btn-success btn-shade4 btn-lg copyToClipboard">
+                                                    </div>
+													
+                                                </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
                                                         <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -138,4 +147,4 @@
             </div>
         </div>
     </div>
-</diiv>
+</div>

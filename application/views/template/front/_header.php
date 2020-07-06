@@ -21,16 +21,15 @@
         <div class="header-top-v-1">
           <div class="container">
                 <?php $this->load->view('template/front/partials/_navigation'); ?>
-        <div class="logo">          
-           <a href="<?php echo base_url(); ?>">
-          <img src="<?php echo base_url(); ?>assets/public/images/logo.png" height="164" width="164" alt="">
-          </a>         
-        </div>
+			<div class="logo">          
+				<a href="<?php echo base_url(); ?>">
+					<img src="<?php echo base_url(); ?>assets/public/images/logo.png" height="164" width="164" alt="">
+				</a>         
+			</div>
             <?php $this->load->view('template/front/partials/_headersocial'); ?>
       </div>
     </div>
     <?php $this->load->view('template/front/partials/_navigationmobile'); ?>
-
 <?php $this->load->view('template/front/partials/_banner'); ?>
 </header>
 <!-- Main Header // -->

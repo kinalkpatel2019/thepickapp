@@ -7,16 +7,17 @@ class Order extends CI_Model {
         parent::__construct();
     }
     public function getAllRedords($where=array(),$orderby="orders.id",$order="desc"){
-        $this->db->select('orders.*,markets.title,users.firstname,users.lastname,users.email');
+		$this->db->select('orders.*,markets.title,users.firstname,users.lastname,users.email');
         $this->db->from('orders');
-        //$this->db->join('profiles','profiles.user_id=orders.vendor_id','left');
-        $this->db->join('users','users.id=orders.user_id','left');
+		//$this->db->join('users','users.id=orderdetails.vendor_id','left');
+		$this->db->join('users','users.id=orders.vendor_id','left');
         $this->db->join('markets','markets.id=orders.market_id','left');
         $this->db->where($where);
         $this->db->order_by($orderby,$order);
         $query=$this->db->get();
         $result=$query->result_array();
-        return $result;
+		//echo "<pre>";print_r($result);die;
+		return $result;
     }
     public function getAllVendorRedords($vendor_id,$orderby="orders.id",$order="desc",$market_id=""){
         $sql="select orders.id,orders.created_at,markets.title,

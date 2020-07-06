@@ -88,6 +88,10 @@ var stripe = Stripe('<?php echo STRIPE_PUBLISH; ?>');
                                                                         <th><strong>Grad Total</strong></th>
                                                                         <th>$<?php echo $this->my_cart->format_number($this->my_cart->final_total()); ?></th>
                                                                 </tr>
+																<?php 
+																$directvendorid=$this->session->userdata('vendorshop');
+																if(empty($directvendorid)){
+																?>
                                                                 <tr>
                                                                         <th colspan="3">&nbsp;</th>
                                                                         <th><strong>Pick Up Date & Time</strong></th>
@@ -99,6 +103,7 @@ var stripe = Stripe('<?php echo STRIPE_PUBLISH; ?>');
                                                                         </select>
                                                                         </th>
                                                                 </tr>
+																<?php } ?>
                                                         <tr>
                                                                 <td colspan="3">&nbsp;</td>
                                                                 <td><strong>Credit or debit card</strong></td>

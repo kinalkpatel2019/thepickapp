@@ -11,6 +11,11 @@ class Markets extends Consumer_Controller {
 	
 	public function index()
 	{
+		$directvendorid=$this->session->userdata('vendorshop');
+		//print_r($directvendorid);die;
+		if(!empty($directvendorid)){
+			redirect('consumer/products/index/'.$directvendorid['vendorid']);
+		}
 		//$markets=$this->Market->getAllRedords();
 		$markets=$this->Market->getNearbyMarkets($this->consumer['zipcode']);
 		$this->template_data=array(

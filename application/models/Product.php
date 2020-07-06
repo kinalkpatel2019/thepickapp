@@ -60,6 +60,14 @@ class Product extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
+	 public function getAllVendorProducts($vendor_id){
+        $this->db->where('vendor_id',$vendor_id);
+        //$where = "FIND_IN_SET('".$market_id."', markets)"; 
+        //$this->db->where($where);
+        $query=$this->db->get('products');
+        $result=$query->result_array();
+        return $result;
+    }
     public function insertImage($data){
         $this->db->insert('productimages',$data);
     }

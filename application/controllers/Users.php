@@ -10,6 +10,7 @@ class Users extends CI_Controller {
 	
 	public function login()
 	{
+		//print_r($_SESSION);
 		$template_data=array(
 			'main_content'=>'studio/users/login',
 			'error'=>$this->session->flashdata('error'),
@@ -253,5 +254,15 @@ class Users extends CI_Controller {
 			else
 				echo "true";
 		}
+	}
+	function generatelink($id){
+		$vendor=explode("_",$id);
+		$vendorid=$vendor[0];
+		$sesiondata = array(
+			'vendorid'=>$vendorid
+		);
+		$this->session->set_userdata('vendorshop',$sesiondata);
+		redirect('users/login');
+		//echo "<pre>";print_r($_SESSION);
 	}
 }

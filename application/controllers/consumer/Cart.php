@@ -15,6 +15,7 @@ class Cart extends Consumer_Controller {
 	public function addtocart()
 	{
         //
+		//echo "<pre>";print_r($_SESSION);die;
         $qty=$this->input->post('qty');
         $cart_items=array();
         $vendor_id=0;

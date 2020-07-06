@@ -14,13 +14,16 @@ class Profile extends Vendor_Controller {
 	public function index(){
         $businesstypes=$this->Businesstype->getAllRedords();
         $user=$this->User->getUserWithProfile(array('users.id'=>$this->vendor['id']));
+		$link=$this->vendor['id'].'_'.rand(1000000,9999999);
         $this->template_data=array(
             'main_content'=>'studio/vendor/profile/index',
             'businesstypes'=>$businesstypes,
             'user'=>$user,
+			'link'=>$link,
             'JSs'=>array(
                 'js/jquery.validate.min.js',
                 'js/vendor-validation.js',
+				'js/vendors.js',
             ),
         );
         $this->load->view('studio/template/vendor/index',$this->generateTemplateData());
@@ -51,6 +54,7 @@ class Profile extends Vendor_Controller {
         $this->form_validation->set_rules('address2', 'Address2', 'trim|required');
         $this->form_validation->set_rules('phonenumber', 'Phonenumber', 'trim|required');
         $this->form_validation->set_rules('zipcode', 'Zipcode', 'trim|required|min_length[5]|max_length[5]');
+		$this->form_validation->set_rules('link', 'link', 'trim|required');
 		
 		if ($this->form_validation->run() == FALSE) {
             //Field validation failed.  User redirected to register page
@@ -65,7 +69,7 @@ class Profile extends Vendor_Controller {
             $phonenumber=$this->input->post('phonenumber');
             $user_id=$this->vendor['id'];
             $zipcode=$this->input->post('zipcode');
-
+			$link=$this->input->post('link');
             $zipcode=$this->Zipcode->validate($zipcode);
             //get the user profile
             $profile=$this->User->getProfile($user_id);
@@ -97,6 +101,7 @@ class Profile extends Vendor_Controller {
                     'address2'=>$address2,
                     'phonenumber'=>$phonenumber,
                     'zipcode'=>$zipcode,
+					'link'=>$link,
                     'user_id'=>$user_id,
                     'image'=>$image,
                     'created_at'=>date('Y-m-d h:i:s'),
@@ -114,6 +119,7 @@ class Profile extends Vendor_Controller {
                     'address2'=>$address2,
                     'phonenumber'=>$phonenumber,
                     'zipcode'=>$zipcode,
+					'link'=>$link,
                     'updated_at'=>date('Y-m-d h:i:s'),
                 );
 

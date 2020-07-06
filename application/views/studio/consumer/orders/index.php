@@ -25,7 +25,7 @@
                           <thead>
                           <tr>
                             <th>Order Id</th> 
-                            <th>Market</th>
+                            <th>Market/Vendor</th>
                             <th>Total Items</th>
                             <th>Total Amount</th>
                             <th>Status</th>
@@ -34,7 +34,7 @@
                         <tfoot>
                           <tr>
                               <th>Order Id</th>
-                              <th>Market</th>
+                              <th>Market/Vendor</th>
                               <th>Total Items</th>
                               <th>Total Amount</th>
                               <th>Status</th>
@@ -44,7 +44,7 @@
                         <?php foreach($orders as $order) { ?>
                           <tr>
                             <td><a href="<?php echo site_url('consumer/orders/view/'.$order['id']); ?>"><?php echo $order['id']; ?></a></td>
-                            <td><?php echo $order['title']; ?></td>
+                            <td><?php if(!empty($order['title'])){echo $order['title'];}else{echo $order['firstname'];} ?></td>
                             <td><?php echo $order['total_items']; ?></td>
                             <td><?php echo $order['totalamount']; ?></td>
                             <td><?php echo ucfirst($order['status']); ?></td>

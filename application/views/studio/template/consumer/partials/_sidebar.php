@@ -29,18 +29,22 @@
 					</div>
 					<div class="menu-divider"></div>
 					<div class="menu-header">Components</div>
-					<div class="menu-item">
-						<a href="<?php echo site_url('consumer/markets'); ?>" class="menu-link">
-							<span class="menu-icon"><i class="fa fa-qrcode"></i></span>
-							<span class="menu-text">Markets</span>
-						</a>
-					</div>
-					<div class="menu-item">
-						<a href="<?php echo site_url('consumer/vendors'); ?>" class="menu-link">
-							<span class="menu-icon"><i class="fa fa-users"></i></span>
-							<span class="menu-text">Vendors</span>
-						</a>
-					</div>
+					<?php 
+					$directvendorid=$this->session->userdata('vendorshop');
+					if(empty($directvendorid)){ ?>
+						<div class="menu-item">
+							<a href="<?php echo site_url('consumer/markets'); ?>" class="menu-link">
+								<span class="menu-icon"><i class="fa fa-qrcode"></i></span>
+								<span class="menu-text">Markets</span>
+							</a>
+						</div>
+						<div class="menu-item">
+							<a href="<?php echo site_url('consumer/vendors'); ?>" class="menu-link">
+								<span class="menu-icon"><i class="fa fa-users"></i></span>
+								<span class="menu-text">Vendors</span>
+							</a>
+						</div>
+					<?php } ?>
 					<div class="menu-item">
 						<a href="<?php echo site_url('consumer/orders'); ?>" class="menu-link">
 							<span class="menu-icon"><i class="fa fa-clone"></i></span>

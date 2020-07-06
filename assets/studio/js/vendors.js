@@ -19,4 +19,24 @@ $(document).ready(function(){
         else
             alert("Store is Currently not Serving in this market!");
     });
+	$("#btnCopyToClipboard").click(function(){
+		var clipboardText = "";
+		clipboardText = $( '#link' ).val(); 
+		copylink( clipboardText );
+		alert( "Link Copied" );
+	});
+	function copylink(text) {
+	   var textArea = document.createElement( "textarea" );
+	   textArea.value = text;
+	   document.body.appendChild( textArea );       
+	   textArea.select();
+	   try {
+		  var successful = document.execCommand( 'copy' );
+		  var msg = successful ? 'successful' : 'unsuccessful';
+		  console.log('Copying text command was ' + msg);
+	   } catch (err) {
+		  console.log('Oops, unable to copy',err);
+	   }    
+	   document.body.removeChild( textArea );
+	}
 });

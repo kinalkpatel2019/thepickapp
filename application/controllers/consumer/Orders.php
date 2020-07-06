@@ -18,8 +18,8 @@ class Orders extends Consumer_Controller {
             );
         if(!empty($selected_market))
             $conditions['orders.market_id']=$selected_market;
-        
         $orders=$this->Order->getAllRedords($conditions);
+		
         $consumer_markets=$this->Market->getConsumerMarket($this->consumer['id']);
 
         
@@ -51,8 +51,7 @@ class Orders extends Consumer_Controller {
     }
 	public function placeOrder()
 	{
-        
-
+        $directvendorid=$this->session->userdata('vendorshop');
         $cart_items=$this->my_cart->contents();
         $canproceed=true;
         foreach($cart_items as $key=>$value){
@@ -85,13 +84,32 @@ class Orders extends Consumer_Controller {
 
         //now we need to insert into the order 
         //$vendorId=$this->User->getDefaultVendorID($this->consumer['id']);
-        $marketId=$this->User->getDefaultMarketID($this->consumer['id']);
-        $pickup=$this->input->post('pickup');
+		//echo "<pre>";Print_r($directvendorid);die;
+		if(!empty($directvendorid)){
+			$vendorid=$directvendorid['vendorid'];
+			//redirect('consumer/products/index/'.$directvendorid['vendorid']);
+			//$products=$this->Product->getAllVendorProducts($directvendorid['vendorid']);
+			$marketId=-1;
+			$pickup='';
+			$paymentstatus="paid";
+			$status="approved";
+		}else{
+			//$products=$this->Product->getAllVendorMarketProducts($vendor_id,$market_id);
+			$vendorid=-1;
+			$marketId=$this->User->getDefaultMarketID($this->consumer['id']);
+			$pickup=$this->input->post('pickup');
+			$paymentstatus="unpaid";
+			$status="pending";
+			
+		}
+        
+        
         //$coupons
         $coupon=$this->my_cart->coupon();
         $orderData=array(
             'user_id'=>$this->consumer['id'],
             'market_id'=>$marketId,
+			'vendor_id'=>$vendorid,
             'total_items'=>$this->my_cart->total_items(),
             'status'=>'pending',
             'totalamount'=>$this->my_cart->format_number($this->my_cart->total()),
@@ -105,6 +123,7 @@ class Orders extends Consumer_Controller {
             'created_at'=>date('Y-m-d h:i:s'),
             'updated_at'=>date('Y-m-d h:i:s'),
             'pickup'=>$pickup,
+			'paymentstatus'=>$paymentstatus
         );
         $order_id=$this->Order->insert($orderData);
         //add order details
@@ -128,7 +147,7 @@ class Orders extends Consumer_Controller {
                 'total'=>$sub_total,
                 'sitefee'=>$sitefee,
                 'vendoramount'=>$vendoramount,
-                'status'=>"pending",
+                'status'=>$status,
                 'created_at'=>date('Y-m-d h:i:s'),
                 'updated_at'=>date('Y-m-d h:i:s')
             );
@@ -139,6 +158,16 @@ class Orders extends Consumer_Controller {
         // cart clear 
         $this->my_cart->destroy();
         //place order here 
+		//charge customer 
+		if(!empty($directvendorid)){
+			//echo $order_id;die;
+			$order=$this->Order->getOrderById($order_id);
+			//echo "<pre>";print_r($order);die;
+			$charge_id=$this->StripeModel->doCharge($order);
+			if($charge_id){
+				$this->Order->changePaymentStatus($order_details['order_id'],"paid");
+			}
+		}
         redirect('consumer/orders/view/'.$order_id.'/?status=new');
     }
     public function view($id){

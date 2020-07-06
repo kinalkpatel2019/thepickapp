@@ -14,7 +14,14 @@ class Products extends Consumer_Controller {
 	{
         //
         $market_id=$this->User->getDefaultMarketID($this->consumer['id']);
-        $products=$this->Product->getAllVendorMarketProducts($vendor_id,$market_id);
+		$directvendorid=$this->session->userdata('vendorshop');
+		//print_r($directvendorid);die;
+		if(!empty($directvendorid)){
+			//redirect('consumer/products/index/'.$directvendorid['vendorid']);
+			$products=$this->Product->getAllVendorProducts($directvendorid['vendorid']);
+		}else{
+			$products=$this->Product->getAllVendorMarketProducts($vendor_id,$market_id);
+		}
 		$this->template_data=array(
 			'main_content'=>'studio/consumer/products/index',
             'products'=>$products,

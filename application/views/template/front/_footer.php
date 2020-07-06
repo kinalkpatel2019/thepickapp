@@ -71,5 +71,6 @@
 
 <script  src="<?php echo base_url(); ?>/assets/public/js/vendor/vendor.js"></script>
 <script  src="<?php echo base_url(); ?>/assets/public/js/main.js"></script>
+
 </body>
 </html>

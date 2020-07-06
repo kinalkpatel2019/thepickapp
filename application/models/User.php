@@ -18,7 +18,7 @@ class User extends CI_Model {
         return $result;
     }
     public function getUserWithProfile($where){
-        $this->db->select('users.*,profiles.businesstype_id,profiles.businessname,profiles.address1,profiles.address2,profiles.phonenumber,profiles.zipcode,profiles.image');
+        $this->db->select('users.*,profiles.businesstype_id,profiles.businessname,profiles.address1,profiles.address2,profiles.phonenumber,profiles.zipcode,profiles.image,profiles.link');
         $this->db->join('profiles','profiles.user_id=users.id','left');
         $this->db->where($where);
         $query=$this->db->get('users');
@@ -66,5 +66,19 @@ class User extends CI_Model {
         $result=$query->row_array();
         return $result['defaultvendor'];
     }
-   
+	public function getcustomer($vendorid){
+		$this->db->select('orders.*,profiles.address1,profiles.address2,profiles.zipcode,profiles.phonenumber,users.firstname,users.lastname,users.email');
+        $this->db->from('orders');
+		$this->db->join('orderdetails','orderdetails.order_id=orders.id','left');
+		$this->db->join('profiles','profiles.user_id=orders.user_id','left');
+		$this->db->join('users','users.id=orders.user_id','left');
+		
+        $this->db->where('orderdetails.vendor_id',$vendorid);
+		$this->db->group_by('orders.user_id'); 
+        $query=$this->db->get();
+		
+        $result=$query->result_array();
+		//echo "<pre>";print_r($result);die;
+		return $result;
+    }
 }
