@@ -82,12 +82,24 @@
 							<span class="menu-text">Customer Information</span>
 						</a>
 					</div>
-					<!--div class="menu-item">
-						<a href="<?php //echo site_url('vendor/coupons'); ?>" class="menu-link">
-							<span class="menu-icon"><i class="fa fa-qrcode"></i></span>
-							<span class="menu-text">Products</span>
+					<div class="menu-item has-sub">
+						<a href="<?php echo site_url('vendor/reports'); ?>" class="menu-link">
+							<span class="menu-icon"><i class="fa fa-file"></i></span>
+							<span class="menu-text">Reports</span>
 						</a>
-					</div-->					
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="<?php echo site_url('vendor/reports/'); ?>" class="menu-link">
+									<span class="menu-text">Direct Order</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a href="<?php echo site_url('vendor/reports'); ?>" class="menu-link">
+									<span class="menu-text">Market Order</span>
+								</a>
+							</div>
+						</div>
+					</div>
 					<div class="menu-divider"></div>
 					<div class="menu-header">Users</div>
 					<div class="menu-item">

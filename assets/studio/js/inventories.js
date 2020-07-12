@@ -32,6 +32,12 @@ $(document).ready(function(){
     var itemname=$("#item").val();
     window.location.href="?market_id="+market_id+"&itemname="+itemname;
   });
+  $("#category").change(function(){
+    var category_id=$("#category").val();
+    //var itemname=$("#item").val();
+    window.location.href="?category_id="+category_id;
+  });
+  $('#datetimepicker1').datetimepicker();
 });
 
 

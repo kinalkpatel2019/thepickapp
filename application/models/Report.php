@@ -65,5 +65,32 @@ class Report extends CI_Model {
         $query=$this->db->query($sql);
         $result=$query->result_array();
         return $result;
+    }
+	public function getVendorReports($vendor_id,$orderby="orders.id",$order="desc"){
+        $sql="select orders.id,orders.created_at,
+                (select sum(qty) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as items,
+                (select sum(tax) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as tax,
+                (select sum(total) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as total,
+                (select sum(sitefee) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as sitefee,
+                (select sum(vendoramount) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as vendoramount
+            from orders
+            where 
+            orders.id IN (select order_id from orderdetails where vendor_id=$vendor_id)
+            ";
+       
+        $query=$this->db->query($sql);
+        $result=$query->result_array();
+        return $result;
+    }
+	public function getcategories($where=array(),$status=1,$orderby="title",$order="asc"){
+        if($status!="all")
+        {
+            $where['status']=$status;
+        }
+        $this->db->where($where);
+        $this->db->order_by($orderby,$order);
+        $query=$this->db->get('categories');
+        $result=$query->result_array();
+        return $result;
     }    
 }
