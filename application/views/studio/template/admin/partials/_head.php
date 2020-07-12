@@ -9,6 +9,7 @@
 	
 	<!-- ================== BEGIN core-css ================== -->
 	<link href="<?php echo base_url(); ?>assets/studio/css/app.min.css" rel="stylesheet" />
+	<link href="<?php echo base_url(); ?>assets/studio/css/custom.css" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
     <!-- ================== BEGIN page-css ================== -->
 	<?php foreach($CSSs as $css){ ?>

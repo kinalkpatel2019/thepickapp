@@ -5,3 +5,32 @@ label.is-invalid {
     font-size: 80%;
     color: #ff3b30;
 }
+.app-sidebar {
+	background-color: #2C424E ;
+}
+.app-header {
+	background-color: #2C424E ;
+}
+.app-sidebar .menu .menu-item .menu-link {
+	color: #E0E1DD !important;
+}
+.app-sidebar .menu .menu-item.active:not(.has-sub)>.menu-link .menu-icon {
+	color: #E0E1DD;
+}
+.app-sidebar .menu .menu-item .menu-icon {
+	color: #E0E1DD;
+}
+.app-sidebar .menu .menu-header {
+	color: #ED5D5D;
+}
+.menu-text{
+	color: #E0E1DD;
+}
+.app-header .menu-toggler .bar {
+	background: #E0E1DD ;
+}
+.btn-info {
+    color: #E0E1DD;
+    background-color: #2C424E;
+    border-color: #2C424E;
+}
