@@ -43,4 +43,12 @@ class Inventory extends CI_Model {
         $sql="update inventories set `availableqty`=(`availableqty`-$qty) where id=$id";
         $this->db->query($sql);
     }
+	 public function getCategoryById($id){
+        $this->db->select('category_id');
+        $this->db->from('products');
+        $this->db->where('id',$id);
+        $query=$this->db->get();
+        $result=$query->row_array();
+        return $result;
+    }
 }

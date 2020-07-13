@@ -53,6 +53,9 @@ class Orders extends Consumer_Controller {
 	{
         $directvendorid=$this->session->userdata('vendorshop');
         $cart_items=$this->my_cart->contents();
+		
+	
+		
         $canproceed=true;
         foreach($cart_items as $key=>$value){
             //check the each options qty if it is available or not
@@ -64,8 +67,12 @@ class Orders extends Consumer_Controller {
                     break;
                 }
             }
+		
+			$product_id=$value['product_id'];
+			$category_id=$this->Inventory->getCategoryById($product_id);
 
         }
+		
         if(!$canproceed)
             redirect('consumer/cart');
 
@@ -110,6 +117,8 @@ class Orders extends Consumer_Controller {
             'user_id'=>$this->consumer['id'],
             'market_id'=>$marketId,
 			'vendor_id'=>$vendorid,
+			'product_id'=>$product_id,
+			'category_id'=>$category_id['category_id'],
             'total_items'=>$this->my_cart->total_items(),
             'status'=>'pending',
             'totalamount'=>$this->my_cart->format_number($this->my_cart->total()),

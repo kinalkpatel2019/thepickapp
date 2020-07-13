@@ -70,7 +70,13 @@
 							<span class="menu-icon"><i class="fa fa-clone"></i></span>
 							<span class="menu-text">Orders</span>
 						</a>
-					</div>		
+					</div>
+					<div class="menu-item">
+						<a href="<?php echo site_url('admin/reports'); ?>" class="menu-link">
+							<span class="menu-icon"><i class="fa fa-file"></i></span>
+							<span class="menu-text">Reports</span>
+						</a>
+					</div>					
 					<div class="menu-divider"></div>
 					<div class="menu-header">Manage</div>				
 					<div class="menu-item">

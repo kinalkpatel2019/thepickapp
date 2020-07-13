@@ -11,26 +11,22 @@
                         <ht class="mb-4">
                         <div class="form-group">
 							<div class="row">
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<label>Select Category</label>
 									<select name="category" id="category" class="form-control" onchange="window.location.href='?category='+this.value;">
 										<option value="">All</option>
 										<?php foreach($categories as $Category) { ?>
-										  <option value="<?php echo $Category['id']; ?>"><?php echo $Category['title']; ?></option>
+										  <option value="<?php echo $Category['id']; ?>"<?php echo ($Category['id']==$selected_category) ? "selected=''" : ''; ?>><?php echo $Category['title']; ?></option>
 										<?php } ?>
 									</select>
 								</div>
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<label>Start Date</label>
-									
-										<input class="form-control" type="date" value="2011-08-19" id="start_date">
-									
+										<input class="form-control" value="<?php if(!empty($selected_from_date)){ echo $selected_from_date;}else { echo date('Y-m-d'); }?>" type="date" id="from_date">
 								 </div>
-								 <div class="col-sm-3">
+								 <div class="col-sm-4">
 									<label>End Date</label>
-									
-										<input class="form-control" type="date" value="2011-08-19" id="end_date">
-									
+										<input class="form-control" value="<?php if(!empty($selected_to_date)){ echo $selected_to_date;}else { echo date('Y-m-d'); }?>" type="date" id="to_date">
 								 </div>
 							 </div>
                         </div>

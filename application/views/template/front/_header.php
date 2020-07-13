@@ -8,6 +8,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/public/vendor.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/public/style.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/public/custom.css">
     <script  src="<?php echo base_url(); ?>/assets/public/js/vendor/modernizr.js"></script>
   </head>
   <body>

@@ -32,12 +32,21 @@ $(document).ready(function(){
     var itemname=$("#item").val();
     window.location.href="?market_id="+market_id+"&itemname="+itemname;
   });
-  $("#category").change(function(){
-    var category_id=$("#category").val();
-    //var itemname=$("#item").val();
-    window.location.href="?category_id="+category_id;
+  $("#category,#from_date,#to_date").change(function(){
+		var category_id=$("#category").val();
+		var from_date=$("#from_date").val();
+		var to_date=$("#to_date").val();
+		//var itemname=$("#item").val();
+		window.location.href="?category_id="+category_id+"&from_date="+from_date+"&to_date="+to_date;
   });
-  $('#datetimepicker1').datetimepicker();
+   $("#market_report,#category_market,#from_date_market,#to_date_market").change(function(){
+		var market=$("#market_report").val();
+		var category_id=$("#category_market").val();
+		var from_date=$("#from_date_market").val();
+		var to_date=$("#to_date_market").val();
+		//var itemname=$("#item").val();
+		window.location.href="?market_id="+market+"&category_id="+category_id+"&from_date="+from_date+"&to_date="+to_date;
+  });
 });
 
 

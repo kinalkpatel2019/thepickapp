@@ -89,12 +89,12 @@
 						</a>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="<?php echo site_url('vendor/reports/'); ?>" class="menu-link">
+								<a href="<?php echo site_url('vendor/reports'); ?>" class="menu-link">
 									<span class="menu-text">Direct Order</span>
 								</a>
 							</div>
 							<div class="menu-item">
-								<a href="<?php echo site_url('vendor/reports'); ?>" class="menu-link">
+								<a href="<?php echo site_url('vendor/reports/market'); ?>" class="menu-link">
 									<span class="menu-text">Market Order</span>
 								</a>
 							</div>
