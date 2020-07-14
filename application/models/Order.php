@@ -81,6 +81,15 @@ class Order extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
+	public function getOrderDetailsByVendor($id){
+		$this->db->select('users.*,vendor_id,sum(vendoramount) as total');
+		$this->db->where('order_id',$id);
+		$this->db->group_by('vendor_id');
+		$this->db->join('users','users.id=orderdetails.vendor_id','left');
+		$query=$this->db->get('orderdetails');	
+        $result=$query->result_array();
+        return $result;
+    }
     public function update($data,$id){
         $this->db->where('id',$id);
         $this->db->update('orders',$data);

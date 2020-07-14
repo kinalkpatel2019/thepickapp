@@ -69,3 +69,23 @@ h2,h3,h4{
 .footer-bottom p {
 	color: #ED5D5D;
 }
+.footer-top {
+    background: url(images/footer-back.jpg) right bottom no-repeat #2C424E;
+}
+.footer-top p {
+	color: #E0E1DD;
+}
+.widget-2 .contact-details {
+    background: #ED5D5D;
+}
+.widget-2 .contact-details a {
+    color: #E0E1DD;
+}
+.widget-newsletter button {
+    color: #E0E1DD;
+    background: #ED5D5D;
+}
+.widget-newsletter input[type="email"] {
+	border: 1px solid #E0E1DD;
+	color: #E0E1DD;
+}

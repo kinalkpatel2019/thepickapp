@@ -59,6 +59,12 @@
 						</a>
 					</div>
 					<div class="menu-item">
+						<a href="<?php echo site_url('admin/Vendorpayments'); ?>" class="menu-link">
+							<span class="menu-icon"><i class="fa fa-qrcode"></i></span>
+							<span class="menu-text">Vendors Payment</span>
+						</a>
+					</div>
+					<div class="menu-item">
 						<a href="<?php echo site_url('admin/consumers'); ?>" class="menu-link">
 							<span class="menu-icon"><i class="fa fa-qrcode"></i></span>
 							<span class="menu-text">Consumers</span>
