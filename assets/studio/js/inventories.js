@@ -27,17 +27,54 @@ $(document).ready(function(){
   });
 
 
-  $("#market,#item").change(function(){
-    var market_id=$("#market").val();
-    var itemname=$("#item").val();
-    window.location.href="?market_id="+market_id+"&itemname="+itemname;
-  });
-  $("#category").change(function(){
-    var category_id=$("#category").val();
-    //var itemname=$("#item").val();
-    window.location.href="?category_id="+category_id;
-  });
-  $('#datetimepicker1').datetimepicker();
+	$("#market,#item").change(function(){
+		var market_id=$("#market").val();
+		var itemname=$("#item").val();
+		window.location.href="?market_id="+market_id+"&itemname="+itemname;
+	});
+	$("#category,#from_date,#to_date").change(function(){
+		var category_id=$("#category").val();
+		var from_date=$("#from_date").val();
+		var to_date=$("#to_date").val();
+		//var itemname=$("#item").val();
+		window.location.href="?category_id="+category_id+"&from_date="+from_date+"&to_date="+to_date;
+	});
+	$("#market_report,#category_market,#from_date_market,#to_date_market").change(function(){
+		var market=$("#market_report").val();
+		var category_id=$("#category_market").val();
+		var from_date=$("#from_date_market").val();
+		var to_date=$("#to_date_market").val();
+		//var itemname=$("#item").val();
+		window.location.href="?market_id="+market+"&category_id="+category_id+"&from_date="+from_date+"&to_date="+to_date;
+	});
+	$('.payvendor').on('click',function(){
+		var id = $(this).attr("id");
+		var appenddata = "";
+		var total=0;
+		$.ajax({
+			url: base_url+'admin/vendorpayments/getvenorpayment',
+			type: 'POST',
+			data:'id='+id,
+			dataType: 'json',
+			success: function(data) {
+				console.log(data);
+				$(".vendor_data").empty();
+				
+				$( data ).each(function(index, value) {
+					appenddata += "<p> <b>First Name : </b> "+value.firstname +"</p>";
+					appenddata += "<p><b>Last Name : </b>" +value.lastname +"</p>";
+					appenddata += "<p><b>Email : </b>" +value.email +"</p>";
+					appenddata += "<p><b>Amount : </b>" +value.total +"</p>";
+					appenddata +="<hr>";
+					total+=parseFloat(value.total);
+				});
+				appenddata +="<p><b>Toatal Amount :  </b>" +total +"</p>";
+				$(".vendor_data").append(appenddata);
+				$('#modalvendor').modal({show:true});
+			}
+
+		});
+	});
 });
 
 

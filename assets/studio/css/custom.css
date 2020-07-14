@@ -34,3 +34,10 @@ label.is-invalid {
     background-color: #2C424E;
     border-color: #2C424E;
 }
+.app-header .brand img {
+	max-height: 90px;
+    max-width: 150px;
+}
+.app-sidebar .menu .menu-item .menu-link:hover {
+    background: #ED5D5D;
+}

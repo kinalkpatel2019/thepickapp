@@ -66,7 +66,7 @@ class Report extends CI_Model {
         $result=$query->result_array();
         return $result;
     }
-	public function getVendorReports($vendor_id,$orderby="orders.id",$order="desc"){
+	public function getVendorReports($vendor_id,$category_id="",$from_date="",$to_date="",$orderby="orders.id",$order="desc"){
         $sql="select orders.id,orders.created_at,
                 (select sum(qty) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as items,
                 (select sum(tax) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as tax,
@@ -74,10 +74,16 @@ class Report extends CI_Model {
                 (select sum(sitefee) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as sitefee,
                 (select sum(vendoramount) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as vendoramount
             from orders
-            where 
-            orders.id IN (select order_id from orderdetails where vendor_id=$vendor_id)
+            where orders.market_id =-1 and orders.id IN (select order_id from orderdetails where vendor_id=$vendor_id)
             ";
-       
+       if(!empty($category_id))
+            $sql.=" and orders.category_id=".$category_id;
+		
+		 if(!empty($from_date) && !empty($to_date) )
+            $sql.=" and orders.created_at BETWEEN '".$from_date ." 00:00:00' AND '".$to_date." 23:59:59'";
+        else
+		  $sql.=" and orders.created_at BETWEEN '".date('Y-m-d') ." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
+		
         $query=$this->db->query($sql);
         $result=$query->result_array();
         return $result;
@@ -92,5 +98,32 @@ class Report extends CI_Model {
         $query=$this->db->get('categories');
         $result=$query->result_array();
         return $result;
-    }    
+    } 
+	public function getAllMarketVendorRedords($vendor_id,$orderby="orders.id",$order="desc",$market_id="",$category_id="",$from_date="",$to_date=""){
+        $sql="select orders.id,orders.created_at,markets.title,
+                (select sum(qty) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as items,
+                (select sum(tax) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as tax,
+                (select sum(total) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as total,
+                (select sum(sitefee) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as sitefee,
+                (select sum(vendoramount) from orderdetails where orderdetails.order_id=orders.id and orderdetails.vendor_id=$vendor_id) as vendoramount
+            from orders
+            join
+            markets on markets.id=orders.market_id
+            where 
+            orders.id IN (select order_id from orderdetails where vendor_id=$vendor_id)
+            ";
+        if(!empty($market_id))
+            $sql.=" and markets.id=".$market_id;
+		
+		 if(!empty($category_id))
+            $sql.=" and orders.category_id=".$category_id;
+		
+		 if(!empty($from_date) && !empty($to_date) )
+            $sql.=" and orders.created_at BETWEEN '".$from_date ." 00:00:00' AND '".$to_date." 23:59:59'";
+        else
+		  $sql.=" and orders.created_at BETWEEN '".date('Y-m-d') ." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
+        $query=$this->db->query($sql);
+        $result=$query->result_array();
+        return $result;
+    }	
 }

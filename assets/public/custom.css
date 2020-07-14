@@ -1,0 +1,91 @@
+label.is-invalid {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #ff3b30;
+}
+.header-top-v-1 {
+	background: #ED5D5D;
+}
+.navigation li a {
+	color: #E0E1DD;
+}
+.navigation li a.active {
+    color: #E0E1DD;
+}
+.social-links a {
+	border: 2px solid #E0E1DD;
+	color: #E0E1DD;
+}
+.header-top-right-v1 .toggle-search-form {
+    color: #E0E1DD;
+}
+h2,h3,h4{
+	color: #2C424E;
+}p{
+	color: #ED5D5D;
+}
+.btn-primary,.btn-info {
+    
+    background-color: #2C424E;
+    border-color: #2C424E;
+}
+.btn-primary:hover,.btn-info:hover ,.btn-outline:hover {
+    background-color: #ED5D5D;
+    border-color: #ED5D5D;
+}
+.btn-primary:before,.btn-info:before,.btn-outline:hover  {
+    background-color: #ED5D5D;
+}
+.content-section.content-4 .heading h2 {
+    color: #2C424E;
+}
+.text-block-v1 .badge-v1 {
+	background: #ED5D5D;
+    color: #E0E1DD;
+}
+.image-block-v1 h4 {
+	color: #ED5D5D;
+}
+.content-6 .product-v1:hover h3 {
+    color: #ED5D5D;
+}
+.content-newsletter.color-options-1 .btn {
+	background-color: #2C424E;
+	border-color: #2C424E;
+	color: #E0E1DD;
+}
+.content-newsletter.color-options-1 .btn:hover {
+    background: #ED5D5D;
+    color: #E0E1DD;
+}
+.footer-nav li a {
+    color: #E0E1DD;
+}
+.footer-bottom {
+    background: #2C424E;
+}
+.footer-bottom p {
+	color: #ED5D5D;
+}
+.footer-top {
+    background: url(images/footer-back.jpg) right bottom no-repeat #2C424E;
+}
+.footer-top p {
+	color: #E0E1DD;
+}
+.widget-2 .contact-details {
+    background: #ED5D5D;
+}
+.widget-2 .contact-details a {
+    color: #E0E1DD;
+}
+.widget-newsletter button {
+    color: #E0E1DD;
+    background: #ED5D5D;
+}
+.widget-newsletter input[type="email"] {
+	border: 1px solid #E0E1DD;
+	color: #E0E1DD;
+}

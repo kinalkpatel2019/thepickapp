@@ -21,7 +21,7 @@
 				</div>
 				
 				<a href="#" class="brand-logo">
-					<img src="<?php echo base_url(); ?>/assets/studio/img/logo.png" height="20px" />
+					<img src="<?php echo base_url(); ?>/assets/studio/img/logo.png"  />
 				</a>
 			</div>
 			<!-- END brand -->
