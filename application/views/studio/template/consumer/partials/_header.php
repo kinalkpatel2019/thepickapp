@@ -28,10 +28,10 @@
 			
 			<!-- BEGIN menu -->
 			<div class="menu">
-				<form class="menu-search" method="POST" name="header_search_form">
-					<div class="menu-search-icon"><i class="fa fa-search"></i></div>
+				<form class="menu-search" method="POST" id="menu-search" name="header_search_form" action="<?php echo site_url('consumer/searchs'); ?>">
+					<div class="menu-search-icon"><a href="#" onclick="document.getElementById('menu-search').submit()"><i class="fa fa-search"></i></a></div>
 					<div class="menu-search-input">
-						<input type="text" class="form-control" placeholder="Search menu..." />
+						<input type="text" class="form-control" name="search" value="<?php if(!empty($_POST['search'])) echo $_POST['search']; ?>" placeholder="Search menu..." />
 					</div>
 				</form>
 				<div class="menu-item dropdown">

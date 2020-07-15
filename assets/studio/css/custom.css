@@ -41,3 +41,17 @@ label.is-invalid {
 .app-sidebar .menu .menu-item .menu-link:hover {
     background: #ED5D5D;
 }
+.title-color{
+	color:#E0E1DD;
+}
+.btn-color{
+	background-color: #ED5D5D;
+	color:#E0E1DD;
+	border-color: #ED5D5D;
+}
+.txt-color{
+	color:#ED5D5D;
+}
+.register {
+	background-color: #2C424E;
+}
