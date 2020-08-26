@@ -50,4 +50,15 @@ class Vendorpayments extends Admin_Controller {
         );
         $this->load->view('studio/template/admin/index',$this->generateTemplateData());
     }
+	public function getvenorpayment(){
+		$id=$this->input->post('id');
+		$order_details_vendor=$this->Order->getOrderDetailsByVendor($id);
+		if(!empty($order_details_vendor)){
+			 echo json_encode($order_details_vendor);die;
+		}
+		else{
+			echo json_encode('Something Went Wrong');die;
+		}
+	}
+		
 }

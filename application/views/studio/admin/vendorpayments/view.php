@@ -16,7 +16,7 @@
 													<th>ID</th>
 													<th>Firstname</th>
 													<th>Lastname</th>
-													<th>Tmail</th>
+													<th>Email</th>
 													<th>Total Paid Amount</th>
 												</tr>
 											</thead>

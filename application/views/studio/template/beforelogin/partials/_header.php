@@ -18,5 +18,5 @@
 </head>
 <body>
 	<!-- BEGIN #app -->
-	<div id="app" class="app app-full-height app-without-header">
+	<div id="app" class="app app-full-height app-without-header" style="background-color:#2C424E">
 		<!-- BEGIN login -->

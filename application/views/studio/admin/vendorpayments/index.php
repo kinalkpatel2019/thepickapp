@@ -9,7 +9,7 @@
                         <hr class="mb-4">
                         <div class="card">
                                   <div class="card-body">
-                        <table id="datatableDefault" class="table">
+                        <table id="" class="table">
                           <thead>
                           <tr>
                             <th>Id</th>
@@ -47,7 +47,9 @@
                             <th><?php echo $order['totalamount']; ?></th>
                             <th><?php echo $order['fee']; ?></th>
                             <th><?php echo $order['grandtotal']; ?></th>
-                            <th><a href="<?php echo site_url('admin/orders/view/'.$order['id']); ?>">Pay</a> | <a href="<?php echo site_url('admin/vendorpayments/view/'.$order['id']); ?>">View</a></th>
+                            <th>
+							<a href="#" class="payvendor" id="<?php echo $order['id']; ?>">pay</a>
+							| <a href="<?php echo site_url('admin/vendorpayments/view/'.$order['id']); ?>">View</a></th>
                           </tr>
                         <?php } ?>
                       </tbody>
@@ -59,4 +61,22 @@
             </div>
         </div>
     </div>
-</diiv>
+</div>
+<div class="modal fade" id="modalvendor">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Vendor Details</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
+			<div class="modal-body vendor_data">
+			</div>
+			<div class="modal-body">
+				<button type="button" class="btn btn-primary mr-2">Confirm</button>
+			</div>
+			
+		</div>
+	</div>
+</div>

@@ -2,7 +2,7 @@
 			<!-- BEGIN login-content -->
 			<div class="login-content">
 				<form action="<?php echo site_url('users/otp'); ?>" method="POST" name="frmforgotpassword" id="frmforgotpassword">
-					<h1 class="text-center">Reset Password</h1>
+					<h1 class="text-center title-color">Reset Password</h1>
 					<?php if(!empty($error)) { ?>
 						<div class="alert alert-danger">
 							<?php echo $error; ?>
@@ -19,10 +19,10 @@
 						</div>
 					<?php } ?>
 					<div class="form-group">
-						<label>Email Address</label>
-						<input type="email" name="email" class="form-control form-control-lg fs-15px" value="" placeholder="username@address.com" />
+						<label class="title-color">Email Address</label>
+						<input type="email" name="email" class="form-control form-control-lg fs-15px " value="" placeholder="username@address.com" />
 					</div>					
-					<button type="submit" class="btn btn-primary btn-lg btn-block fw-500 mb-3">Send OTP</button>
+					<button type="submit" class="btn btn-primary btn-lg btn-block fw-500 mb-3 btn-color">Send OTP</button>
         </form>
 			</div>
 			<!-- END login-content -->

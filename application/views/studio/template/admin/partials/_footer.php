@@ -1,5 +1,8 @@
 <!-- ================== BEGIN core-js ================== -->
 <script src="<?php echo base_url(); ?>assets/studio/js/app.min.js"></script>
+<script>
+	var base_url = '<?php echo base_url(); ?>';
+</script>
 	<!-- ================== END core-js ================== -->
 	
 	<!-- ================== BEGIN page-js ================== -->
